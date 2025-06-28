@@ -1,10 +1,8 @@
 const express = require("express");
 const route = express.Router();
-const { authMiddleware, roleMiddleware } = require("../middlerware");
+const { auth, role } = require("../middleware");
 
-route.use([authMiddleware, roleMiddleware]);
-
-route.get("/admin", (req, res) => {
+route.get("/admin",auth,role, (req, res) => {
   res.send("reached");
 });
 

@@ -2,10 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-const admin = require("./route/admin");
-const user = require("./route/user");
-const product = require("./route/product");
-const auth = require("./route/auth");
+const {admin,user,auth,product}=require('./route/index')
 
 
 //incoming request parser
