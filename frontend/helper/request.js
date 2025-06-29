@@ -1,5 +1,6 @@
+const token = localStorage.getItem("token");
 const request = class {
-  constructor(baseURL, resource, token) {
+  constructor(baseURL, resource) {
     this.baseURL = baseURL;
     this.token = token;
     this.resource = resource;
@@ -13,11 +14,13 @@ const request = class {
     };
   }
 
-  __formDataConfig(){
+  __config(data) {
+    const isFormData = data instanceof FormData;
     return {
-        processData:false,
-        ContentType:false,
-    }
+      contentType: isFormData ? false : "application/json",
+      processData: false,
+      data: isFormData ? data : JSON.stringify(data),
+    };
   }
 
   getAll(success, error) {
@@ -40,42 +43,39 @@ const request = class {
     });
   }
 
-  create(data,success,error){
+  create(data, success, error) {
     $.ajax({
-        method : "POST",
-        url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
-        ...this.__formDataConfig(),
-        headers:this.__getHeaders(),
-        data:data,
-        dataType:'json',
-        success:success,
-        error:error
-    })
+      method: "POST",
+      url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
+      ...this.__config(data),
+      dataType: "json",
+      success: success,
+      error: error,
+    });
   }
 
-  update(id,data,success,error){
+  update(id, data, success, error) {
     $.ajax({
-        method : "POST",
-        url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
-        ...this.__formDataConfig(),
-        headers:this.__getHeaders(),
-        data:data,
-        dataType:'json',
-        success:success,
-        error:error
-    })
+      method: "POST",
+      url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
+      ...this.__formDataConfig(),
+      headers: this.__getHeaders(),
+      data: data,
+      dataType: "json",
+      success: success,
+      error: error,
+    });
   }
 
-  delete(id,success,error){
+  delete(id, success, error) {
     $.ajax({
-        method : "DELETE",
-        url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
-        ...this.__formDataConfig(),
-        headers:this.__getHeaders(),
-        dataType:'json',
-        success:success,
-        error:error
-    })
+      method: "DELETE",
+      url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
+      ...this.__formDataConfig(),
+      headers: this.__getHeaders(),
+      dataType: "json",
+      success: success,
+      error: error,
+    });
   }
-
 };

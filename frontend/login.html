@@ -1,270 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURETTA – Authentication</title>
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      body {
+        font-family: "Inter", sans-serif;
+        background: #f5f6f8;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 60px;
+        gap: 40px;
+      }
+
+     .system-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.brand-title {
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: 10px;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.brand-tagline {
+  font-size: 18px;
+  font-weight: 400;
+  color: #555;
+  max-width: 300px;
+  line-height: 1.4;
+}
+
+      .auth-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 32px;
+        color: #111;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 15px;
+        transition: border-color 0.2s ease;
+      }
+
+      input:focus {
+        border-color: #000;
+        outline: none;
+      }
+
+      .error-message {
+        color: #e74c3c;
+        font-size: 12px;
+        margin-top: 4px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .error-message.show {
+        opacity: 1;
+      }
+
+      .success-message {
+        color: #27ae60;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .success-message.show {
+        opacity: 1;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.1s ease;
+      }
+
+      button:hover {
+        background: #222;
+      }
+
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .link {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .link a {
+        color: #000;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .link a:hover {
+        text-decoration: underline;
+      }
+
+      .form-container.hidden {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr;
+          padding: 30px;
         }
 
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: slideUp 0.8s ease-out;
+        .system-name {
+          font-size: 48px;
+          margin-bottom: 20px;
         }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo h1 {
-            font-size: 32px;
-            font-weight: 300;
-            color: #333;
-            letter-spacing: -1px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            background: #f8f9fa;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: #667eea;
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-        }
-
-        .form-input::placeholder {
-            color: #a0a0a0;
-            font-weight: 300;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 25px;
-        }
-
-        .forgot-password a {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 400;
-            transition: color 0.3s ease;
-        }
-
-        .forgot-password a:hover {
-            color: #764ba2;
-        }
-
-        .divider {
-            text-align: center;
-            margin: 30px 0;
-            position: relative;
-            color: #a0a0a0;
-            font-size: 14px;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e1e5e9;
-            z-index: 1;
-        }
-
-        .divider span {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .social-login {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .social-btn:hover {
-            border-color: #667eea;
-            transform: translateY(-1px);
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 30px 25px;
-            }
-            
-            .logo h1 {
-                font-size: 28px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <div class="login-container">
-        <div class="logo">
-            <h1>Welcome</h1>
-        </div>
-
-        <form id="loginForm">
-            <div class="form-group">
-                <input type="email" class="form-input" placeholder="Email address" required>
-            </div>
-
-            <div class="form-group">
-                <input type="password" class="form-input" placeholder="Password" required>
-            </div>
-
-            <button type="submit" class="login-btn">Sign In</button>
-        </form>
-
-        <div class="forgot-password">
-            <a href="#" onclick="handleForgotPassword()">Forgot your password?</a>
-        </div>
-
-        <div class="divider">
-            <span>or continue with</span>
-        </div>
-
-        <div class="social-login">
-            <button class="social-btn" onclick="handleSocialLogin('google')">
-                register
-            </button>
-        </div>
+  </head>
+  <body>
+    <div class="system-name">
+      <div class="brand-title">AURETTA</div>
+      <div class="brand-tagline">
+        Designed for journeys, crafted for elegance.
+      </div>
     </div>
 
+    <div class="auth-section">
+      <div class="container">
+        <!-- Login Form -->
+        <div id="loginForm" class="form-container">
+          <h1>Sign In</h1>
+          <div id="loginSuccess" class="success-message"></div>
+          <form id="loginFormElement">
+            <div class="input-group">
+              <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email"
+                name="email"
+                required
+              />
+              <div class="error-message" id="loginEmailError"></div>
+            </div>
+
+            <div class="input-group">
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                name="password"
+                required
+              />
+              <div class="error-message" id="loginPasswordError"></div>
+            </div>
+
+            <button type="submit" id="loginBtn">Sign In</button>
+          </form>
+          <div class="link">
+            Don't have an account? <a href="#" id="showRegister">Register</a>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="form-container hidden" enctype="">
+          <h1>Create Account</h1>
+          <div id="registerSuccess" class="success-message"></div>
+          <form id="registerFormElement">
+            <div class="input-group">
+              <input
+                type="text"
+                id="registerName"
+                placeholder="Full Name"
+                name="name"
+                required
+              />
+              <div class="error-message" id="registerNameError"></div>
+            </div>
+
+            <div class="input-group">
+              <input
+                type="email"
+                id="registerEmail"
+                placeholder="Email"
+                name="email"
+                required
+              />
+              <div class="error-message" id="registerEmailError"></div>
+            </div>
+
+            <div class="input-group">
+              <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password"
+                name="password"
+                required
+              />
+              <div class="error-message" id="registerPasswordError"></div>
+            </div>
+
+            <div class="input-group">
+              <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                required
+              />
+              <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+
+            <button type="submit" id="registerBtn">Create Account</button>
+          </form>
+          <div class="link">
+            Already have an account? <a href="#" id="showLogin">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = this.querySelector('input[type="email"]').value;
-            const password = this.querySelector('input[type="password"]').value;
-            
-            // Simple validation
-            if (!email || !password) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            // Simulate login process
-            const btn = this.querySelector('.login-btn');
-            const originalText = btn.textContent;
-            btn.textContent = 'Signing in...';
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                alert('Login successful! (This is a demo)');
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }, 1500);
-        });
+        const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
 
-        function handleForgotPassword() {
-            alert('Password reset link would be sent to your email (This is a demo)');
+      function showForm(formToShow) {
+        loginForm.classList.add('hidden');
+        registerForm.classList.add('hidden');
+        formToShow.classList.remove('hidden');
+      }
+
+      function showError(id, message) {
+        const el = document.getElementById(id);
+        el.textContent = message;
+        el.classList.add('show');
+      }
+
+      function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(el => {
+          el.textContent = '';
+          el.classList.remove('show');
+        });
+      }
+
+      // Navigation
+      document.getElementById("showRegister").onclick = (e) => {
+        e.preventDefault();
+        clearErrors();
+        showForm(registerForm);
+      };
+      document.getElementById("showLogin").onclick = (e) => {
+        e.preventDefault();
+        clearErrors();
+        showForm(loginForm);
+      };
+
+      // Register
+      document.getElementById("registerFormElement").onsubmit = function (e) {
+        e.preventDefault();
+        clearErrors();
+
+        const name = document.getElementById("registerName").value.trim();
+        const email = document.getElementById("registerEmail").value.trim();
+        const password = document.getElementById("registerPassword").value;
+        const confirm = document.getElementById("confirmPassword").value;
+
+        let hasErrors = false;
+
+        if (name.length < 2) {
+          showError("registerNameError", "Name too short");
+          hasErrors = true;
         }
 
-        function handleSocialLogin(provider) {
-            window.location.href='register.html'
+        if (!validateEmail(email)) {
+          showError("registerEmailError", "Invalid email");
+          hasErrors = true;
+        } else if (users.find((u) => u.email === email)) {
+          showError("registerEmailError", "Email already registered");
+          hasErrors = true;
         }
 
-        // Add floating animation to form inputs
-        document.querySelectorAll('.form-input').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
+        if (password.length < 6) {
+          showError("registerPasswordError", "Minimum 6 characters");
+          hasErrors = true;
+        }
+
+        if (password !== confirm) {
+          showError("confirmPasswordError", "Passwords do not match");
+          hasErrors = true;
+        }
+
+        if (hasErrors) return;
+
+        users.push({ name, email, password });
+        document.getElementById("registerSuccess").textContent =
+          "Account created!";
+        document.getElementById("registerSuccess").classList.add("show");
+        this.reset();
+
+        setTimeout(() => {
+          showForm(loginForm);
+        }, 2000);
+      };
+
     </script>
-</body>
+    <script  src="./js/login.js"></script>
+    <script  src="./helper/request.js"></script>
+
+  </body>
 </html>
