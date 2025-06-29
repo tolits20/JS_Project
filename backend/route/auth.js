@@ -1,8 +1,11 @@
-const express = require('express')
-const route = express.Router()
+const express = require("express");
+const route = express.Router();
 
-route.get('/login',()=>{
-    
-})
+const { create } = require("../controller/user");
+
+route.post("/register", create)
+// route.get("/register", (req,res)=>{
+// res.send("reached")
+// });
 
 module.exports = route;
