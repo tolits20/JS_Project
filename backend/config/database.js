@@ -6,7 +6,7 @@ const connection =mysql2.createConnection({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-});
+}).promise();
 
 
 module.exports = connection;
