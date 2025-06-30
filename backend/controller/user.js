@@ -33,6 +33,7 @@ exports.login = async (req, res) => {
     if (!result)
       return res.status(401).json({ message: "account does not exist!" });
     console.log(result[0]);
+    
     const match = await bcrypt.compare(password, result[0].password);
     if (!match)
       return res.status(403).json({ message: "Password does not match!" });

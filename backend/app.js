@@ -18,10 +18,11 @@ app.get('/login',(req,res)=>{
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
 })
 
-// app.post("/register",(req,res)=>{
-//     console.log(req.body)
-//     res.json({data:req.body})
-// })
+app.get('/test',(req,res)=>{
+  res.json({message:"hello tanginamo"})
+})
+
+
 app.use("/api/v1/",admin);
 app.use("/api/v1/",user);
 app.use("/api/v1/",product);
