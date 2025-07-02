@@ -8,3 +8,5 @@ exports.getAll = async (table) => {
 exports.getById= async(id,table)=>{
     return result = await connection.query(`SELECT * FROM ${table} WHERE user_id =${id}`)
 }
+
+

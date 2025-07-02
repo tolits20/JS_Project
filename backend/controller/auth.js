@@ -1,0 +1,32 @@
+const connection = require("../config/database");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+exports.login = async (req, res) => {
+  console.log("here", req.body);
+  if (!req.body || req.body == undefined)
+    return res.status(500).json({ message: "no data receive" });
+  const { email, password } = req.body;
+  let getAccount = "SELECT * FROM user WHERE email = ?";
+  let result = await connection.query(getAccount, [email]);
+
+  if (!result) return res.status(403).json({ message: "user not found" });
+
+  console.log("password "+result[0][0].password);
+  let match = bcrypt.compare(password, result[0][0].password);
+  if (!match)
+    return res.status(403).json({ message: "Password does not match!" });
+
+  const token = jwt.sign({ data: result[0][0].user_id }, process.env.JWT_SECRET, {
+    expiresIn: `${process.env.JWT_EXPIRATION}`,
+  });
+
+  if (!token)
+    return res.status(500).json({
+      message: "failed to generate a authentication token, please try again",
+    });
+
+  return res
+    .status(200)
+    .json({ message: `Welcome ${result[0][0].name}`, status: 200, token });
+};

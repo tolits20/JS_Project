@@ -15,4 +15,12 @@ exports.getById = async (req, res) => {
   return res.status(200).json({ message: "succussful", data: data[0] });
 };
 
-
+exports.create = async (req, res) => {
+  cosole.log(req.body);
+  let query = "INSERT INTO user(name,email,password,img) VALUES (?,?,?,?)";
+  const filename = req.file ?? null;
+  const { name, email, password } = req.body;
+  let result = await connection.query(sql, [name, email, password, filename]);
+  if (result)
+    return res.status(201).json({ message: "successful", data: result });
+};
