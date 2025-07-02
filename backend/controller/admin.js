@@ -24,3 +24,10 @@ exports.create = async (req, res) => {
   if (result)
     return res.status(201).json({ message: "successful", data: result });
 };
+
+exports.userTable = async (req, res) => {
+  let query = "SELECT * FROM user";
+  let result = await connection.query(query, []);
+  console.log(result[0])
+  return res.status(200).json({data:result[0]})
+};

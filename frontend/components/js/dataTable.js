@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('#u-table').dataTable({
         ajax:{
             url:`http://${ip}:${port}/api/v1/admin/user-all`,
-            dataSrc:""
+            dataSrc:"data"
         },
         buttons:[
             "pdf",

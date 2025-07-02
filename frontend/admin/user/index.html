@@ -10,7 +10,15 @@
     <div id="header"></div>
     <div id="sidebar"></div>
     <div id="user-table">
-      <table id="u-table"></table>
+      <table id="u-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+      </table>
     </div>
 
     <script>
@@ -35,7 +43,9 @@
 
           if (el.tagName === "SCRIPT") {
             clone = document.createElement("script");
-            [...el.attributes].forEach(attr => clone.setAttribute(attr.name, attr.value));
+            [...el.attributes].forEach((attr) =>
+              clone.setAttribute(attr.name, attr.value)
+            );
             clone.textContent = el.textContent;
           } else {
             clone = el.cloneNode(true);
@@ -48,7 +58,7 @@
       Promise.all([
         loadComponent("sidebar", "../../components/primary/sidebar.html"),
         loadComponent("header", "../../components/primary/header.html"),
-        loadResource("../../assets/base.html")
+        loadResource("../../assets/base.html"),
       ]).then(() => {
         document.body.classList.remove("loading");
       });
