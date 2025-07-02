@@ -30,7 +30,7 @@ document.getElementById("loginFormElement").onsubmit = async (e) => {
     success: (response) => {
       console.log(response);
       localStorage.setItem("token", response.token);
-      // location.href = "/admin/dashboard.html";
+      location.href = "/admin/dashboard.html";
     },
     error: (err) => console.error(err),
   });

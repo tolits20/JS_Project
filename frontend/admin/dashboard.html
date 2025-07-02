@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../css/header-sidebar.css">
+    <link rel="stylesheet" href="../css/header-sidebar.css" />
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css"
+    />
+
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
   </head>
   <body class="admin-layout">
     <div id="header"></div>
     <div id="sidebar"></div>
+    
     <script>
       async function loadComponent(id, file) {
         const res = await fetch(file);
@@ -16,8 +24,9 @@
 
         document.getElementById(id).innerHTML = text;
       }
-      loadComponent('sidebar','../components/sidebar.html')
-      loadComponent('header','../components/header.html')
+      loadComponent("sidebar", "../components/primary/sidebar.html");
+      loadComponent("header", "../components/primary/header.html");
+
     </script>
   </body>
 </html>

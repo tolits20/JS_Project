@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/header-sidebar.css" />
+  </head>
+  <body class="admin-layout loading">
+    <div id="header"></div>
+    <div id="sidebar"></div>
+    <div id="user-table">
+      <table id="u-table"></table>
+    </div>
+
+    <script>
+      async function loadComponent(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+      }
+
+      async function loadResource(file) {
+        const res = await fetch(file);
+        const text = await res.text();
+
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = text;
+
+        const head = document.head;
+
+        const elements = tempDiv.querySelectorAll("link, style, script");
+        elements.forEach((el) => {
+          let clone;
+
+          if (el.tagName === "SCRIPT") {
+            clone = document.createElement("script");
+            [...el.attributes].forEach(attr => clone.setAttribute(attr.name, attr.value));
+            clone.textContent = el.textContent;
+          } else {
+            clone = el.cloneNode(true);
+          }
+
+          head.appendChild(clone);
+        });
+      }
+
+      Promise.all([
+        loadComponent("sidebar", "../../components/primary/sidebar.html"),
+        loadComponent("header", "../../components/primary/header.html"),
+        loadResource("../../assets/base.html")
+      ]).then(() => {
+        document.body.classList.remove("loading");
+      });
+    </script>
+
+    <script type="module" src="../../components/js/dataTable.js"></script>
+  </body>
+</html>

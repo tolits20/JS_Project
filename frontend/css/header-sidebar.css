@@ -1,3 +1,6 @@
+body.loading {
+  visibility: hidden;
+}
 body.admin-layout {
   margin: 0;
   font-family: "Inter", sans-serif;
