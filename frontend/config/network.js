@@ -1,2 +1,7 @@
-export const ip = "192.168.1.11"
-export const port = 8080
+ const config = {
+    ip : "192.168.1.11",
+    port : '8080'
+
+};
+
+export default config
