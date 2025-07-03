@@ -14,12 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 
-app.get('/login',(req,res)=>{
+app.get('/',(req,res)=>{
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
-})
-
-app.get('/test',(req,res)=>{
-  res.json({message:"hello tanginamo"})
 })
 
 
