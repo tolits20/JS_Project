@@ -3,30 +3,118 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Dashboard with Charts</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="../css/header-sidebar.css" />
-    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css"
     />
 
+    <!-- jQuery and DataTables -->
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f9f9f9;
+        margin: 0%;
+        padding: 0%;
+      }
+
+      .chart-row {
+        display: flex;
+        gap: 20px;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+      }
+
+      .chart-card {
+        flex: 1;
+        min-width: 200px; /* smaller minimum size */
+        max-width: 300px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        padding: 16px;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 250px; /* fixed smaller height */
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      @media (max-width: 992px) {
+        .chart-row {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
-  <body class="admin-layout">
+  <body class="admin-layout loading">
+    <!-- Dynamically Loaded Header and Sidebar -->
     <div id="header"></div>
     <div id="sidebar"></div>
-    
+
+    <!-- Chart Section -->
+    <div id="chart-section" class="chart-row">
+      <div class="chart-card"><canvas id="chart1"></canvas></div>
+      <div class="chart-card"><canvas id="chart2"></canvas></div>
+      <div class="chart-card"><canvas id="chart3"></canvas></div>
+    </div>
+
+    <!-- Chart Initialization Script -->
+    <script>
+      const data = {
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "Votes",
+            data: [12, 19, 3],
+            backgroundColor: ["#ef4444", "#3b82f6", "#facc15"],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      const config = {
+        type: "doughnut",
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      };
+
+      new Chart(document.getElementById("chart1"), config);
+      new Chart(document.getElementById("chart2"), config);
+      new Chart(document.getElementById("chart3"), config);
+    </script>
+
+    <!-- Dynamic Component Loader -->
     <script>
       async function loadComponent(id, file) {
         const res = await fetch(file);
-        const text = await res.text();
-
-        document.getElementById(id).innerHTML = text;
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
       }
-      loadComponent("sidebar", "../components/primary/sidebar.html");
-      loadComponent("header", "../components/primary/header.html");
 
+      Promise.all([
+        loadComponent("sidebar", "../../components/primary/sidebar.html"),
+        loadComponent("header", "../../components/primary/header.html"),
+      ]).then(() => {
+        document.body.classList.remove("loading");
+      });
     </script>
   </body>
 </html>

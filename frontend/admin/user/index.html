@@ -5,12 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../../css/header-sidebar.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css"
+    />
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Buttons extension -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+    <!-- JSZip for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- pdfmake for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class="admin-layout loading">
     <div id="header"></div>
     <div id="sidebar"></div>
     <div id="user-table">
-      <table id="u-table">
+      <table id="user">
         <thead>
           <tr>
             <th>Name</th>
@@ -20,7 +63,6 @@
         </thead>
       </table>
     </div>
-
     <script>
       async function loadComponent(id, file) {
         const res = await fetch(file);
@@ -28,42 +70,167 @@
         document.getElementById(id).innerHTML = html;
       }
 
-      async function loadResource(file) {
-        const res = await fetch(file);
-        const text = await res.text();
-
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = text;
-
-        const head = document.head;
-
-        const elements = tempDiv.querySelectorAll("link, style, script");
-        elements.forEach((el) => {
-          let clone;
-
-          if (el.tagName === "SCRIPT") {
-            clone = document.createElement("script");
-            [...el.attributes].forEach((attr) =>
-              clone.setAttribute(attr.name, attr.value)
-            );
-            clone.textContent = el.textContent;
-          } else {
-            clone = el.cloneNode(true);
-          }
-
-          head.appendChild(clone);
-        });
-      }
-
       Promise.all([
         loadComponent("sidebar", "../../components/primary/sidebar.html"),
         loadComponent("header", "../../components/primary/header.html"),
-        loadResource("../../assets/base.html"),
       ]).then(() => {
         document.body.classList.remove("loading");
       });
     </script>
-
-    <script type="module" src="../../components/js/dataTable.js"></script>
+    <script type="module">
+      import {network,dataTable} from '../../components/js/dataTable.js'
+      dataTable(`http://${network.ip}:${network.port}/api/v1/admin/user-all`,'user')
+    </script>
   </body>
+  <style>
+    body {
+      font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+      background-color: #fff;
+      color: #111;
+    }
+
+    #user-table {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-top: 24px;
+      overflow-x: auto;
+    }
+
+    /* DataTable Table */
+    #u-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    #u-table thead th {
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+      color: #111;
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    #u-table tbody td {
+      padding: 16px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    #u-table tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    #u-table tbody tr:hover {
+      background-color: #f3f3f3;
+    }
+
+    /* Buttons inside the table */
+      .btn {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      background-color: #111;
+    }
+
+    .btn:hover {
+      background-color: #000;
+    }
+
+    .btnEdit {
+      background-color: #111;
+    }
+
+    .btnDestroy {
+      background-color: #dc2626;
+    }
+
+    .btnDestroy:hover {
+      background-color: #b91c1c;
+    }
+
+    /* DataTable Buttons (PDF, Excel) */
+    .dt-buttons {
+      margin-bottom: 16px;
+    }
+
+    .dt-button {
+      background-color: #111 !important;
+      color: #fff !important;
+      font-size: 13px;
+      padding: 8px 16px !important;
+      border: none;
+      border-radius: 9999px !important;
+      cursor: pointer;
+      margin-right: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .dt-button:hover {
+      background-color: #000 !important;
+    }
+
+    /* Search Input */
+    .dataTables_filter label {
+      color: #111;
+      font-size: 14px;
+    }
+
+    .dataTables_filter input {
+      padding: 6px 12px;
+      font-size: 13px;
+      border-radius: 9999px;
+      border: 1px solid #d1d5db;
+      background-color: #fff;
+      color: #111;
+      margin-left: 8px;
+    }
+
+    /* Length & Info */
+    .dataTables_length label,
+    .dataTables_info {
+      color: #111;
+      font-size: 13px;
+    }
+
+    .dataTables_length select {
+      padding: 4px 8px;
+      font-size: 13px;
+      border-radius: 9999px;
+      border: 1px solid #d1d5db;
+      background-color: #fff;
+      color: #111;
+    }
+
+    /* Scrollbar for table wrapper */
+    #user-table::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    #user-table::-webkit-scrollbar-track {
+      background: #f3f4f6;
+    }
+
+    #user-table::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+
+    #user-table::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+  </style>
 </html>
