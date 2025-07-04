@@ -2,7 +2,6 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 
-
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 function getUser() {
@@ -19,12 +18,15 @@ function getUser() {
 
 function insertValues(data) {
   const main = $("#user-edit");
-  const fullName = main.find("#fullname").val(data.name);
-  const email = main.find("#email").val(data.email);
-  const role = main.find("#role").val(data.role);
-  const city = main.find("#location").val(data.city);
-  const contact = main.find("#phone").val(data.contact);
-  const status = main.find("#status").val(data.is_active);
+  main.find("#fullname").val(data.name);
+  main.find("#email").val(data.email);
+  main.find("#role").val(data.role);
+  main.find("#location").val(data.city);
+  main.find("#phone").val(data.contact);
+  main.find("#status").val(data.is_active);
+  main.find("#preview-name").text(data.name);
+  main.find("#preview-email").text(data.email);
+
   const img = main
     .find("#imgPreview")
     .attr("src", `http://${network.ip}:${network.port}/${data.img}`);

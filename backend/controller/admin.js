@@ -2,7 +2,7 @@ const connection = require("../config/database");
 const queryHelper = require("../service/query");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const fs = require('fs/promises')
+const fs = require("fs/promises");
 
 exports.getAll = async (req, res) => {
   const data = await queryHelper.getAll("user");
@@ -36,8 +36,11 @@ exports.userTable = async (req, res) => {
 exports.update = async (req, res) => {
   // console.log("body: ", req.body, "file :", req.file);
   const id = parseInt(req.params.id);
-    let currImg = await connection.query("SELECT img FROM user WHERE user_id=?",[id])
-  fs.unlink(currImg[0][0].img)
+  let currImg = await connection.query("SELECT img FROM user WHERE user_id=? AND img IS NOT NULL", [
+    id,
+  ]);
+  console.log("here",currImg)
+  if (currImg[0].length > 0) fs.unlink(currImg[0][0].img);
   let query =
     "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=?, img=? WHERE user_id =?";
   const { fullname, role, status, email, phone, location } = req.body;
