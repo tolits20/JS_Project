@@ -1,3 +1,4 @@
+import request  from "../helper/request.js";
 function formData(form) {
   const formData = new FormData(form);
   let obj = {};
