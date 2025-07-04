@@ -1,3 +1,4 @@
+import network from '../config/network.js'
 const token = localStorage.getItem("token");
 const request = class {
   constructor(baseURL, resource) {
@@ -54,13 +55,12 @@ const request = class {
     });
   }
 
-  update(id, data, success, error) {
+  update(id,data, success, error) {
     $.ajax({
       method: "POST",
       url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
-      ...this.__formDataConfig(),
+      ...this.__config(data),
       headers: this.__getHeaders(),
-      data: data,
       dataType: "json",
       success: success,
       error: error,
@@ -71,7 +71,7 @@ const request = class {
     $.ajax({
       method: "DELETE",
       url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
-      ...this.__formDataConfig(),
+      ...this.__config(),
       headers: this.__getHeaders(),
       dataType: "json",
       success: success,
@@ -79,3 +79,5 @@ const request = class {
     });
   }
 };
+
+export default request

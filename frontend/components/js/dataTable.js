@@ -27,7 +27,7 @@ export const dataTable = (url, table) => {
     render: function (data, type, row) {
       let id = table === "user" ? data.user_id : data.item_id;
       return `
-            <a data-id="${id}" href="${btnUrl}" class="btnEdit btn btn-sm  me-2">
+            <a data-id="${id}" href="${btnUrl}?id=${id}" class="btnEdit btn btn-sm  me-2">
               <i class="fa fa-edit"></i> Edit
             </a>
             <a data-id="${id}" class="btnDestroy btn btn-sm">
