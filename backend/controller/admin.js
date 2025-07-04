@@ -2,6 +2,7 @@ const connection = require("../config/database");
 const queryHelper = require("../service/query");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require('fs/promises')
 
 exports.getAll = async (req, res) => {
   const data = await queryHelper.getAll("user");
@@ -35,31 +36,34 @@ exports.userTable = async (req, res) => {
 exports.update = async (req, res) => {
   // console.log("body: ", req.body, "file :", req.file);
   const id = parseInt(req.params.id);
-  let query =
-    "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=?, img=? WHERE user_id =?";
-  const { fullname, role, status, email, phone, location } = req.body;
-  const { destination, filename } = req.file;
-  const img = destination + "/" + filename;
-  let result = await connection.query(query, [
-    fullname,
-    email,
-    role,
-    status,
-    phone,
-    location,
-    img,
-    id,
-  ]);
+    let currImg = await connection.query("SELECT img FROM user WHERE user_id=?",[id])
+  console.log(currImg[0][0].img)
+  fs.unlink(currImg[0][0].img)
+  // let query =
+  //   "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=?, img=? WHERE user_id =?";
+  // const { fullname, role, status, email, phone, location } = req.body;
+  // const { destination, filename } = req.file;
+  // const img = destination + "/" + filename;
+  // let result = await connection.query(query, [
+  //   fullname,
+  //   email,
+  //   role,
+  //   status,
+  //   phone,
+  //   location,
+  //   img,
+  //   id,
+  // ]);
 
-  if (result)
-    return res.status(200).json({
-      message: "successful",
-      result,
-    });
+  // if (result)
+  //   return res.status(200).json({
+  //     message: "successful",
+  //     result,
+  //   });
 
-  return res
-    .status(500)
-    .json("failed to update the user data, please try again later");
+  // return res
+  //   .status(500)
+  //   .json("failed to update the user data, please try again later");
 };
 
 exports.delete = async (req, res) => {
