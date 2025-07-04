@@ -10,13 +10,12 @@ exports.create = async (req, res) => {
 
   hashPassword = await bcrypt.hash(password, 10);
 
-  connection.execute(query, [name, email, hashPassword], (err, result) => {
-    if (err instanceof Error) return console.log(err);
+  let result = connection.execute(query, [name, email, hashPassword]);
+
+  if (result)
     return res.status(201).json({
       message: "succussfully registered",
       result: result,
     });
-  });
+  return res.status(500).message("failed to register, Please try again later");
 };
-
-

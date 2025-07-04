@@ -1,5 +1,8 @@
 import request from "../helper/request.js";
+import alert from "../components/js/alert.js";
 import network from "../config/network.js";
+
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 function getUser() {
@@ -48,18 +51,24 @@ $("#userForm")
 //index.js
 $("#user-table")
   .off("click")
-  .on("click", "#btn-destroy", (e) => {
+  .on("click", "#btn-destroy", async (e) => {
     e.preventDefault();
     let target = $(e.target);
-    let parent= target.closest('tr')
+    let parent = target.closest("tr");
     const id = target.data("id");
-    const toDelete = new request("api/v1", "admin/user");
-    toDelete.delete(
-      id,
-      (response) => {
-        console.log(response);
-        parent.fadeOut(2500);
-      },
-      (err) => console.error(err)
+    let result = await alert.deleteConfirmation(
+      "Yes,delete it!",
+      "Successfully deleted the user"
     );
+    if (result) {
+      const toDelete = new request("api/v1", "admin/user");
+      toDelete.delete(
+        id,
+        (response) => {
+          console.log(response);
+          parent.fadeOut(2500);
+        },
+        (err) => console.error(err)
+      );
+    }
   });

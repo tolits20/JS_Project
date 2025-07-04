@@ -9,6 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       * {
         margin: 0;
@@ -308,54 +309,6 @@
         e.preventDefault();
         clearErrors();
         showForm(loginForm);
-      };
-
-      // Register
-      document.getElementById("registerFormElement").onsubmit = function (e) {
-        e.preventDefault();
-        clearErrors();
-
-        const name = document.getElementById("registerName").value.trim();
-        const email = document.getElementById("registerEmail").value.trim();
-        const password = document.getElementById("registerPassword").value;
-        const confirm = document.getElementById("confirmPassword").value;
-
-        let hasErrors = false;
-
-        if (name.length < 2) {
-          showError("registerNameError", "Name too short");
-          hasErrors = true;
-        }
-
-        if (!validateEmail(email)) {
-          showError("registerEmailError", "Invalid email");
-          hasErrors = true;
-        } else if (users.find((u) => u.email === email)) {
-          showError("registerEmailError", "Email already registered");
-          hasErrors = true;
-        }
-
-        if (password.length < 6) {
-          showError("registerPasswordError", "Minimum 6 characters");
-          hasErrors = true;
-        }
-
-        if (password !== confirm) {
-          showError("confirmPasswordError", "Passwords do not match");
-          hasErrors = true;
-        }
-
-        if (hasErrors) return;
-
-        users.push({ name, email, password });
-        document.getElementById("registerSuccess").textContent =
-          "Account created!";
-        document.getElementById("registerSuccess").classList.add("show");
-        this.reset();
-
-        setTimeout(() => {
-          showForm(loginForm);
-        }, 2000);
       };
 
     </script>

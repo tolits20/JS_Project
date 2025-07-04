@@ -1,11 +1,10 @@
 import config from "../../config/network.js";
-console.log(config);
+const token = localStorage.getItem("token")
 export const network = {
   ip: config.ip,
   port: config.port,
 };
 export const dataTable = (url, table) => {
-  console.log(table);
   let btnUrl = `http://${config.ip}:${config.port}/admin/user/index.html`;
   if (table === "user") {
     btnUrl = `http://${config.ip}:${config.port}/admin/user/edit.html`;
@@ -35,13 +34,15 @@ export const dataTable = (url, table) => {
             </button>`;
     },
   });
-  console.log(columns);
-
+  
   console.log("initializing table...");
   $(`#${table}`).DataTable({
     ajax: {
       url: url,
       dataSrc: "data",
+      headers:{
+        "Authorization" : "Bearer " + token,
+      }
     },
     paging: false,
     scrollY: 400,
