@@ -22,10 +22,12 @@ function insertValues(data) {
   const city = main.find("#location").val(data.city);
   const contact = main.find("#phone").val(data.contact);
   const status = main.find("#status").val(data.is_active);
-  const img = main.find("#imgPreview").attr('src',`http://${network.ip}:${network.port}/${data.img}`)
+  const img = main
+    .find("#imgPreview")
+    .attr("src", `http://${network.ip}:${network.port}/${data.img}`);
 }
 
-getUser();
+if (id) getUser();
 
 $("#userForm")
   .off("submit")
@@ -38,7 +40,26 @@ $("#userForm")
     }
 
     const update = new request("api/v1", "admin/user");
-    update.update(id,formData, (response) => {
+    update.update(id, formData, (response) => {
       console.log(response), (err) => console.log(err);
     });
+  });
+
+//index.js
+$("#user-table")
+  .off("click")
+  .on("click", "#btn-destroy", (e) => {
+    e.preventDefault();
+    let target = $(e.target);
+    let parent= target.closest('tr')
+    const id = target.data("id");
+    const toDelete = new request("api/v1", "admin/user");
+    toDelete.delete(
+      id,
+      (response) => {
+        console.log(response);
+        parent.fadeOut(2500);
+      },
+      (err) => console.error(err)
+    );
   });

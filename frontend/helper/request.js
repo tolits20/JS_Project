@@ -70,7 +70,7 @@ const request = class {
   delete(id, success, error) {
     $.ajax({
       method: "DELETE",
-      url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
+      url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
       ...this.__config(),
       headers: this.__getHeaders(),
       dataType: "json",

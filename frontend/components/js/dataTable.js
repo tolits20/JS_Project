@@ -30,9 +30,9 @@ export const dataTable = (url, table) => {
             <a data-id="${id}" href="${btnUrl}?id=${id}" class="btnEdit btn btn-sm  me-2">
               <i class="fa fa-edit"></i> Edit
             </a>
-            <a data-id="${id}" class="btnDestroy btn btn-sm">
+            <button data-id="${id}" id='btn-destroy' class="btnDestroy btn btn-sm">
               <i class="fa fa-trash"></i> Delete
-            </a>`;
+            </button>`;
     },
   });
   console.log(columns);

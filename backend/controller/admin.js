@@ -34,12 +34,12 @@ exports.userTable = async (req, res) => {
 
 exports.update = async (req, res) => {
   // console.log("body: ", req.body, "file :", req.file);
-  const id = parseInt(req.params.id)
+  const id = parseInt(req.params.id);
   let query =
     "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=?, img=? WHERE user_id =?";
   const { fullname, role, status, email, phone, location } = req.body;
   const { destination, filename } = req.file;
-  const img = destination +"/"+ filename;
+  const img = destination + "/" + filename;
   let result = await connection.query(query, [
     fullname,
     email,
@@ -48,7 +48,7 @@ exports.update = async (req, res) => {
     phone,
     location,
     img,
-    id
+    id,
   ]);
 
   if (result)
@@ -57,5 +57,17 @@ exports.update = async (req, res) => {
       result,
     });
 
-    return res.status(500).json("failed to update the user data, please try again later")
+  return res
+    .status(500)
+    .json("failed to update the user data, please try again later");
+};
+
+exports.delete = async (req, res) => {
+  const id = parseInt(req.params.id);
+  let query = "DELETE FROM user WHERE user_id=?";
+  let result = connection.query(query, [id]);
+  if (result) return res.status(200).json("Successful");
+  return res
+    .status(500)
+    .json("failed to delete the user, Please try again later");
 };

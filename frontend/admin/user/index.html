@@ -78,9 +78,13 @@
       });
     </script>
     <script type="module">
-      import {network,dataTable} from '../../components/js/dataTable.js'
-      dataTable(`http://${network.ip}:${network.port}/api/v1/admin/user-all`,'user')
+      import { network, dataTable } from "../../components/js/dataTable.js";
+      dataTable(
+        `http://${network.ip}:${network.port}/api/v1/admin/user-all`,
+        "user"
+      );
     </script>
+    <script type="module" src="../../js/user.js"></script>
   </body>
   <style>
     body {
@@ -129,7 +133,7 @@
     }
 
     /* Buttons inside the table */
-      .btn {
+    .btn {
       font-size: 13px;
       font-weight: 500;
       padding: 6px 14px;
