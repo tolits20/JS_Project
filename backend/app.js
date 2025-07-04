@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(express.static(path.join(__dirname, '../frontend')));
-
+app.use("/storage/images/",express.static(path.join(__dirname,"storage/images")))
 
 app.get('/',(req,res)=>{
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
