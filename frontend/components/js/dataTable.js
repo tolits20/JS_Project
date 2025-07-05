@@ -1,25 +1,33 @@
 import config from "../../config/network.js";
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token");
 export const network = {
   ip: config.ip,
   port: config.port,
 };
 export const dataTable = (url, table) => {
-  let btnUrl = `http://${config.ip}:${config.port}/admin/user/index.html`;
-  if (table === "user") {
-    btnUrl = `http://${config.ip}:${config.port}/admin/user/edit.html`;
-  }
-  let col =
-    table === "user"
-      ? ["name", "email"]
-      : ["item_name", "category", "item_price"];
-  let columns = [];
-  for (let x in col) {
-    columns.push({
-      data: col[x],
-      className: "fw-bold text-capitalize",
-    });
-  }
+  let btnUrl = `http://${config.ip}:${config.port}/admin/${table}/edit.html`;
+
+  let option = {
+    user: [
+      { data: "name", className: "fw-bold text-capitalize" },
+      { data: "email", className: "fw-bold text-capitalize" },
+    ],
+    item: [
+      { data: "item_name", className: "fw-bold text-capitalize" },
+      { data: "category_name", className: "fw-bold text-capitalize" },
+      { data: "qty", className: "fw-bold text-capitalize" },
+      {
+        data: null,
+        className: "fw-bold text-capitalize",
+        render: (data, type, row) => {
+          return "₱ " + parseFloat(data.item_price).toFixed(2);
+        },
+      },
+    ],
+  };
+
+  let columns = table === "user" ? [...option.user] : [...option.item];
+
   columns.push({
     data: null,
     className: "text-end",
@@ -34,15 +42,15 @@ export const dataTable = (url, table) => {
             </button>`;
     },
   });
-  
+  console.log(columns);
   console.log("initializing table...");
   $(`#${table}`).DataTable({
     ajax: {
       url: url,
       dataSrc: "data",
-      headers:{
-        "Authorization" : "Bearer " + token,
-      }
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     },
     paging: false,
     scrollY: 400,
