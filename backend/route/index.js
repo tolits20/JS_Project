@@ -1,11 +1,11 @@
 const admin =require('./admin')
 const user =require('./user')
-const product =require('./product')
+const item =require('./item')
 const auth =require('./auth')
 
 module.exports= {
     admin,
     user,
-    product,
+    item,
     auth
 }

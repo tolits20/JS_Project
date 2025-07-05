@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Items</title>
+
+    <!-- Custom and External Styles -->
+    <link rel="stylesheet" href="../../css/header-sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- jQuery & Plugins -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body class="admin-layout loading">
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <!-- Item Table Wrapper -->
+    <div id="item-table">
+      <table id="item">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <!-- Load Header & Sidebar -->
+    <script>
+      async function loadComponent(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+      }
+
+      Promise.all([
+        loadComponent("sidebar", "../../components/primary/sidebar.html"),
+        loadComponent("header", "../../components/primary/header.html"),
+      ]).then(() => {
+        document.body.classList.remove("loading");
+      });
+    </script>
+
+    <!-- DataTable Script for Items -->
+    <script type="module">
+      import { network, dataTable } from "../../components/js/dataTable.js";
+      dataTable(
+        `http://${network.ip}:${network.port}/api/v1/admin/item-all`,
+        "item"
+      );
+    </script>
+
+    <script type="module" src="../../js/item.js"></script>
+
+    <!-- Styling -->
+    <style>
+      body {
+        font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+        background-color: #fff;
+        color: #111;
+      }
+
+      #item-table {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        overflow-x: auto;
+      }
+
+      #item {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      #item thead th {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 12px;
+        color: #111;
+        padding: 16px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #f9fafb;
+      }
+
+      #item tbody td {
+        padding: 16px;
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      #item tbody tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      #item tbody tr:hover {
+        background-color: #f3f3f3;
+      }
+
+      .btn {
+        font-size: 13px;
+        font-weight: 500;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        border: none;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        background-color: #111;
+      }
+
+      .btn:hover {
+        background-color: #000;
+      }
+
+      .btnEdit {
+        background-color: #111;
+      }
+
+      .btnDestroy {
+        background-color: #dc2626;
+      }
+
+      .btnDestroy:hover {
+        background-color: #b91c1c;
+      }
+
+      .dt-buttons {
+        margin-bottom: 16px;
+      }
+
+      .dt-button {
+        background-color: #111 !important;
+        color: #fff !important;
+        font-size: 13px;
+        padding: 8px 16px !important;
+        border: none;
+        border-radius: 9999px !important;
+        cursor: pointer;
+        margin-right: 8px;
+        transition: background-color 0.2s ease;
+      }
+
+      .dt-button:hover {
+        background-color: #000 !important;
+      }
+
+      .dataTables_filter label {
+        color: #111;
+        font-size: 14px;
+      }
+
+      .dataTables_filter input {
+        padding: 6px 12px;
+        font-size: 13px;
+        border-radius: 9999px;
+        border: 1px solid #d1d5db;
+        background-color: #fff;
+        color: #111;
+        margin-left: 8px;
+      }
+
+      .dataTables_length label,
+      .dataTables_info {
+        color: #111;
+        font-size: 13px;
+      }
+
+      .dataTables_length select {
+        padding: 4px 8px;
+        font-size: 13px;
+        border-radius: 9999px;
+        border: 1px solid #d1d5db;
+        background-color: #fff;
+        color: #111;
+      }
+
+      #item-table::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      #item-table::-webkit-scrollbar-track {
+        background: #f3f4f6;
+      }
+
+      #item-table::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+      }
+
+      #item-table::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+      }
+    </style>
+  </body>
+</html>
