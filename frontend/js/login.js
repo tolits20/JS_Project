@@ -1,16 +1,6 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 
-function formData(form) {
-  const formData = new FormData(form);
-  let obj = {};
-  for (let pair of formData.entries()) {
-    console.log(`${pair[0]}=>${pair[1]}`);
-    obj[pair[0]] = pair[1];
-  }
-  return formData;
-}
-
 document.getElementById("loginFormElement").onsubmit = async (e) => {
   e.preventDefault();
   let email = document.getElementById("loginEmail").value.trim();
@@ -33,6 +23,7 @@ document.getElementById("loginFormElement").onsubmit = async (e) => {
     success: (response) => {
       console.log(response);
       localStorage.setItem("token", response.token);
+      sessionStorage.setItem("message","loginSuccess")
       location.href = "/admin/dashboard.html";
     },
     error: (err) => console.error(err),
@@ -54,10 +45,10 @@ document.getElementById("registerFormElement").onsubmit = async (e) => {
     payload,
     (response) => {
       console.log(response);
-      alert.positionedDialog("Successfully Registered!")
       $("#loginForm").addClass("hidden");
       $("#registerForm").addClass("hidden");
       $("#loginForm").removeClass("hidden");
+      alert.notyf.success("Successfully Registered")
     },
     (err) => console.error(err)
   );

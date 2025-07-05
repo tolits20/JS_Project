@@ -1,3 +1,4 @@
+import { Notyf } from 'https://esm.sh/notyf@3';
 const alert = {
   positionedDialog: (text) => {
     Swal.fire({
@@ -31,6 +32,13 @@ const alert = {
     });
     })
   },
+  notyf: new Notyf({
+    duration:2000,
+    position:{
+      x:'right',
+      y:'top'
+    }
+  })
 };
 
 export default alert;

@@ -10,6 +10,12 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
       * {
         margin: 0;
@@ -27,30 +33,30 @@
         gap: 40px;
       }
 
-     .system-name {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-  padding-left: 20px;
-}
+      .system-name {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+        padding-left: 20px;
+      }
 
-.brand-title {
-  font-size: 64px;
-  font-weight: 300;
-  letter-spacing: 10px;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-}
+      .brand-title {
+        font-size: 64px;
+        font-weight: 300;
+        letter-spacing: 10px;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+      }
 
-.brand-tagline {
-  font-size: 18px;
-  font-weight: 400;
-  color: #555;
-  max-width: 300px;
-  line-height: 1.4;
-}
+      .brand-tagline {
+        font-size: 18px;
+        font-weight: 400;
+        color: #555;
+        max-width: 300px;
+        line-height: 1.4;
+      }
 
       .auth-section {
         display: flex;
@@ -277,25 +283,25 @@
       </div>
     </div>
     <script>
-        const loginForm = document.getElementById('loginForm');
-      const registerForm = document.getElementById('registerForm');
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
 
       function showForm(formToShow) {
-        loginForm.classList.add('hidden');
-        registerForm.classList.add('hidden');
-        formToShow.classList.remove('hidden');
+        loginForm.classList.add("hidden");
+        registerForm.classList.add("hidden");
+        formToShow.classList.remove("hidden");
       }
 
       function showError(id, message) {
         const el = document.getElementById(id);
         el.textContent = message;
-        el.classList.add('show');
+        el.classList.add("show");
       }
 
       function clearErrors() {
-        document.querySelectorAll('.error-message').forEach(el => {
-          el.textContent = '';
-          el.classList.remove('show');
+        document.querySelectorAll(".error-message").forEach((el) => {
+          el.textContent = "";
+          el.classList.remove("show");
         });
       }
 
@@ -310,9 +316,8 @@
         clearErrors();
         showForm(loginForm);
       };
-
     </script>
-    <script  type="module" src="./js/login.js"></script>
 
+    <script type="module" src="./js/login.js" ></script>
   </body>
 </html>
