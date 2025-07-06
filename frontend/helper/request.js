@@ -1,11 +1,11 @@
-import network from '../config/network.js'
+import network from "../config/network.js";
 const token = localStorage.getItem("token");
 const request = class {
   constructor(baseURL, resource) {
     this.baseURL = baseURL;
     this.token = token;
     this.resource = resource;
-    this.ipHost = "http://192.168.1.11:8080";
+    this.ipHost = `http://${network.ip}:${network.port}`;
   }
 
   __getHeaders() {
@@ -55,7 +55,7 @@ const request = class {
     });
   }
 
-  update(id,data, success, error) {
+  update(id, data, success, error) {
     $.ajax({
       method: "POST",
       url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
@@ -80,4 +80,4 @@ const request = class {
   }
 };
 
-export default request
+export default request;
