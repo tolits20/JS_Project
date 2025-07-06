@@ -596,35 +596,19 @@
         document.body.classList.remove("loading");
       });
 
-      // Dynamic preview update
-      document
-        .getElementById("item_name")
-        .addEventListener("input", function () {
-          document.getElementById("preview-name").textContent =
-            this.value || "Sample Item";
-        });
 
-      document
-        .getElementById("item_price")
-        .addEventListener("input", function () {
-          const val = parseFloat(this.value);
-          document.getElementById("preview-price").textContent = isNaN(val)
-            ? "₱0.00"
-            : "₱" + val.toFixed(2);
-        });
-
-      document
-        .getElementById("item_image")
-        .addEventListener("change", function () {
-          const file = this.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              document.getElementById("imgPreview").src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-          }
-        });
+      // document
+      //   .getElementById("item_image")
+      //   .addEventListener("change", function () {
+      //     const file = this.files[0];
+      //     if (file) {
+      //       const reader = new FileReader();
+      //       reader.onload = function (e) {
+      //         document.getElementById("imgPreview").src = e.target.result;
+      //       };
+      //       reader.readAsDataURL(file);
+      //     }
+      //   });
 
       // Gallery functions
       function removeImage(button) {

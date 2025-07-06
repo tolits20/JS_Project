@@ -5,16 +5,18 @@ import network from "../config/network.js";
 const param = new URLSearchParams(window.location.search);
 const id = param.get("id");
 
-const getItem = new request("api/v1", "admin/item");
-getItem.getById(
-  id,
-  (response) => {
-    console.log(response);
-    alert.notyf.success("successfully get user");
-    InsertValues(response);
-  },
-  (err) => console.error(err)
-);
+const editItem = async () => {
+  const getItem = new request("api/v1", "admin/item");
+  getItem.getById(
+    id,
+    (response) => {
+      console.log(response);
+      alert.notyf.success("successfully get user");
+      InsertValues(response);
+    },
+    (err) => console.error(err)
+  );
+};
 
 function InsertValues(data) {
   const mainPreview = $(".profile-container");
@@ -37,3 +39,35 @@ function InsertValues(data) {
     mainPreview.find("#category").append(opt);
   }
 }
+if (id) editItem();
+
+$("#item_image")
+  .off("change")
+  .on("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      //   console.log(file);
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        $("#imgPreview").attr("src", event.target.result);
+      };
+      reader.readAsDataURL(file);
+      const payload = new FormData();
+      payload.append("image", file);
+      payload.append("flag", "item");
+
+      const item = new request("api/v1", "admin/item/single");
+      item.update(
+        id + "/item",
+        payload,
+        (response) => {
+          console.log(response);
+          alert.notyf.success("Item successfully updated!");
+        },
+        (err) => {
+          console.error(err);
+          alert.notyf.error("Failed to update the item, please try again!");
+        }
+      );
+    }
+  });
