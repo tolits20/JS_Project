@@ -552,16 +552,6 @@
             <div class="item-gallery-container">
               <h4>Item Gallery</h4>
               <div class="item-gallery" id="itemGallery">
-                <div class="image-wrapper">
-                  <img src="" alt="Gallery Image" />
-                  <button
-                    class="delete-btn"
-                    onclick="removeImage(this)"
-                    type="button"
-                  >
-                    ×
-                  </button>
-                </div>
                 <div class="add-image-btn" onclick="addImage()">
                   <i class="fas fa-plus"></i>
                 </div>
@@ -615,32 +605,7 @@
         button.parentElement.remove();
       }
 
-      function addImage() {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.multiple = true;
-        input.onchange = (e) => {
-          const files = Array.from(e.target.files);
-          console.log(files);
-          const gallery = document.getElementById("itemGallery");
-          const addBtn = gallery.querySelector(".add-image-btn");
-
-          files.forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                console.log(event.target.result)
-              const wrapper = document.createElement("div");
-              wrapper.className = "image-wrapper";
-              wrapper.innerHTML = ` <img src="${event.target.result}" alt="Gallery Image" />
-             <button class="delete-btn" onclick="removeImage(this)" type="button">×</button>`;
-              gallery.insertBefore(wrapper, addBtn);
-            };
-            reader.readAsDataURL(file);
-          });
-        };
-        input.click();
-      }
+      
     </script>
 
     <script type="module" src="../../js/item.js"></script>

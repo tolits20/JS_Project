@@ -28,7 +28,12 @@ function InsertValues(data) {
   mainPreview.find("#item_price").val(data.item[0].item_price.toFixed(2));
   mainPreview.find("#item_stocks").val(data.item[0].qty);
   mainPreview.find("#description").val(data.item[0].item_desc);
-  mainPreview.find("#imgPreview").attr('src',`http://${network.ip}:${network.port}/${data.item[0].item_img}`)
+  mainPreview
+    .find("#imgPreview")
+    .attr(
+      "src",
+      `http://${network.ip}:${network.port}/${data.item[0].item_img}`
+    );
   let categories = data.categories;
   for (let i = 0; i < categories.length; i++) {
     const opt = document.createElement("option");
@@ -36,9 +41,19 @@ function InsertValues(data) {
     opt.text = categories[i].category_name;
     opt.selected =
       data.item.category_name === categories.category_name ? true : false;
-
     mainPreview.find("#category").append(opt);
   }
+  let galleryImg = data.gallery;
+    const gallery = document.getElementById("itemGallery");
+    const addBtn = gallery.querySelector(".add-image-btn");
+
+    galleryImg.forEach((img) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "image-wrapper";
+      wrapper.innerHTML = ` <img src="http://${network.ip}:${network.port}/${img.item_path}" alt="Gallery Image" />
+             <button class="delete-btn" data-id=${img.item_id} onclick="removeImage(this)" type="button">×</button>`;
+      gallery.insertBefore(wrapper, addBtn);
+    });
 }
 if (id) editItem();
 
@@ -58,7 +73,7 @@ $("#item_image")
       payload.append("image", file);
       payload.append("flag", "item");
 
-      const item = new request("api/v1", "admin/item/single");
+      const item = new request("api/v1", "admin/item");
       item.update(
         id + "/item",
         payload,
@@ -98,3 +113,54 @@ $("#itemForm").submit(function (e) {
     }
   );
 });
+
+function addImage() {
+  let payload = new FormData();
+  payload.append("item_id", id);
+  let input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.multiple = true;
+  input.onchange = (e) => {
+    const files = Array.from(e.target.files);
+    const gallery = document.getElementById("itemGallery");
+    const addBtn = gallery.querySelector(".add-image-btn");
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      payload.append("image", file);
+      reader.onload = (event) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "image-wrapper";
+        wrapper.innerHTML = ` <img src="${event.target.result}" alt="Gallery Image" />
+             <button class="delete-btn" onclick="removeImage(this)" type="button">×</button>`;
+        gallery.insertBefore(wrapper, addBtn);
+      };
+      reader.readAsDataURL(file);
+    });
+    payload.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(`${key} => ${value.name}`);
+      } else {
+        console.log(`${key} => ${value}`);
+      }
+    });
+    const insertImage = new request("api/v1", "admin/item/gallery");
+    insertImage.update(
+      id + "/items",
+      payload,
+      (response) => {
+        console.log(response);
+        alert.notyf.success("Successfully added to the item gallery!");
+      },
+      (err) => {
+        console.log(err);
+        alert.notyf.error(
+          "Failed to add images on item gallery, please try again!"
+        );
+      }
+    );
+  };
+  input.click();
+}
+window.addImage = addImage;
