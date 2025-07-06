@@ -16,7 +16,10 @@ const storage = multer.diskStorage({
     if (req.params.flag == undefined || req.params.flag == null) {
       dest = filePaths.user;
     } else {
-      dest = req.params.flag ==="item" ?  filePaths.item.main : filePaths.item.gallery;
+      dest =
+        req.params.flag === "item"
+          ? filePaths.item.main
+          : filePaths.item.gallery;
     }
     cb(null, dest);
   },
@@ -24,15 +27,17 @@ const storage = multer.diskStorage({
     let dateSuffix = Date.now();
     const ext = path.extname(file.originalname).toLocaleLowerCase();
     const filename = path.parse(file.originalname).name;
-
+    // console.log(file);
     cb(null, filename + "-" + dateSuffix + ext);
   },
 });
+
 module.exports = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname).toLocaleLowerCase();
-    if (ext !== "jpg" || ext !== "jpeg" || ext !== "png") cb(null, false);
+    // console.log(ext)
+    if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png") cb(null, false);
     cb(null, true);
   },
 });
