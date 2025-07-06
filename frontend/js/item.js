@@ -28,6 +28,7 @@ function InsertValues(data) {
   mainPreview.find("#item_price").val(data.item[0].item_price.toFixed(2));
   mainPreview.find("#item_stocks").val(data.item[0].qty);
   mainPreview.find("#description").val(data.item[0].item_desc);
+  mainPreview.find("#imgPreview").attr('src',`http://${network.ip}:${network.port}/${data.item[0].item_img}`)
   let categories = data.categories;
   for (let i = 0; i < categories.length; i++) {
     const opt = document.createElement("option");

@@ -29,7 +29,7 @@ exports.editItem = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const id = parseInt(req.params.id);
   const { item_name, item_price, category, stocks, description } = req.body;
 
@@ -65,4 +65,34 @@ exports.update = async (req, res) => {
     message: "successful",
     body: req.body,
   });
+};
+
+exports.itemImage = async (req, res) => {
+  console.log(req.body, "<=>", req.file);
+  const id = parseInt(req.params.id);
+  const flag = req.params.flag;
+  const file = req.file.destination + "/" + req.file.filename;
+  console.log(file);
+  if (flag === "items") {
+  }
+  let query = "SELECT item_img FROM items WHERE item_id = ?";
+  let [currImg] = await connection.query(query, [id]);
+  console.log("current", currImg);
+
+  if (currImg[0].item_img !== null) {
+    console.log(currImg[0].item_img);
+    fs.unlink(currImg[0].item_img);
+  }
+
+  let update = "UPDATE items SET item_img = ? WHERE item_id =?";
+  let [result] = await connection.query(update, [file, id]);
+
+  if (result)
+    return res.status(201).json({
+      message: "successfully updated the item main image",
+      destination: file,
+    });
+  return res
+    .status(500)
+    .json({ message: "failed to update the item main image" });
 };

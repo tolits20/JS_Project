@@ -4,7 +4,7 @@ const item = require("../controller/item")
 const upload = require('../middleware/multer')
 
 route.get('/admin/item/:id',item.editItem)
-route.post('/admin/item/single/:id/:flag',upload.single('image'))
+route.post('/admin/item/single/:id/:flag',upload.single('image'),item.itemImage)
 route.post('/admin/item/:id',upload.single('image'),item.update)
 
 
