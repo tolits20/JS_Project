@@ -11,7 +11,7 @@ const editItem = async () => {
     id,
     (response) => {
       console.log(response);
-      alert.notyf.success("successfully get user");
+      // alert.notyf.success("successfully get user");
       InsertValues(response);
     },
     (err) => console.error(err)
@@ -41,6 +41,7 @@ function InsertValues(data) {
 }
 if (id) editItem();
 
+// single file item upload
 $("#item_image")
   .off("change")
   .on("change", (e) => {
@@ -71,3 +72,28 @@ $("#item_image")
       );
     }
   });
+
+$("#itemForm").submit(function (e) {
+  e.preventDefault();
+  const formData = new FormData($(this)[0]);
+  let payload = new Object();
+  formData.delete("item_image");
+  for (let pair of formData.entries()) {
+    console.log(`${pair[0]}=>${pair[1]}`);
+    payload[pair[0]] = pair[1];
+  }
+
+  const update = new request("api/v1", "admin/item");
+  update.update(
+    id,
+    payload,
+    (response) => {
+      console.log(response);
+      alert.notyf.success("Successfully updated the item!");
+    },
+    (err) => {
+      console.log(err);
+      alert.notyf.error("Failed to update the item, please try again!");
+    }
+  );
+});

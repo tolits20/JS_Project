@@ -4,13 +4,17 @@ const item = require("../controller/item")
 const upload = require('../middleware/multer')
 
 route.get('/admin/item/:id',item.editItem)
-route.post('/admin/item/single/:id/:flag',upload.single('image'),(req,res)=>{
-    // console.log(req.body,req.file)
-    return res.json({
-        body:req.body,
-        file:req.file
-    })
-})
+route.post('/admin/item/single/:id/:flag',upload.single('image'))
+route.post('/admin/item/:id',upload.single('image'),item.update)
+
+
+// route.post('/admin/item/single/:id/:flag',upload.single('image'),(req,res)=>{
+//     // console.log(req.body,req.file)
+//     return res.json({
+//         body:req.body,
+//         file:req.file
+//     })
+// })
 
 
 route.get('/admin/item-all',item.itemTable)
