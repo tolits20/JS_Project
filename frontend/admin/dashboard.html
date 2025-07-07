@@ -115,8 +115,8 @@
       }
 
       Promise.all([
-        loadComponent("sidebar", "../../components/primary/sidebar.html"),
-        loadComponent("header", "../../components/primary/header.html"),
+        loadComponent("sidebar", "../components/primary/sidebar.html"),
+        loadComponent("header", "../components/primary/header.html"),
       ]).then(() => {
         document.body.classList.remove("loading");
       });

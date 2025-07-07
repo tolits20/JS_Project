@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(express.static(path.join(__dirname, '../frontend')));
+// app.use(express.static(path.join(__dirname, '../frontend')));
 app.use("/storage/images/",express.static(path.join(__dirname,"storage/images")))
 app.use("/storage/items/main",express.static(path.join(__dirname,"storage/items/main")))
 app.use("/storage/items/gallery",express.static(path.join(__dirname,"storage/items/gallery")))

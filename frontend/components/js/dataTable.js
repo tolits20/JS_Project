@@ -5,7 +5,7 @@ export const network = {
   port: config.port,
 };
 export const dataTable = (url, table) => {
-  let btnUrl = `http://${config.ip}:${config.port}/admin/${table}/edit.html`;
+  let btnUrl = `http://${config.client.host}/frontend/admin/${table}/edit.html`;
 
   let option = {
     user: [

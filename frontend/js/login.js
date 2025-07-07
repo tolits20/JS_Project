@@ -1,5 +1,6 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
+import network from "../config/network.js"
 
 document.getElementById("loginFormElement").onsubmit = async (e) => {
   e.preventDefault();
@@ -15,7 +16,7 @@ document.getElementById("loginFormElement").onsubmit = async (e) => {
 
   $.ajax({
     method: "POST",
-    url: "http://192.168.1.11:8080/api/v1/login",
+    url: `http://${network.ip}:${network.port}/api/v1/login`,
     contentType: "application/json",
     data: JSON.stringify(data),
     processData: false,
