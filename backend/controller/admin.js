@@ -35,20 +35,25 @@ exports.userTable = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id = parseInt(req.params.id);
+  console.log("files", req.file);
+  console.log("body", req.body);
 
   let currImg = await connection.query(
     "SELECT img FROM user WHERE user_id=? AND img IS NOT NULL",
     [id]
   );
-
+  console.log(currImg[0].length);
   let img = currImg[0].length > 0 ? currImg[0][0].img : null;
-  
+
   if (currImg[0].length > 0 && req.file !== undefined) {
     const { destination, filename } = req.file;
     img = destination + "/" + filename;
     fs.unlink(currImg[0][0].img);
+  } else if (req.file !== undefined) {
+    const { destination, filename } = req.file;
+    img = destination + "/" + filename;
   }
-
+  console.log("name", img);
   let query =
     "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=?, img=? WHERE user_id =?";
   const { fullname, role, status, email, phone, location } = req.body;
