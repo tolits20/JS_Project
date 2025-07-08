@@ -25,7 +25,7 @@ document.getElementById("loginFormElement").onsubmit = async (e) => {
       console.log(response);
       localStorage.setItem("token", response.token);
       sessionStorage.setItem("message","loginSuccess")
-      location.href = "/admin/dashboard.html";
+      location.href = `http://${network.client.host}/frontend/admin/dashboard.html`;
     },
     error: (err) => console.error(err),
   });
