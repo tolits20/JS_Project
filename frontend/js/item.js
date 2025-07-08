@@ -2,9 +2,24 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 
-document.getElementById('sidebar-dashboard').setAttribute('href',`http://${network.client.host}/frontend/admin/dashboard.html`)
-document.getElementById('sidebar-user').setAttribute('href',`http://${network.client.host}/frontend/admin/user/index.html`)
-document.getElementById('sidebar-item').setAttribute('href',`http://${network.client.host}/frontend/admin/item/index.html`)
+document
+  .getElementById("sidebar-dashboard")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/dashboard.html`
+  );
+document
+  .getElementById("sidebar-user")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/user/index.html`
+  );
+document
+  .getElementById("sidebar-item")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/item/index.html`
+  );
 
 const param = new URLSearchParams(window.location.search);
 const id = param.get("id");
@@ -48,16 +63,16 @@ function InsertValues(data) {
     mainPreview.find("#category").append(opt);
   }
   let galleryImg = data.gallery;
-    const gallery = document.getElementById("itemGallery");
-    const addBtn = gallery.querySelector(".add-image-btn");
+  const gallery = document.getElementById("itemGallery");
+  const addBtn = gallery.querySelector(".add-image-btn");
 
-    galleryImg.forEach((img) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "image-wrapper";
-      wrapper.innerHTML = ` <img src="http://${network.ip}:${network.port}/${img.item_path}" alt="Gallery Image" />
-             <button class="delete-btn" data-id=${img.item_id} onclick="removeImage(this)" type="button">×</button>`;
-      gallery.insertBefore(wrapper, addBtn);
-    });
+  galleryImg.forEach((img) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "image-wrapper";
+    wrapper.innerHTML = ` <img src="http://${network.ip}:${network.port}/${img.item_path}" alt="Gallery Image" />
+             <button class="delete-btn" data-id=${img.img_id} onclick="removeImage(this)" type="button">×</button>`;
+    gallery.insertBefore(wrapper, addBtn);
+  });
 }
 if (id) editItem();
 
@@ -168,3 +183,18 @@ function addImage() {
   input.click();
 }
 window.addImage = addImage;
+
+function removeImage(button) {
+  let target = $(button).closest(".delete-btn").data("id");
+  console.log(target);
+  const toDelete = new request("api/v1", "admin/item/gallery");
+  toDelete.delete(target, (response) => {
+    console.log(response);
+    alert.notyf.success("Successfully deleted from the gallery.")
+  },
+(err)=>{
+  console.log(err),
+  alert.notyf.error("Failed to delete the image from the gallery, please try again!")
+});
+}
+window.removeImage = removeImage;

@@ -1,7 +1,7 @@
 const connection = require("../config/database");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
-const { resolve } = require("path");
+const { resolve, parse } = require("path");
 const { rejects } = require("assert");
 
 exports.itemTable = async (req, res) => {
@@ -121,4 +121,19 @@ exports.multiImg = async (req, res) => {
   return res
     .status(200)
     .json({ message: "Successfully Updated your gallery", files: req.files });
+};
+
+
+
+exports.deletegallery = async (req, res) => {
+  let id = parseInt(req.params.id);
+  let [check] = await connection.query("SELECT item_path FROM item_gallery WHERE img_id = ?",[id])
+  if(check.length==1){
+    console.log(check)
+    fs.unlink(check[0].item_path)
+  }
+  let query = "DELETE FROM item_gallery WHERE img_id =?";
+  let [result] = await connection.query(query, [id]);
+  if(result.affectedRows>0)  return res.status(200).json("successfully deleted from DB")
+    return res.status(500).json("something went wrong, Please try again later!")
 };
