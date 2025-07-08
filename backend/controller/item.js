@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
 const { resolve, parse } = require("path");
 const { rejects } = require("assert");
+const { get } = require("http");
 
 exports.itemTable = async (req, res) => {
   let query =
@@ -123,17 +124,50 @@ exports.multiImg = async (req, res) => {
     .json({ message: "Successfully Updated your gallery", files: req.files });
 };
 
-
-
 exports.deletegallery = async (req, res) => {
   let id = parseInt(req.params.id);
-  let [check] = await connection.query("SELECT item_path FROM item_gallery WHERE img_id = ?",[id])
-  if(check.length==1){
-    console.log(check)
-    fs.unlink(check[0].item_path)
+  let [check] = await connection.query(
+    "SELECT item_path FROM item_gallery WHERE img_id = ?",
+    [id]
+  );
+  if (check.length == 1) {
+    console.log(check);
+    fs.unlink(check[0].item_path);
   }
   let query = "DELETE FROM item_gallery WHERE img_id =?";
   let [result] = await connection.query(query, [id]);
-  if(result.affectedRows>0)  return res.status(200).json("successfully deleted from DB")
-    return res.status(500).json("something went wrong, Please try again later!")
+  if (result.affectedRows > 0)
+    return res.status(200).json("successfully deleted from DB");
+  return res.status(500).json("something went wrong, Please try again later!");
+};
+
+exports.delete = async (req, res) => {
+  const id = parseInt(req.params.id);
+  console.log(id);
+  let getQuery =
+    "SELECT i.item_img, ig.item_path FROM items i INNER JOIN item_gallery ig USING(item_id) WHERE item_id=?";
+  const [getData] = await connection.query(getQuery, [id]);
+
+  if (getData.length > 0) {
+    console.log(getData);
+
+    if (getData[0].item_img !== null && getData[0].item_img !== undefined)
+      fs.unlink(getData[0].item_img);
+
+    imgs = getData;
+    imgs.forEach((img) => {
+      console.log("deleting: ", img.item_path);
+      fs.unlink(img.item_path);
+    });
+  }
+
+  let ItemDelete = "DELETE FROM items WHERE item_id=?";
+
+  let [result] = await connection.query(ItemDelete, [id]);
+
+  if(result.affectedRows>0) return res.status(200).json("Item deleted Successfully!")
+
+  return res
+    .status(500)
+    .json("something went wrong while performing the task!");
 };

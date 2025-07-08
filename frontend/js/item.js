@@ -2,6 +2,7 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 
+//index.html
 document
   .getElementById("sidebar-dashboard")
   .setAttribute(
@@ -21,6 +22,27 @@ document
     `http://${network.client.host}/frontend/admin/item/index.html`
   );
 
+$(document)
+  .off("click")
+  .on("click", "#btn-destroy", (e) => {
+    e.preventDefault();
+    let id = $(e.target).data("id");
+    let parent =$(e).closest('tr')
+    let item= new request("api/v1","admin/item")
+    item.delete(id,
+      (response)=>{
+        console.log(response)
+        alert.notyf.success("Item deleted successfully!")
+        parent.fadeOut(2500);
+      },
+      (err)=>{
+        console.log(err)
+        alert.notyf.error("Failed to delete the item, Please try again later!")
+      }
+    )
+  });
+
+//edit.html
 const param = new URLSearchParams(window.location.search);
 const id = param.get("id");
 

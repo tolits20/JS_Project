@@ -4,6 +4,7 @@ const item = require("../controller/item");
 const upload = require("../middleware/multer");
 
 route.get("/admin/item/:id", item.editItem);
+route.delete("/admin/item/:id",item.delete)
 
 route.post("/admin/item/gallery/:id/:flag", upload.array("image"), item.multiImg );
 route.post("/admin/item/:id/:flag", upload.single("image"), item.singleImg);
