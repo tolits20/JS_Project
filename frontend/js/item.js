@@ -188,13 +188,19 @@ function removeImage(button) {
   let target = $(button).closest(".delete-btn").data("id");
   console.log(target);
   const toDelete = new request("api/v1", "admin/item/gallery");
-  toDelete.delete(target, (response) => {
-    console.log(response);
-    alert.notyf.success("Successfully deleted from the gallery.")
-  },
-(err)=>{
-  console.log(err),
-  alert.notyf.error("Failed to delete the image from the gallery, please try again!")
-});
+  toDelete.delete(
+    target,
+    (response) => {
+      console.log(response);
+      alert.notyf.success("Successfully deleted from the gallery.");
+      button.parentElement.remove();
+    },
+    (err) => {
+      console.log(err),
+        alert.notyf.error(
+          "Failed to delete the image from the gallery, please try again!"
+        );
+    }
+  );
 }
 window.removeImage = removeImage;
