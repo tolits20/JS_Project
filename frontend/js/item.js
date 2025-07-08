@@ -22,25 +22,31 @@ document
     `http://${network.client.host}/frontend/admin/item/index.html`
   );
 
-$(document)
-  .off("click")
-  .on("click", "#btn-destroy", (e) => {
-    e.preventDefault();
-    let id = $(e.target).data("id");
-    let parent =$(e).closest('tr')
-    let item= new request("api/v1","admin/item")
-    item.delete(id,
-      (response)=>{
-        console.log(response)
-        alert.notyf.success("Item deleted successfully!")
-        parent.fadeOut(2500);
-      },
-      (err)=>{
-        console.log(err)
-        alert.notyf.error("Failed to delete the item, Please try again later!")
-      }
-    )
-  });
+$(document).ready(function () {
+  $(document)
+    .off("click")
+    .on("click", "#btn-destroy", (e) => {
+      e.preventDefault();
+      let id = $(e.target).data("id");
+      let parent = e.target.closest("tr");
+      console.log(parent);
+      let item = new request("api/v1", "admin/item");
+      item.delete(
+        id,
+        (response) => {
+          console.log(response);
+          alert.notyf.success("Item deleted successfully!");
+          $(parent).fadeOut(2500);
+        },
+        (err) => {
+          console.log(err);
+          alert.notyf.error(
+            "Failed to delete the item, Please try again later!"
+          );
+        }
+      );
+    });
+});
 
 //edit.html
 const param = new URLSearchParams(window.location.search);
