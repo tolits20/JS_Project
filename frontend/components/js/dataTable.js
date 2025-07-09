@@ -11,6 +11,20 @@ export const dataTable = (url, table) => {
     user: [
       { data: "name", className: "fw-bold text-capitalize" },
       { data: "email", className: "fw-bold text-capitalize" },
+      {
+        data: null,
+        className: "fw-bold text-capitalize",
+        render: (data, type, row) => {
+          return `
+    <label class="toggle-switch">
+      <input type="checkbox" class="user-status" data-id="${data.user_id}" ${
+            data.is_active == 1 ? "checked" : ""
+          } value="${data.is_active ==1 ? 0 : 1}">
+      <span class="slider"></span>
+    </label>
+  `;
+        },
+      },
     ],
     item: [
       { data: "item_name", className: "fw-bold text-capitalize" },

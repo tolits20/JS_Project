@@ -2,8 +2,6 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 
-
-
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 function getUser() {
@@ -76,6 +74,43 @@ $("#user-table")
       );
     }
   });
-document.getElementById('sidebar-dashboard').setAttribute('href',`http://${network.client.host}/frontend/admin/dashboard.html`)
-document.getElementById('sidebar-user').setAttribute('href',`http://${network.client.host}/frontend/admin/user/index.html`)
-document.getElementById('sidebar-item').setAttribute('href',`http://${network.client.host}/frontend/admin/item/index.html`)
+
+$(document)
+  .off("change")
+  .on("change", ".user-status", (e) => {
+    e.preventDefault();
+    let status = $(e.target).val();
+    let id = $(e.target).data('id')
+    console.log(status,"-",id);
+    let update = new request("api/v1", "admin/status");
+    update.update(
+      id,
+      {status},
+      (response)=>{
+        console.log(response)
+        alert.notyf.success("User status updated Successfully!")
+      },
+      (err)=>{
+        console.log(err)
+        alert.notyf.error("Failed to updated the user's status, Please try again later!")
+      }
+    )
+  });
+document
+  .getElementById("sidebar-dashboard")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/dashboard.html`
+  );
+document
+  .getElementById("sidebar-user")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/user/index.html`
+  );
+document
+  .getElementById("sidebar-item")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/item/index.html`
+  );

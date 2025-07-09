@@ -89,3 +89,18 @@ exports.delete = async (req, res) => {
     .status(500)
     .json("failed to delete the user, Please try again later");
 };
+
+exports.status = async (req, res) => {
+  console.log(req.body);
+  let id = parseInt(req.params.id);
+  const { status } = req.body;
+  let [result] = await connection.query(
+    "UPDATE user SET is_active=? WHERE user_id = ?",
+    [status, id]
+  );
+  if (result.affectedRows > 0) return res.status(200).json("Successful!");
+
+  return res
+    .status(500)
+    .json("something went wrong during the process, please try again later!");
+};
