@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
 };
 
 exports.userTable = async (req, res) => {
-  let query = "SELECT * FROM user";
+  let query = "SELECT * FROM user WHERE deleted_at IS NULL";
   let result = await connection.query(query, []);
   // console.log(result[0]);
   return res.status(200).json({ data: result[0] });
@@ -103,4 +103,14 @@ exports.status = async (req, res) => {
   return res
     .status(500)
     .json("something went wrong during the process, please try again later!");
+};
+
+exports.softDelete = async (req, res) => {
+  console.log(req.body);
+  let id = parseInt(req.params.id);
+  console.log(id);
+  let query = "UPDATE user SET deleted_at=NOW() WHERE user_id = ?";
+  let [result] = await connection.query(query, [id]);
+  if (result.affectedRows) return res.status(200).json("ok");
+  return res.status(500).json("something went wrong during the process");
 };

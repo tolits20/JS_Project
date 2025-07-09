@@ -63,7 +63,7 @@ $("#user-table")
       "Successfully deleted the user"
     );
     if (result) {
-      const toDelete = new request("api/v1", "admin/user");
+      const toDelete = new request("api/v1", "admin/user/softDelete");
       toDelete.delete(
         id,
         (response) => {

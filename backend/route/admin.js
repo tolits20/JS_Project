@@ -10,6 +10,7 @@ route.post("/admin/user/:id", upload.single("img"), admin.update);
 route.delete("/admin/user/:id", admin.delete);
 
 route.post("/admin/status/:id", admin.status);
+route.delete('/admin/user/softDelete/:id',admin.softDelete)
 
 //for plugins resources
 route.get("/admin/user-all", admin.userTable);
