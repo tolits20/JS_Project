@@ -52,12 +52,12 @@ export const dataTable = (url, table) => {
       {
         data: null,
         render: (data, type, row) => {
-          return `<select name='status' class='order-status'>
-            <option value='pending'>Pending</option>
-            <option value='shipped'>Shipped</option>
-            <option value='delivered'>Delivered</option>
-            <option value='cancelled'>Cancelled</option>
-            <option value='refund'>Refund</option>
+          return `<select name='status' data-id='${data.order_id}' class='order-status'>
+            <option value='pending' ${data.order_status == 'pending'? 'selected' : ''}>Pending</option>
+            <option value='shipped' ${data.order_status == 'shipped'? 'selected' : ''}>Shipped</option>
+            <option value='delivered' ${data.order_status == 'delivered'? 'selected' : ''}>Delivered</option>
+            <option value='cancelled' ${data.order_status == 'cancelled'? 'selected' : ''}>Cancelled</option>
+            <option value='refunded' ${data.order_status == 'refunded'? 'selected' : ''}>Refunded</option>
           </select>`;
         },
       },
