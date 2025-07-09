@@ -80,21 +80,23 @@ $(document)
   .on("change", ".user-status", (e) => {
     e.preventDefault();
     let status = $(e.target).val();
-    let id = $(e.target).data('id')
-    console.log(status,"-",id);
+    let id = $(e.target).data("id");
+    console.log(status, "-", id);
     let update = new request("api/v1", "admin/status");
     update.update(
       id,
-      {status},
-      (response)=>{
-        console.log(response)
-        alert.notyf.success("User status updated Successfully!")
+      { status },
+      (response) => {
+        console.log(response);
+        alert.notyf.success("User status updated Successfully!");
       },
-      (err)=>{
-        console.log(err)
-        alert.notyf.error("Failed to updated the user's status, Please try again later!")
+      (err) => {
+        console.log(err);
+        alert.notyf.error(
+          "Failed to updated the user's status, Please try again later!"
+        );
       }
-    )
+    );
   });
 document
   .getElementById("sidebar-dashboard")
@@ -113,4 +115,10 @@ document
   .setAttribute(
     "href",
     `http://${network.client.host}/frontend/admin/item/index.html`
+  );
+document
+  .getElementById("sidebar-order")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/orders/index.html`
   );

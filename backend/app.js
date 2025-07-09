@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const path = require('path')
 
-const {admin,user,auth,item}=require('./route/index')
+const {admin,user,auth,item, order}=require('./route/index')
 
 //incoming request parser
 app.use(cors());
@@ -27,6 +27,7 @@ app.use("/api/v1/",admin);
 app.use("/api/v1/",user);
 app.use("/api/v1/",item);
 app.use("/api/v1/",auth);
+app.use("/api/v1/",order)
 
 
 

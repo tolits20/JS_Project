@@ -21,6 +21,12 @@ document
     "href",
     `http://${network.client.host}/frontend/admin/item/index.html`
   );
+  document
+  .getElementById("sidebar-order")
+  .setAttribute(
+    "href",
+    `http://${network.client.host}/frontend/admin/orders/index.html`
+  );
 
 $(document).ready(function () {
   $(document)

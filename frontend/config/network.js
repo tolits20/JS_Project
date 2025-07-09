@@ -1,6 +1,6 @@
 const client = new URL(window.location.href)
  const config = {
-    ip : "192.168.171.201",
+    ip : "192.168.1.11",
     port : '8080',
     client:{
         host:`${client.host}`,
