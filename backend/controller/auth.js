@@ -12,19 +12,30 @@ exports.login = async (req, res) => {
 
   if (!result) return res.status(403).json({ message: "user not found" });
 
-  console.log("password "+result[0][0].password);
+  console.log("password " + result[0][0].password);
   let match = bcrypt.compare(password, result[0][0].password);
   if (!match)
     return res.status(403).json({ message: "Password does not match!" });
 
-  const token = jwt.sign({ data: result[0][0].user_id }, process.env.JWT_SECRET, {
-    expiresIn: `${process.env.JWT_EXPIRATION}`,
-  });
+  const token = jwt.sign(
+    { data: result[0][0].user_id },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: `${process.env.JWT_EXPIRATION}`,
+    }
+  );
 
   if (!token)
     return res.status(500).json({
       message: "failed to generate a authentication token, please try again",
     });
+
+  let [storeToken] = await connection.query("UPDATE  user SET token=? WHERE user_id=?", [
+    token,
+    parseInt(result[0][0].user_id),
+  ]);
+
+  if(storeToken.affectedRows <1) return res.status(500).json("Failed to store the token in the database!")
 
   return res
     .status(200)
