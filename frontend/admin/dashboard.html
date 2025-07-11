@@ -1,126 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard with Charts</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/header-sidebar.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css"
-    />
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- jQuery and DataTables -->
-    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+  <!-- External Styles -->
+  <link rel="stylesheet" href="../css/header-sidebar.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css" />
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-       <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
-    />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Scripts -->
+  <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <style>
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background: #f9f9f9;
-        margin: 0%;
-        padding: 0%;
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --card-bg: #fff;
+      --text-color: #222;
+      --font: 'Inter', sans-serif;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--text-color);
+      overflow-y: auto;
+    }
+
+    main {
+      width: 100%;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    /* Stat Cards */
+    .card-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      flex: 1 1 220px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .card-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    /* Compact Chart Grid */
+    .chart-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .mini-chart-card {
+      flex: 1 1 calc(33.333% - 20px);
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 200px;
+    }
+
+    .mini-chart-card h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+    }
+
+    .mini-chart-card canvas {
+      width: 100%;
+      max-height: 140px;
+    }
+
+    .chart-caption {
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    /* Table */
+    .table-section {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+
+    table.dataTable {
+      width: 100%;
+      font-size: 14px;
+    }
+
+    /* Text Blocks */
+    .text-layouts {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .text-block {
+      flex: 1 1 300px;
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .text-block h3 {
+      margin-top: 0;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .text-block ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .text-block ul li {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .mini-chart-card {
+        flex: 1 1 100%;
       }
 
-      .chart-row {
-        display: flex;
-        gap: 20px;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
+      .card-row,
+      .text-layouts {
+        flex-direction: column;
       }
+    }
+  </style>
+</head>
 
-      .chart-card {
-        flex: 1;
-        min-width: 200px; /* smaller minimum size */
-        max-width: 300px;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        padding: 16px;
-        aspect-ratio: 1 / 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 250px; /* fixed smaller height */
-      }
+<body class="admin-layout loading">
+  <!-- Header & Sidebar -->
+  <div id="header"></div>
+  <div id="sidebar"></div>
 
-      canvas {
-        width: 100% !important;
-        height: 100% !important;
-      }
+  <main>
 
-      @media (max-width: 992px) {
-        .chart-row {
-          flex-direction: column;
-        }
-      }
-    </style>
-  </head>
-  <body class="admin-layout loading">
-    <!-- Dynamically Loaded Header and Sidebar -->
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <!-- Chart Section -->
-    <div id="chart-section" class="chart-row">
-      <div class="chart-card"><canvas id="chart1"></canvas></div>
-      <div class="chart-card"><canvas id="chart2"></canvas></div>
-      <div class="chart-card"><canvas id="chart3"></canvas></div>
+    <!-- Stat Cards -->
+    <div class="section">
+      <div class="card-row">
+        <div class="stat-card" onclick="location.href='/users/active'">
+          <div class="card-title">Active Users</div>
+          <div class="card-value">128</div>
+        </div>
+        <div class="stat-card" onclick="location.href='/inventory/items'">
+          <div class="card-title">Items</div>
+          <div class="card-value">542</div>
+        </div>
+        <div class="stat-card" onclick="location.href='/transactions'">
+          <div class="card-title">Transactions</div>
+          <div class="card-value">89</div>
+        </div>
+        <div class="stat-card" onclick="location.href='/trash/deleted'">
+          <div class="card-title">Recently Deleted</div>
+          <div class="card-value">7</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Chart Initialization Script -->
-    <script>
-      const data = {
-        labels: ["Red", "Blue", "Yellow"],
-        datasets: [
-          {
-            label: "Votes",
-            data: [12, 19, 3],
-            backgroundColor: ["#ef4444", "#3b82f6", "#facc15"],
-            borderWidth: 1,
-          },
-        ],
-      };
+    <!-- Chart Cards in a Row -->
+    <div class="section">
+      <h2 class="section-title">Overview Charts</h2>
+      <div class="chart-grid">
+        <div class="mini-chart-card">
+          <h3>User Growth</h3>
+          <canvas id="chart1"></canvas>
+          <p class="chart-caption">+128 Active • +45 Signups</p>
+        </div>
+        <div class="mini-chart-card">
+          <h3>Sales</h3>
+          <canvas id="chart2"></canvas>
+          <p class="chart-caption">$12.4k • 15% ↑</p>
+        </div>
+        <div class="mini-chart-card">
+          <h3>Traffic</h3>
+          <canvas id="chart3"></canvas>
+          <p class="chart-caption">Organic 65% • Ads 10%</p>
+        </div>
+      </div>
+    </div>
 
-      const config = {
-        type: "doughnut",
-        data: data,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        },
-      };
+    <!-- Insights -->
+    <div class="section">
+      <h2 class="section-title">Insights</h2>
+      <div class="text-layouts">
+        <div class="text-block">
+          <h3>Top Ranked Users</h3>
+          <ul>
+            <li>#1 Jane Smith</li>
+            <li>#2 John Doe</li>
+            <li>#3 Alex Brown</li>
+          </ul>
+        </div>
+        <div class="text-block">
+          <h3>Latest Activities</h3>
+          <ul>
+            <li>Item XYZ added</li>
+            <li>User deleted profile</li>
+            <li>Transaction #456 completed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-      new Chart(document.getElementById("chart1"), config);
-      new Chart(document.getElementById("chart2"), config);
-      new Chart(document.getElementById("chart3"), config);
-    </script>
+    <!-- Table -->
+    <div class="section">
+      <h2 class="section-title">Recent Transactions</h2>
+      <div class="table-section">
+        <table id="exampleTable" class="display">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>User</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2025-07-11</td>
+              <td>John Doe</td>
+              <td>$120.00</td>
+              <td>Completed</td>
+            </tr>
+            <tr>
+              <td>2025-07-10</td>
+              <td>Jane Smith</td>
+              <td>$340.00</td>
+              <td>Pending</td>
+            </tr>
+            <tr>
+              <td>2025-07-09</td>
+              <td>Sam Johnson</td>
+              <td>$75.00</td>
+              <td>Failed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    <!-- Dynamic Component Loader -->
-    <script>
-      async function loadComponent(id, file) {
-        const res = await fetch(file);
-        const html = await res.text();
-        document.getElementById(id).innerHTML = html;
+  </main>
+
+  <!-- Chart Initialization -->
+  <script>
+    const chartData = {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [{
+        label: "Votes",
+        data: [12, 19, 3],
+        backgroundColor: ["#ef4444", "#3b82f6", "#facc15"],
+        borderWidth: 1
+      }]
+    };
+
+    const chartConfig = {
+      type: 'bar',
+      data: chartData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
       }
+    };
 
-      Promise.all([
-        loadComponent("sidebar", "../components/primary/sidebar.html"),
-        loadComponent("header", "../components/primary/header.html"),
-      ]).then(() => {
-        document.body.classList.remove("loading");
-      });
-    </script>
-    <script type="module" src="../js/dashboard.js"></script>
-  </body>
+    ['chart1', 'chart2', 'chart3'].forEach(id => {
+      new Chart(document.getElementById(id), chartConfig);
+    });
+
+    $(document).ready(function () {
+      $('#exampleTable').DataTable();
+    });
+  </script>
+
+  <!-- Header & Sidebar Loader -->
+  <script>
+    async function loadComponent(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+    }
+
+    Promise.all([
+      loadComponent("header", "../components/primary/header.html"),
+      loadComponent("sidebar", "../components/primary/sidebar.html")
+    ]).then(() => {
+      document.body.classList.remove("loading");
+    });
+  </script>
+
+  <script type="module" src="../js/dashboard.js"></script>
+</body>
 </html>
