@@ -1,6 +1,7 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
+import formValidate from "../utils/validate.js";
 
 //index.html
 document
@@ -21,7 +22,7 @@ document
     "href",
     `http://${network.client.host}/frontend/admin/item/index.html`
   );
-  document
+document
   .getElementById("sidebar-order")
   .setAttribute(
     "href",
@@ -114,6 +115,8 @@ if (id) editItem();
 $("#item_image")
   .off("change")
   .on("change", (e) => {
+    let valid = formValidate("#item_image", "image", "item_img");
+    if (!valid) return;
     const file = e.target.files[0];
     if (file) {
       //   console.log(file);
@@ -144,6 +147,8 @@ $("#item_image")
 
 $("#itemForm").submit(function (e) {
   e.preventDefault();
+  let valid = formValidate("#itemForm", "item");
+  if (!valid) return;
   const formData = new FormData($(this)[0]);
   let payload = new Object();
   formData.delete("item_image");
@@ -151,7 +156,6 @@ $("#itemForm").submit(function (e) {
     console.log(`${pair[0]}=>${pair[1]}`);
     payload[pair[0]] = pair[1];
   }
-
   const update = new request("api/v1", "admin/item");
   update.update(
     id,

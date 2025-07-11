@@ -15,226 +15,249 @@
       rel="stylesheet"
     />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-       <link
+    <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+    ></script>
+
     <style>
-     body {
-  margin: 0;
-  padding: 0;
-  background-color: #f3f4f6;
-  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-  color: #111;
-}
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+        color: #111;
+      }
 
-#user-edit {
-  background-color: #fff;
-  margin: 8px;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  min-height: calc(100vh - 16px);
-  overflow-y: auto;
-}
+      #user-edit {
+        background-color: #fff;
+        margin: 8px;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        min-height: calc(100vh - 16px);
+        overflow-y: auto;
+      }
 
-#user-edit h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
+      #user-edit h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 24px;
+      }
 
-.profile-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-}
+      .profile-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
 
-/* Profile Preview Section */
-.profile-preview {
-  flex: 0 0 240px;
-  min-width: 240px;
-  background-color: #f9fafb;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  text-align: center;
-  height: fit-content;
-}
+      /* Profile Preview Section */
+      .profile-preview {
+        flex: 0 0 240px;
+        min-width: 240px;
+        background-color: #f9fafb;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        text-align: center;
+        height: fit-content;
+      }
 
-.profile-preview h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #374151;
-}
+      .profile-preview h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #374151;
+      }
 
-.profile-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #e5e7eb;
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  color: #9ca3af;
-  border: 3px solid #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #e5e7eb;
+        margin: 0 auto 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #9ca3af;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
 
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
 
-.profile-info {
-  margin-bottom: 12px;
-}
+      .profile-info {
+        margin-bottom: 12px;
+      }
 
-.profile-name {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
+      .profile-name {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
 
-.profile-username {
-  font-size: 14px;
-  color: #6b7280;
-}
+      .profile-username {
+        font-size: 14px;
+        color: #6b7280;
+      }
 
-.profile-email {
-  font-size: 13px;
-  color: #9ca3af;
-}
+      .profile-email {
+        font-size: 13px;
+        color: #9ca3af;
+      }
 
-.upload-btn {
-  display: inline-block;
-  background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 13px;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 10px;
-}
+      .upload-btn {
+        display: inline-block;
+        background-color: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 13px;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+      }
 
-.upload-btn:hover {
-  background-color: #e5e7eb;
-  border-color: #9ca3af;
-}
+      .upload-btn:hover {
+        background-color: #e5e7eb;
+        border-color: #9ca3af;
+      }
 
-/* Hide the actual file input */
-.upload-btn input[type="file"] {
-  display: none;
-}
+      /* Hide the actual file input */
+      .upload-btn input[type="file"] {
+        display: none;
+      }
 
-/* Form Section */
-.form-section {
-  flex: 1;
-  min-width: 320px;
-}
+      /* Form Section */
+      .form-section {
+        flex: 1;
+        min-width: 320px;
+      }
 
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 16px;
-}
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
 
-.form-group {
-  flex: 1 1 100%;
-  display: flex;
-  flex-direction: column;
-}
+      .form-group {
+        flex: 1 1 100%;
+        display: flex;
+        flex-direction: column;
+      }
 
-.form-group label {
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: #374151;
-}
+      .form-group label {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #374151;
+      }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #f9fafb;
-  transition: border-color 0.2s ease;
-}
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background-color: #f9fafb;
+        transition: border-color 0.2s ease;
+      }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: #6366f1;
-  outline: none;
-  background-color: #fff;
-}
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: #6366f1;
+        outline: none;
+        background-color: #fff;
+      }
 
-.form-actions {
-  text-align: right;
-  margin-top: 24px;
-}
+      .form-actions {
+        text-align: right;
+        margin-top: 24px;
+      }
 
-.btn {
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 20px;
-  border-radius: 9999px;
-  border: none;
-  color: #fff;
-  background-color: #111;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+      .btn {
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 9999px;
+        border: none;
+        color: #fff;
+        background-color: #111;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
 
-.btn:hover {
-  background-color: #000;
-}
+      .btn:hover {
+        background-color: #000;
+      }
 
-/* Responsive Layout */
-@media (min-width: 600px) {
-  .form-group {
-    flex: 1 1 calc(50% - 8px);
-  }
+      /* Responsive Layout */
+      @media (min-width: 600px) {
+        .form-group {
+          flex: 1 1 calc(50% - 8px);
+        }
 
-  .form-group.full-width {
-    flex: 1 1 100%;
-  }
-}
+        .form-group.full-width {
+          flex: 1 1 100%;
+        }
+      }
 
-@media (max-width: 768px) {
-  .profile-container {
-    flex-direction: column;
-  }
+      @media (max-width: 768px) {
+        .profile-container {
+          flex-direction: column;
+        }
 
-  .profile-preview {
-    order: 1;
-    flex: none;
-    width: 100%;
-  }
+        .profile-preview {
+          order: 1;
+          flex: none;
+          width: 100%;
+        }
 
-  .form-section {
-    order: 2;
-  }
+        .form-section {
+          order: 2;
+        }
 
-  #user-edit {
-    margin: 4px;
-    padding: 16px;
-    min-height: calc(100vh - 8px);
-  }
-}
-
+        #user-edit {
+          margin: 4px;
+          padding: 16px;
+          min-height: calc(100vh - 8px);
+        }
+      }
+      label.error {
+        color: #e53935; /* Softer red */
+        background-color: #fff0f0; /* Light red background */
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-family: "Segoe UI", sans-serif;
+        margin-top: 6px;
+        display: inline-block;
+        max-width: 100%;
+        line-height: 1.4;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+      label.error {
+        transition: all 0.2s ease;
+      }
     </style>
   </head>
 
@@ -245,16 +268,12 @@
     <div id="user-edit">
       <h2>Edit Profile</h2>
 
-      <form
-        id="userForm"
-        action="#"
-        class="form-container"
-      >
+      <form id="userForm" action="#" class="form-container">
         <div class="profile-container">
           <!-- Profile Preview -->
           <div class="profile-preview">
             <h3>Profile Preview</h3>
-            <img class="profile-avatar" id="imgPreview" src="">
+            <img class="profile-avatar" id="imgPreview" src="" />
             <div class="profile-info">
               <div class="profile-name" id="preview-name">John Doe</div>
               <div class="profile-email" id="preview-email">
@@ -308,11 +327,10 @@
               <div class="form-group">
                 <label for="email">Email</label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   placeholder="Email"
-                  value="john.doe@example.com"
                 />
               </div>
             </div>

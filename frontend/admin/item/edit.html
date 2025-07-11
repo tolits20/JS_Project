@@ -23,6 +23,10 @@
       rel="stylesheet"
     />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+    ></script>
 
     <style>
       body {
@@ -456,6 +460,24 @@
         outline: none;
         box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.2);
       }
+     label.error {
+  color: #e53935;                /* Softer red */
+  background-color: #fff0f0;     /* Light red background */
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Segoe UI', sans-serif;
+  margin-top: 6px;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+label.error {
+  transition: all 0.2s ease;
+}
+
+
     </style>
   </head>
 
@@ -483,7 +505,6 @@
                 type="file"
                 id="item_image"
                 name="item_image"
-                accept="image/*"
               />
             </label>
           </div>
@@ -498,7 +519,6 @@
                   name="item_name"
                   id="item_name"
                   placeholder="Enter item name"
-                  required
                 />
               </div>
               <div class="form-group">
@@ -510,7 +530,6 @@
                   id="item_price"
                   placeholder="0.00"
                   min="0"
-                  required
                 />
               </div>
             </div>
@@ -518,20 +537,17 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" id="category" required>
-                  
-                </select>
+                <select name="category" id="category" required></select>
               </div>
               <div class="form-group">
                 <label for="status">Item Stock</label>
-                   <input
+                <input
                   type="number"
                   step="1"
                   name="stocks"
                   id="item_stocks"
                   placeholder="1"
                   min="1"
-                  required
                 />
               </div>
             </div>
@@ -559,7 +575,7 @@
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn">
+              <button type="submit" id="submitItem" class="btn">
                 <i class="fas fa-save"></i> Save Changes
               </button>
             </div>
@@ -585,9 +601,6 @@
       ]).then(() => {
         document.body.classList.remove("loading");
       });
-
-
-      
     </script>
 
     <script type="module" src="../../js/item.js"></script>

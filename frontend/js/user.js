@@ -1,6 +1,7 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
+import formValidate from "../utils/validate.js";
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
@@ -38,16 +39,29 @@ $("#userForm")
   .off("submit")
   .on("submit", (e) => {
     e.preventDefault();
-    console.log("clicked");
+    let valid = formValidate("#userForm", "user");
+    if (!valid) return;
+      
     const formData = new FormData($("#userForm")[0]);
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}=>${pair[1]}`);
     }
 
     const update = new request("api/v1", "admin/user");
-    update.update(id, formData, (response) => {
-      console.log(response), (err) => console.log(err);
-    });
+    update.update(
+      id,
+      formData,
+      (response) => {
+        console.log(response);
+        alert.notyf.success("User is updated successfully!");
+      },
+      (err) => {
+        console.log(err);
+        alert.notyf.error(
+          "Failed to update the user information, Please try again later!"
+        );
+      }
+    );
   });
 
 //index.js
