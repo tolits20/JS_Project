@@ -1,0 +1,12 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore all .log files
+*.log
+
+# Ignore environment files
+/frontend/config/network.js
+
+# Ignore OS and IDE files
+.DS_Store
+.vscode/
