@@ -34,8 +34,8 @@ document
     `http://${network.client.host}/frontend/admin/orders/index.html`
   );
 
-const chart = new request("api/v1", "admin/chart");
-chart.getById(
+const chart1 = new request("api/v1", "admin/chart");
+chart1.getById(
   "monthlySales",
   (response) => {
     console.log(response);
@@ -46,3 +46,17 @@ chart.getById(
     alert.notyf.error("failed to get the monthly sales data.");
   }
 );
+
+const chart2 = new request("api/v1", "admin/chart");
+chart2.getById(
+  "salesPerCategory",
+  (response) => {
+    console.log(response);
+    createChart("#chart2", response, "doughnut");
+  },
+  (err) => {
+    console.log(err);
+    alert.notyf.error("failed to get the monthly sales data.");
+  }
+);
+
