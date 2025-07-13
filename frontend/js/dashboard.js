@@ -34,7 +34,15 @@ document
     `http://${network.client.host}/frontend/admin/orders/index.html`
   );
 
-createChart("#chart1", {
-  label: ['1', '2', '3'],
-  value: [5, 10, 20],
-},'bar');
+const chart = new request("api/v1", "admin/chart");
+chart.getById(
+  "monthlySales",
+  (response) => {
+    console.log(response);
+    createChart("#chart1", response, "line");
+  },
+  (err) => {
+    console.log(err);
+    alert.notyf.error("failed to get the monthly sales data.");
+  }
+);

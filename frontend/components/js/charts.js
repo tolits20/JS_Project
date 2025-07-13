@@ -1,6 +1,7 @@
 const createChart = (canvas, data, type) => {
-  let labels = data.label;
-  let value = data.value;
+  console.log(data)
+  let labels = (data.final).map(label =>label.month);
+  let value = (data.final).map(value => value.total);
   $(document).ready(function () {
     console.log(labels);
     console.log(value);
@@ -13,12 +14,7 @@ const createChart = (canvas, data, type) => {
         labels: labels,
         datasets: [
           {
-            label: ['test1'],
-            data: value,
-            borderWidth: 1,
-          },
-            {
-            label: ['test1'],
+            label: "Monthly Sales",
             data: value,
             borderWidth: 1,
           },
