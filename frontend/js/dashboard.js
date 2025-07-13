@@ -36,10 +36,10 @@ document
 
 const chart1 = new request("api/v1", "admin/chart");
 chart1.getById(
-  "monthlySales",
+  "ordersPerMonth",
   (response) => {
     console.log(response);
-    createChart("#chart1", response, "line");
+    createChart("#chart1", response, "bar");
   },
   (err) => {
     console.log(err);
@@ -52,7 +52,7 @@ chart2.getById(
   "salesPerCategory",
   (response) => {
     console.log(response);
-    createChart("#chart2", response, "doughnut");
+    createChart("#chart2", response, "pie");
   },
   (err) => {
     console.log(err);
@@ -60,3 +60,15 @@ chart2.getById(
   }
 );
 
+const chart3 = new request("api/v1", "admin/chart");
+chart3.getById(
+  "monthlySales",
+  (response) => {
+    console.log(response);
+    createChart("#chart3", response, "bar");
+  },
+  (err) => {
+    console.log(err);
+    alert.notyf.error("failed to get the monthly sales data.");
+  }
+);
