@@ -302,32 +302,7 @@
 
   <!-- Chart Initialization -->
   <script>
-    const chartData = {
-      labels: ["Red", "Blue", "Yellow"],
-      datasets: [{
-        label: "Votes",
-        data: [12, 19, 3],
-        backgroundColor: ["#ef4444", "#3b82f6", "#facc15"],
-        borderWidth: 1
-      }]
-    };
-
-    const chartConfig = {
-      type: 'bar',
-      data: chartData,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    };
-
-    [ 'chart2', 'chart3'].forEach(id => {
-      new Chart(document.getElementById(id), chartConfig);
-    });
-
-    $(document).ready(function () {
-      $('#exampleTable').DataTable();
-    });
+ 
   </script>
 
   <!-- Header & Sidebar Loader -->

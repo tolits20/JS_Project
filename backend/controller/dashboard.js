@@ -32,19 +32,31 @@ const fillMissingMonths = (result) => {
   for (let i = 0; i < months.length; i++) {
     if (months[i] == result[x].month) {
       final.push({
-        month: months[i],
+        label: months[i],
         total: result[x].total,
       });
       x++;
     } else {
       final.push({
-        month: months[i],
+        label: months[i],
         total: 0,
       });
     }
     if (x == result.length) break;
   }
   return final;
+};
+
+const parseData = (result) => {
+  let obj = new Array();
+  for (let i = 0; i < result.length; i++) {
+    let key = Object.values(result[i]);
+    obj.push({
+      label:key[0],
+      total:key[1]
+    });
+  }
+  return obj
 };
 
 exports.chart = async (req, res) => {
@@ -54,8 +66,10 @@ exports.chart = async (req, res) => {
   console.log(result);
 
   if (result.fieldCount > 0) return res.status(200).json("No data");
-  let final = param != "salesPerCategory" ? fillMissingMonths(result) : result;
+  let final =
+    param != "salesPerCategory" ? fillMissingMonths(result) : parseData(result);
 
+    console.log(final)
   return res.status(200).json({
     final,
   });

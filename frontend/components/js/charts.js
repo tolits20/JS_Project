@@ -1,13 +1,8 @@
 const createChart = (canvas, data, type) => {
-  console.log(data)
-  let labels = (data.final).map(label =>label.month);
+  let labels = (data.final).map(label =>label.label);
   let value = (data.final).map(value => value.total);
   $(document).ready(function () {
-    console.log(labels);
-    console.log(value);
     const ctx = $(canvas);
-    console.log(ctx);
-
     new Chart(ctx, {
       type: type,
       data: {
