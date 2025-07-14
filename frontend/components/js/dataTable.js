@@ -5,10 +5,10 @@ export const network = {
   port: config.port,
 };
 
-export const dataTable = (url, table) => {
+export const dataTable = (data, table) => {
   let btnUrl = `http://${config.client.host}/frontend/admin/${table}/edit.html`;
-  console.log(url);
-
+  console.log(data);
+  let rawData = data;
   let option = {
     user: [
       { data: "name", className: "fw-bold text-capitalize" },
@@ -52,19 +52,33 @@ export const dataTable = (url, table) => {
       {
         data: null,
         render: (data, type, row) => {
-          return `<select name='status' data-id='${data.order_id}' class='order-status'>
-            <option value='pending' ${data.order_status == 'pending'? 'selected' : ''}>Pending</option>
-            <option value='shipped' ${data.order_status == 'shipped'? 'selected' : ''}>Shipped</option>
-            <option value='delivered' ${data.order_status == 'delivered'? 'selected' : ''}>Delivered</option>
-            <option value='cancelled' ${data.order_status == 'cancelled'? 'selected' : ''}>Cancelled</option>
-            <option value='refunded' ${data.order_status == 'refunded'? 'selected' : ''}>Refunded</option>
+          return `<select name='status' data-id='${
+            data.order_id
+          }' class='order-status'>
+            <option value='pending' ${
+              data.order_status == "pending" ? "selected" : ""
+            }>Pending</option>
+            <option value='shipped' ${
+              data.order_status == "shipped" ? "selected" : ""
+            }>Shipped</option>
+            <option value='delivered' ${
+              data.order_status == "delivered" ? "selected" : ""
+            }>Delivered</option>
+            <option value='cancelled' ${
+              data.order_status == "cancelled" ? "selected" : ""
+            }>Cancelled</option>
+            <option value='refunded' ${
+              data.order_status == "refunded" ? "selected" : ""
+            }>Refunded</option>
           </select>`;
         },
       },
-      { data: null, className: "fw-bold text-capitalize" ,
-        render:(data)=>{
-          return `₱ ${data.total.toFixed(2)}`
-        }
+      {
+        data: null,
+        className: "fw-bold text-capitalize",
+        render: (data) => {
+          return `₱ ${data.total.toFixed(2)}`;
+        },
       },
       {
         data: null,
@@ -107,18 +121,13 @@ export const dataTable = (url, table) => {
     });
   }
 
-  console.log(columns);
+  console.log(rawData);
   console.log("initializing table...");
+  $(`#${table}`).DataTable().clear().destroy();
+
   $(`#${table}`).DataTable({
-    ajax: {
-      url: url,
-      dataSrc: "data",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    },
+    data: rawData,
     paging: false,
-    scrollY: 400,
     dom: "Bfrtip",
     buttons: [
       {

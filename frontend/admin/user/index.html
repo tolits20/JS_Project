@@ -48,11 +48,15 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-   <link
+    <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body class="admin-layout loading">
@@ -69,6 +73,11 @@
           </tr>
         </thead>
       </table>
+      <ul class="pagination">
+        <li id="prev">&laquo;</li>
+        
+        <li id="next">&raquo;</li>
+      </ul>
     </div>
     <script>
       async function loadComponent(id, file) {
@@ -85,11 +94,11 @@
       });
     </script>
     <script type="module">
-      import { network, dataTable } from "../../components/js/dataTable.js";
-      dataTable(
-        `http://${network.ip}:${network.port}/api/v1/admin/user-all`,
-        "user"
-      );
+      // import { network, dataTable } from "../../components/js/dataTable.js";
+      // dataTable(
+      //   `http://${network.ip}:${network.port}/api/v1/admin/user-all`,
+      //   "user"
+      // );
     </script>
     <script type="module" src="../../js/user.js"></script>
   </body>
@@ -244,49 +253,85 @@
     }
 
     .toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-}
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
 
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 24px;
-}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
 
-input:checked + .slider {
-  background-color: #4CAF50;
-}
+    input:checked + .slider {
+      background-color: #4caf50;
+    }
 
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      gap: 6px;
+      font-family: "Playfair Display", "Inter", serif;
+      justify-content: center;
+      margin-top: 24px;
+    }
 
+    .pagination li {
+      border: 1px solid #ccc;
+      color: #111;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .pagination li:hover {
+      background-color: #111;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pagination .active {
+      background-color: #111;
+      color: white;
+      font-weight: 500;
+    }
+
+    .pagination li:first-child,
+    .pagination li:last-child {
+      font-weight: 500;
+    }
   </style>
 </html>

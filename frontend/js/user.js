@@ -2,6 +2,8 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
+import { dataTable } from "../../components/js/dataTable.js";
+import { pageRows, paginateHandler } from "../utils/pagination.js";
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
@@ -41,7 +43,7 @@ $("#userForm")
     e.preventDefault();
     let valid = formValidate("#userForm", "user");
     if (!valid) return;
-      
+
     const formData = new FormData($("#userForm")[0]);
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}=>${pair[1]}`);
@@ -112,6 +114,7 @@ $(document)
       }
     );
   });
+
 document
   .getElementById("sidebar-dashboard")
   .setAttribute(
@@ -136,3 +139,19 @@ document
     "href",
     `http://${network.client.host}/frontend/admin/orders/index.html`
   );
+
+if (!id) {
+  const tableData = new request("api/v1", "admin/user-all");
+  tableData.getAll(
+    async (response) => {
+      console.log(response);
+      let data = pageRows(response.data);
+      console.log(data);
+      paginateHandler(data);
+      // dataTable(response, "user");
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+}
