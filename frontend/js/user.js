@@ -6,6 +6,7 @@ import { dataTable } from "../../components/js/dataTable.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 
 const params = new URLSearchParams(window.location.search);
+
 const id = params.get("id");
 function getUser() {
   const getValues = new request("api/v1", `admin/user`);
@@ -147,7 +148,7 @@ if (!id) {
       console.log(response);
       let data = pageRows(response.data);
       console.log(data);
-      paginateHandler(data);
+      paginateHandler(data, "user");
       // dataTable(response, "user");
     },
     (err) => {

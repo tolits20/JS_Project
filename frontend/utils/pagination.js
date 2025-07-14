@@ -36,7 +36,7 @@ export function pageRows(data) {
   return newArr;
 }
 
-export function paginateHandler(data) {
+export function paginateHandler(data, table) {
   let main = $(".pagination");
   $(main)
     .off("click")
@@ -45,9 +45,8 @@ export function paginateHandler(data) {
       console.log(el.data("page"));
       let page = el.data("page");
       let toPassData = data[page];
-      console.log(toPassData)
-      dataTable(toPassData, "user");
+      console.log(toPassData);
+      dataTable(toPassData, table);
     });
   document.getElementById("0").click();
 }
-
