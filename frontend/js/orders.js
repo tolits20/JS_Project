@@ -1,6 +1,7 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
+import { pageRows,paginateHandler } from "../utils/pagination.js";
 
 $(document).ready(function () {
   document
@@ -52,3 +53,17 @@ $(document).ready(function () {
       );
     });
 });
+
+ const tableData = new request("api/v1", "admin/order-all");
+  tableData.getAll(
+    async (response) => {
+      console.log(response);
+      let data = pageRows(response.data,10);
+      console.log(data);
+      paginateHandler(data, "order");
+      // dataTable(response, "user");
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
