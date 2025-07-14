@@ -1,6 +1,7 @@
 import network from "../config/network.js";
 const token = localStorage.getItem("token");
 const request = class {
+  
   constructor(baseURL, resource) {
     this.baseURL = baseURL;
     this.token = token;

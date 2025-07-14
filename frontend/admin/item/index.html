@@ -23,8 +23,14 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
     <!-- jQuery & Plugins -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -55,6 +61,11 @@
           </tr>
         </thead>
       </table>
+      <ul class="pagination">
+        <li id="prev">&laquo;</li>
+
+        <li id="next">&raquo;</li>
+      </ul>
     </div>
 
     <!-- Load Header & Sidebar -->
@@ -74,13 +85,13 @@
     </script>
 
     <!-- DataTable Script for Items -->
-    <script type="module">
+    <!-- <script type="module">
       import { network, dataTable } from "../../components/js/dataTable.js";
       dataTable(
         `http://${network.ip}:${network.port}/api/v1/admin/item-all`,
         "item"
       );
-    </script>
+    </script> -->
 
     <script type="module" src="../../js/item.js"></script>
 
@@ -227,6 +238,44 @@
 
       #item-table::-webkit-scrollbar-thumb:hover {
         background: #9ca3af;
+      }
+
+      .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        gap: 6px;
+        font-family: "Playfair Display", "Inter", serif;
+        justify-content: center;
+        margin-top: 24px;
+      }
+
+      .pagination li {
+        border: 1px solid #ccc;
+        color: #111;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        letter-spacing: 0.5px;
+      }
+
+      .pagination li:hover {
+        background-color: #111;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .pagination .active {
+        background-color: #111;
+        color: white;
+        font-weight: 500;
+      }
+
+      .pagination li:first-child,
+      .pagination li:last-child {
+        font-weight: 500;
       }
     </style>
   </body>

@@ -2,6 +2,8 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
+import { dataTable } from "../components/js/dataTable.js";
+import { pageRows, paginateHandler } from "../utils/pagination.js";
 
 //index.html
 document
@@ -242,3 +244,17 @@ function removeImage(button) {
   );
 }
 window.removeImage = removeImage;
+
+if (!id) {
+  const allItems = new request("api/v1", "admin/item-all");
+  allItems.getAll(
+    (response) => {
+      console.log(response);
+      let data = pageRows(response.data)
+      paginateHandler(data,"item")
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+}
