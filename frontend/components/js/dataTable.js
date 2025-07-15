@@ -1,4 +1,6 @@
 import config from "../../config/network.js";
+import modal from "./modal.js"
+
 const token = localStorage.getItem("token");
 export const network = {
   ip: config.ip,
@@ -143,6 +145,7 @@ export const dataTable = (data, table) => {
         className: "btn btn-dark",
         action:(e)=>{
           console.log("clicked")
+          modal(table)
         }
       },
     ],
