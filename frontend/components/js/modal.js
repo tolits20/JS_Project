@@ -1,4 +1,5 @@
 import request from "../../helper/request.js";
+import alert from "./alert.js";
 
 const option = {
   user: {
@@ -9,10 +10,14 @@ const option = {
   `,
     action: () => {
       return {
-        firstName: document.getElementById("swal-input1").value,
+        name: document.getElementById("swal-input1").value,
         email: document.getElementById("swal-input3").value,
         password: document.getElementById("swal-input4").value,
       };
+    },
+    endpoint: {
+      baseURL: "api/v1",
+      resourceURL: "register",
     },
   },
   item: {
@@ -32,6 +37,10 @@ const option = {
         item_desc: document.getElementById("itemDesc").value.trim(),
       };
     },
+    endpoint: {
+      baseURL: "api/v1",
+      resourceURL: "item/create",
+    },
   },
 };
 
@@ -45,6 +54,21 @@ const modal = (table) => {
     if (result.isConfirmed) {
       let data = option[table].action();
       console.log(data);
+      const sendRequest = new request(
+        option[table].endpoint.baseURL,
+        option[table].endpoint.resourceURL
+      );
+      sendRequest.create(
+        data,
+        (response) => {
+          console.log(response);
+          alert.notyf.success(`${table} is successfully added!`);
+        },
+        (err) => {
+          console.log(err);
+          alert.notyf.error(`Failed to add the new ${table}!`);
+        }
+      );
     }
   });
 };
