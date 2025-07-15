@@ -138,6 +138,13 @@ export const dataTable = (data, table) => {
         extend: "excel",
         className: "btn btn-dark",
       },
+      {
+       text:`Add ${table}`,
+        className: "btn btn-dark",
+        action:(e)=>{
+          console.log("clicked")
+        }
+      },
     ],
     columns,
     createdRow: function (row, data, dataIndex) {
