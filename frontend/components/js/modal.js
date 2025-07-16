@@ -3,6 +3,7 @@ import alert from "./alert.js";
 
 const option = {
   user: {
+    title:"User Information",
     html: `
     <input id="swal-input1" class="swal2-input" placeholder="Full Name">
     <input id="swal-input3" class="swal2-input" type="email" placeholder="Email">
@@ -21,6 +22,7 @@ const option = {
     },
   },
   item: {
+    title:'Item Information',
     html: `
         <input type="text" id="itemName" class="swal2-input" placeholder="Item Name">
         <input type="number" id="itemPrice" class="swal2-input" placeholder="Price">
@@ -46,7 +48,7 @@ const option = {
 
 const modal = (table) => {
   Swal.fire({
-    title: "User Information",
+    title: option[table].title,
     html: option[table].html,
     focusConfirm: false,
     showCancelButton: true,

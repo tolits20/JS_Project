@@ -12,6 +12,19 @@ exports.itemTable = async (req, res) => {
   return res.status(200).json({ data: result[0] });
 };
 
+exports.createItem = async (req, res) => {
+  console.log(req.body);
+
+  const { item_name, item_price, category, stocks, item_desc } = req.body;
+  let query1 =
+    "INSERT INTO items (item_name,item_price,item_desc) VALUES (?,?,?)";
+  let query2 =
+    "INSERT INTO item_category (item_id,item_category_id) VALUES (?,?)";
+  let query3 = "INSERT INTO stocks (item_id,qty) VALUES (?,?)";
+  connection.beginTransaction();
+  const createAtOnce = async () => {};
+};
+
 exports.editItem = async (req, res) => {
   let id = parseInt(req.params.id);
 
@@ -165,7 +178,8 @@ exports.delete = async (req, res) => {
 
   let [result] = await connection.query(ItemDelete, [id]);
 
-  if(result.affectedRows>0) return res.status(200).json("Item deleted Successfully!")
+  if (result.affectedRows > 0)
+    return res.status(200).json("Item deleted Successfully!");
 
   return res
     .status(500)
