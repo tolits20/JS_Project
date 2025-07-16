@@ -41,7 +41,7 @@ const option = {
     },
     endpoint: {
       baseURL: "api/v1",
-      resourceURL: "item/create",
+      resourceURL: "admin/item",
     },
   },
 };
