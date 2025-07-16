@@ -4,6 +4,7 @@ const fs = require("fs/promises");
 const { resolve, parse } = require("path");
 const { rejects } = require("assert");
 const { get } = require("http");
+const { error } = require("console");
 
 exports.itemTable = async (req, res) => {
   let query =
@@ -13,16 +14,39 @@ exports.itemTable = async (req, res) => {
 };
 
 exports.createItem = async (req, res) => {
-  console.log(req.body);
+  console.log("reached")
+  console.log("a",req.body);
 
-  const { item_name, item_price, category, stocks, item_desc } = req.body;
+  const { item_name, item_price, category, stock, item_desc } = req.body;
   let query1 =
     "INSERT INTO items (item_name,item_price,item_desc) VALUES (?,?,?)";
   let query2 =
-    "INSERT INTO item_category (item_id,item_category_id) VALUES (?,?)";
+    "INSERT INTO item_category (item_id,category_id) VALUES (?,?)";
   let query3 = "INSERT INTO stocks (item_id,qty) VALUES (?,?)";
   connection.beginTransaction();
-  const createAtOnce = async () => {};
+  try {
+    let [result1] = await connection.query(query1, [
+      item_name,
+      item_price,
+      item_desc,
+    ]);
+    let id = result1.insertId;
+    if (id === undefined && id === null && affectedRows <= 0)
+      throw new error("failed to store the item in the database");
+    await connection.query(query2, [id, category]);
+    console.log("here",stock)
+    await connection.query(query3, [id, stock]);
+    connection.commit();
+    return res.status(201).json({
+      result1,
+      message: "Successful",
+    });
+  } catch (error) {
+    connection.rollback()
+    console.log(error)
+    return res.status(500).json(error)
+
+  }
 };
 
 exports.editItem = async (req, res) => {
