@@ -1,6 +1,6 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
-import network from "../config/network.js"
+import network from "../config/network.js";
 
 document.getElementById("loginFormElement").onsubmit = async (e) => {
   e.preventDefault();
@@ -24,8 +24,13 @@ document.getElementById("loginFormElement").onsubmit = async (e) => {
     success: (response) => {
       console.log(response);
       localStorage.setItem("token", response.token);
-      sessionStorage.setItem("message","loginSuccess")
-      location.href = `http://${network.client.host}/frontend/admin/dashboard.html`;
+      sessionStorage.setItem("message", "loginSuccess");
+      localStorage.setItem("role", response.role);
+      if (response.role === "admin") {
+        location.href = `http://${network.client.host}/frontend/admin/dashboard.html`;
+      } else {
+        location.href = `http://${network.client.host}/frontend/user/home_page.html`;
+      }
     },
     error: (err) => console.error(err),
   });
@@ -49,7 +54,7 @@ document.getElementById("registerFormElement").onsubmit = async (e) => {
       $("#loginForm").addClass("hidden");
       $("#registerForm").addClass("hidden");
       $("#loginForm").removeClass("hidden");
-      alert.notyf.success("Successfully Registered")
+      alert.notyf.success("Successfully Registered");
     },
     (err) => console.error(err)
   );

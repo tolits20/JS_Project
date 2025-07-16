@@ -39,5 +39,10 @@ exports.login = async (req, res) => {
 
   return res
     .status(200)
-    .json({ message: `Welcome ${result[0][0].name}`, status: 200, token });
+    .json({
+      message: `Welcome ${result[0][0].name}`,
+      status: 200,
+      token,
+      role: result[0][0].role,
+    });
 };
