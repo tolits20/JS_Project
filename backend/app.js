@@ -3,7 +3,15 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 
-const { admin, user, auth, item, order, dashboard } = require("./route/index");
+const {
+  admin,
+  user,
+  auth,
+  item,
+  order,
+  dashboard,
+  category,
+} = require("./route/index");
 
 //incoming request parser
 app.use(cors());
@@ -35,5 +43,6 @@ app.use("/api/v1/", item);
 app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
 app.use("/api/v1/", dashboard);
+app.use("/api/v1/", category);
 
 module.exports = app;

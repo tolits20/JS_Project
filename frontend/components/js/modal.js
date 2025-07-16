@@ -1,6 +1,8 @@
 import request from "../../helper/request.js";
 import alert from "./alert.js";
 
+let categories = new request('api/v1','')
+
 const option = {
   user: {
     title:"User Information",
