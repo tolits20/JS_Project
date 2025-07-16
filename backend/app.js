@@ -34,8 +34,9 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/login.html"));
+  res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
+
 
 app.use("/api/v1/", admin);
 app.use("/api/v1/", user);
