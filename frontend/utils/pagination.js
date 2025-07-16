@@ -11,7 +11,7 @@ export function paginatorNavigation(num) {
   // $('.pagination').append(rawElement);
 }
 
-export function pageRows(data,rows) {
+export function pageRows(data, rows) {
   let newArr = new Array();
   let subArray = new Array();
 
