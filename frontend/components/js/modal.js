@@ -1,11 +1,9 @@
 import request from "../../helper/request.js";
 import alert from "./alert.js";
 
-let categories = new request('api/v1','')
-
 const option = {
   user: {
-    title:"User Information",
+    title: "User Information",
     html: `
     <input id="swal-input1" class="swal2-input" placeholder="Full Name">
     <input id="swal-input3" class="swal2-input" type="email" placeholder="Email">
@@ -24,11 +22,10 @@ const option = {
     },
   },
   item: {
-    title:'Item Information',
+    title: "Item Information",
     html: `
         <input type="text" id="itemName" class="swal2-input" placeholder="Item Name">
         <input type="number" id="itemPrice" class="swal2-input" placeholder="Price">
-        <input type="text" id="itemCategory" class="swal2-input" placeholder="Category">
         <input type="number" id="itemStock" class="swal2-input" placeholder="Stock Quantity">
         <textarea id="itemDesc" class="swal2-textarea" placeholder="Description"></textarea>
       `,
@@ -36,7 +33,6 @@ const option = {
       return {
         item_name: document.getElementById("itemName").value.trim(),
         item_price: parseFloat(document.getElementById("itemPrice").value),
-        category: document.getElementById("itemCategory").value.trim(),
         stock: parseInt(document.getElementById("itemStock").value),
         item_desc: document.getElementById("itemDesc").value.trim(),
       };

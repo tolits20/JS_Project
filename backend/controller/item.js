@@ -17,12 +17,10 @@ exports.createItem = async (req, res) => {
   console.log("reached")
   console.log("a",req.body);
 
-  const { item_name, item_price, category, stock, item_desc } = req.body;
+  const { item_name, item_price, stock, item_desc } = req.body;
   let query1 =
     "INSERT INTO items (item_name,item_price,item_desc) VALUES (?,?,?)";
-  let query2 =
-    "INSERT INTO item_category (item_id,category_id) VALUES (?,?)";
-  let query3 = "INSERT INTO stocks (item_id,qty) VALUES (?,?)";
+  let query2 = "INSERT INTO stocks (item_id,qty) VALUES (?,?)";
   connection.beginTransaction();
   try {
     let [result1] = await connection.query(query1, [
@@ -33,9 +31,7 @@ exports.createItem = async (req, res) => {
     let id = result1.insertId;
     if (id === undefined && id === null && affectedRows <= 0)
       throw new error("failed to store the item in the database");
-    await connection.query(query2, [id, category]);
-    console.log("here",stock)
-    await connection.query(query3, [id, stock]);
+    await connection.query(query2, [id, stock]);
     connection.commit();
     return res.status(201).json({
       result1,
@@ -77,7 +73,7 @@ exports.update = async (req, res) => {
 
   let queryItem =
     "UPDATE items SET item_name =?, item_price=?, item_desc=?, updated_at=NOW() WHERE item_id = ?";
-  let queryCategory = "UPDATE item_category SET category_id=? WHERE item_id=?";
+  let queryCategory = "INSERT INTO item_category (category_id,item_id) VALUES(?,?) ON DUPLICATE KEY UPDATE category_id=?, item_id =?";
   let queryStock = "UPDATE stocks SET qty=? WHERE item_id =?";
 
   const updateAtOnce = async () => {
@@ -89,11 +85,12 @@ exports.update = async (req, res) => {
         description,
         id,
       ]);
-      await connection.query(queryCategory, [category, id]);
+      await connection.query(queryCategory, [category, id,category,id]);
       await connection.query(queryStock, [stocks, id]);
       connection.commit();
       return true;
     } catch (error) {
+      console.log(error)
       connection.rollback();
       return res.status(500).json({
         error,
