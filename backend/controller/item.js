@@ -207,10 +207,36 @@ exports.delete = async (req, res) => {
     .json("something went wrong while performing the task!");
 };
 
-exports.resourceItem = async (req, res) => {
-  let query = "SELECT item_name FROM items";
-  let [result] = await connection.query(query, []);
-  let newArr = result.map(item=>item.item_name)
-
-  return res.status(200).json(newArr);
+exports.getItems = async (req, res) => {
+  try {
+    let query = `
+      SELECT 
+        i.item_id,
+        i.item_name,
+        i.item_price,
+        i.item_desc,
+        i.item_img,
+        s.qty as stock_qty,
+        c.category_name
+      FROM items i
+      LEFT JOIN stocks s ON i.item_id = s.item_id
+      LEFT JOIN item_category ic ON i.item_id = ic.item_id
+      LEFT JOIN categories c ON ic.category_id = c.category_id
+      WHERE i.deleted_at IS NULL
+      ORDER BY i.created_at DESC
+      LIMIT 8
+    `;
+    let [result] = await connection.query(query, []);
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch items",
+      error: error.message,
+    });
+  }
 };
