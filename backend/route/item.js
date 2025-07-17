@@ -25,4 +25,5 @@ route.delete("/admin/item/gallery/:id", item.deletegallery);
 // })
 
 route.get("/admin/item-all", item.itemTable);
+route.get("/item-resource", item.resourceItem);
 module.exports = route;

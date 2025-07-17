@@ -14,8 +14,8 @@ exports.itemTable = async (req, res) => {
 };
 
 exports.createItem = async (req, res) => {
-  console.log("reached")
-  console.log("a",req.body);
+  console.log("reached");
+  console.log("a", req.body);
 
   const { item_name, item_price, stock, item_desc } = req.body;
   let query1 =
@@ -38,10 +38,9 @@ exports.createItem = async (req, res) => {
       message: "Successful",
     });
   } catch (error) {
-    connection.rollback()
-    console.log(error)
-    return res.status(500).json(error)
-
+    connection.rollback();
+    console.log(error);
+    return res.status(500).json(error);
   }
 };
 
@@ -73,7 +72,8 @@ exports.update = async (req, res) => {
 
   let queryItem =
     "UPDATE items SET item_name =?, item_price=?, item_desc=?, updated_at=NOW() WHERE item_id = ?";
-  let queryCategory = "INSERT INTO item_category (category_id,item_id) VALUES(?,?) ON DUPLICATE KEY UPDATE category_id=?, item_id =?";
+  let queryCategory =
+    "INSERT INTO item_category (category_id,item_id) VALUES(?,?) ON DUPLICATE KEY UPDATE category_id=?, item_id =?";
   let queryStock = "UPDATE stocks SET qty=? WHERE item_id =?";
 
   const updateAtOnce = async () => {
@@ -85,12 +85,12 @@ exports.update = async (req, res) => {
         description,
         id,
       ]);
-      await connection.query(queryCategory, [category, id,category,id]);
+      await connection.query(queryCategory, [category, id, category, id]);
       await connection.query(queryStock, [stocks, id]);
       connection.commit();
       return true;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       connection.rollback();
       return res.status(500).json({
         error,
@@ -205,4 +205,12 @@ exports.delete = async (req, res) => {
   return res
     .status(500)
     .json("something went wrong while performing the task!");
+};
+
+exports.resourceItem = async (req, res) => {
+  let query = "SELECT item_name FROM items";
+  let [result] = await connection.query(query, []);
+  let newArr = result.map(item=>item.item_name)
+
+  return res.status(200).json(newArr);
 };
