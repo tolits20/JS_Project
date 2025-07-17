@@ -8,17 +8,17 @@ exports.login = async (req, res) => {
     return res.status(500).json({ message: "no data receive" });
   const { email, password } = req.body;
   let getAccount = "SELECT * FROM user WHERE email = ?";
-  let result = await connection.query(getAccount, [email]);
+  let [result] = await connection.query(getAccount, [email]);
 
   if (!result) return res.status(403).json({ message: "user not found" });
 
-  console.log("password " + result[0][0].password);
-  let match = bcrypt.compare(password, result[0][0].password);
+  console.log(result);
+  let match = bcrypt.compare(password, result[0].password);
   if (!match)
     return res.status(403).json({ message: "Password does not match!" });
 
   const token = jwt.sign(
-    { data: result[0][0].user_id },
+    { data: result[0].user_id, role:result[0].role },
     process.env.JWT_SECRET,
     {
       expiresIn: `${process.env.JWT_EXPIRATION}`,
@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
 
   let [storeToken] = await connection.query("UPDATE  user SET token=? WHERE user_id=?", [
     token,
-    parseInt(result[0][0].user_id),
+    parseInt(result[0].user_id),
   ]);
 
   if(storeToken.affectedRows <1) return res.status(500).json("Failed to store the token in the database!")
@@ -40,9 +40,9 @@ exports.login = async (req, res) => {
   return res
     .status(200)
     .json({
-      message: `Welcome ${result[0][0].name}`,
+      message: `Welcome ${result[0].name}`,
       status: 200,
       token,
-      role: result[0][0].role,
+      role: result[0].role,
     });
 };

@@ -240,3 +240,10 @@ exports.getItems = async (req, res) => {
     });
   }
 };
+exports.resourceItem = async (req, res) => {
+  let query = "SELECT item_name FROM items";
+  let [result] = await connection.query(query, []);
+  let newArr = result.map((item) => item.item_name);
+
+  return res.status(200).json(newArr);
+};
