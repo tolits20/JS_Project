@@ -20,6 +20,12 @@
       rel="stylesheet"
     />
 
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+
     <style>
       * {
         margin: 0;
@@ -105,7 +111,7 @@
       }
 
       .navbar-nav > li > a::before {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 50%;
@@ -165,9 +171,15 @@
       }
 
       @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
 
       /* Mobile Menu Toggle */
@@ -729,15 +741,25 @@
             <li class="search-form">
               <form class="navbar-form" role="search">
                 <div class="input-group">
-                  <input type="text" class="search-input" placeholder="Search bags...">
+                  <input
+                    type="text"
+                    class="search-input"
+                    name="search"
+                    placeholder="Search bags..."
+                  />
                   <button type="submit" class="search-btn">
                     <i class="fas fa-search"></i>
                   </button>
                 </div>
               </form>
             </li>
-            <li style="display: flex; align-items: center;">
-              <button class="btn-login-navbar" onclick="window.location.href='/login.html'">Login</button>
+            <li style="display: flex; align-items: center">
+              <button
+                class="btn-login-navbar"
+                onclick="window.location.href='/login.html'"
+              >
+                Login
+              </button>
             </li>
           </ul>
         </div>
@@ -957,124 +979,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-
-    <script>
-      // Enhanced JavaScript functionality
-      $(document).ready(function () {
-        // Smooth scrolling for navigation links
-        $('a[href^="#"]').on("click", function (event) {
-          var target = $(this.getAttribute("href"));
-          if (target.length) {
-            event.preventDefault();
-            $("html, body")
-              .stop()
-              .animate(
-                {
-                  scrollTop: target.offset().top - 80,
-                },
-                1000
-              );
-          }
-        });
-
-        // Smooth scroll for Contact link to footer
-        $('.contact-link').on('click', function(event) {
-          event.preventDefault();
-          var footer = $('#contact-footer');
-          if (footer.length) {
-            $('html, body').animate({
-              scrollTop: footer.offset().top
-            }, 1000);
-          }
-        });
-
-        // Enhanced navbar background on scroll
-        $(window).scroll(function () {
-          if ($(window).scrollTop() > 50) {
-            $(".navbar").addClass("scrolled");
-          } else {
-            $(".navbar").removeClass("scrolled");
-          }
-        });
-
-        // Active nav link highlighting
-        $(window).on('scroll', function() {
-          var scrollPosition = $(window).scrollTop();
-          
-          $('.navbar-nav li a[href^="#"]').each(function() {
-            var currentLink = $(this);
-            var refElement = $(currentLink.attr('href'));
-            
-            if (refElement.length && refElement.position().top <= scrollPosition + 100 && refElement.position().top + refElement.height() > scrollPosition + 100) {
-              $('.navbar-nav li').removeClass('active');
-              currentLink.parent().addClass('active');
-            }
-          });
-        });
-
-        // Search functionality
-        $('.search-input').on('focus', function() {
-          $(this).parent().addClass('active');
-        });
-
-        $('.search-input').on('blur', function() {
-          $(this).parent().removeClass('active');
-        });
-
-        // Cart functionality
-        $('.add-to-cart').on('click', function(e) {
-          e.preventDefault();
-          var currentCount = parseInt($('.cart-count').text()) || 0;
-          $('.cart-count').text(currentCount + 1);
-          
-          // Add visual feedback
-          $(this).text('Added!').addClass('btn-success');
-          setTimeout(() => {
-            $(this).text('Add to Cart').removeClass('btn-success');
-          }, 2000);
-        });
-
-        // Quick view functionality
-        $('.quick-view-btn').on('click', function(e) {
-          e.preventDefault();
-          alert('Quick view functionality would open a modal here');
-        });
-
-        // Mobile menu enhancements
-        $('.navbar-toggle').on('click', function() {
-          $(this).toggleClass('active');
-        });
-
-        // Dropdown menu enhancements
-        $('.dropdown').on('show.bs.dropdown', function() {
-          $(this).find('.dropdown-toggle').addClass('active');
-        });
-
-        $('.dropdown').on('hide.bs.dropdown', function() {
-          $(this).find('.dropdown-toggle').removeClass('active');
-        });
-
-        // Search form submission
-        $('.search-form form').on('submit', function(e) {
-          e.preventDefault();
-          var searchTerm = $('.search-input').val();
-          if (searchTerm.trim()) {
-            alert('Searching for: ' + searchTerm);
-            // Here you would implement actual search functionality
-          }
-        });
-
-        // Animate elements on scroll
-        $(window).scroll(function() {
-          $('.category-card, .product-card').each(function() {
-            var elementTop = $(this).offset().top;
-            var elementBottom = elementTop + $(this).outerHeight();
-            var viewportTop = $(window).scrollTop();
-            var viewportBottom = viewportTop + $(window).height();
-            
-            if (elementBottom > viewportTop && elementTop < viewportBottom) {
-              $(this).addClass('animate-in');
-            }
-          });
-        });
-      });
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>
