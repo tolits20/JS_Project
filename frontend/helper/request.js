@@ -1,7 +1,6 @@
 import network from "../config/network.js";
 const token = localStorage.getItem("token");
 const request = class {
-  
   constructor(baseURL, resource) {
     this.baseURL = baseURL;
     this.token = token;
@@ -29,6 +28,7 @@ const request = class {
     $.ajax({
       method: "GET",
       url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
+      headers: this.__getHeaders(),
       dataType: "json",
       success: success,
       error: error,
@@ -39,6 +39,7 @@ const request = class {
     $.ajax({
       method: "GET",
       url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
+      headers: this.__getHeaders(),
       dataType: "json",
       success: success,
       error: error,
@@ -50,6 +51,7 @@ const request = class {
       method: "POST",
       url: `${this.ipHost}/${this.baseURL}/${this.resource}`,
       ...this.__config(data),
+      headers: this.__getHeaders(),
       dataType: "json",
       success: success,
       error: error,
