@@ -3,9 +3,9 @@ import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
-import roleCheck from "../utils/redirection.js";
+import { roleCheck, errorStatus } from "../utils/redirection.js";
 
-roleCheck()
+roleCheck();
 
 //index.html
 document
@@ -51,6 +51,7 @@ $(document).ready(function () {
         },
         (err) => {
           console.log(err);
+          errorStatus(err.status);
           alert.notyf.error(
             "Failed to delete the item, Please try again later!"
           );
@@ -72,7 +73,10 @@ const editItem = async () => {
       // alert.notyf.success("successfully get user");
       InsertValues(response);
     },
-    (err) => console.error(err)
+    (err) => {
+      console.error(err);
+      errorStatus(err.status);
+    }
   );
 };
 
@@ -143,6 +147,7 @@ $("#item_image")
         },
         (err) => {
           console.error(err);
+          errorStatus(err.status);
           alert.notyf.error("Failed to update the item, please try again!");
         }
       );
@@ -170,6 +175,7 @@ $("#itemForm").submit(function (e) {
     },
     (err) => {
       console.log(err);
+      errorStatus(err.status);
       alert.notyf.error("Failed to update the item, please try again!");
     }
   );
@@ -216,6 +222,7 @@ function addImage() {
       },
       (err) => {
         console.log(err);
+        errorStatus(err.status);
         alert.notyf.error(
           "Failed to add images on item gallery, please try again!"
         );
@@ -238,10 +245,11 @@ function removeImage(button) {
       button.parentElement.remove();
     },
     (err) => {
-      console.log(err),
-        alert.notyf.error(
-          "Failed to delete the image from the gallery, please try again!"
-        );
+      console.log(err);
+      errorStatus(err.status);
+      alert.notyf.error(
+        "Failed to delete the image from the gallery, please try again!"
+      );
     }
   );
 }
@@ -252,11 +260,12 @@ if (!id) {
   allItems.getAll(
     (response) => {
       console.log(response);
-      let data = pageRows(response.data,10)
-      paginateHandler(data,"item")
+      let data = pageRows(response.data, 10);
+      paginateHandler(data, "item");
     },
     (err) => {
       console.log(err);
+      errorStatus(err.status);
     }
   );
 }

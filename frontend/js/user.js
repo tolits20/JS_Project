@@ -4,9 +4,9 @@ import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
 import { dataTable } from "../../components/js/dataTable.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
-import roleCheck from "../utils/redirection.js";
+import { roleCheck, errorStatus } from "../utils/redirection.js";
 
-roleCheck()
+roleCheck();
 
 const params = new URLSearchParams(window.location.search);
 
@@ -19,7 +19,10 @@ function getUser() {
       console.log(response);
       insertValues(response.data[0]);
     },
-    (err) => console.error(err)
+    (err) => {
+      console.error(err);
+      errorStatus(err.status);
+    }
   );
 }
 
@@ -63,6 +66,7 @@ $("#userForm")
       },
       (err) => {
         console.log(err);
+        errorStatus(err.status);
         alert.notyf.error(
           "Failed to update the user information, Please try again later!"
         );
@@ -90,7 +94,10 @@ $("#user-table")
           console.log(response);
           parent.fadeOut(2500);
         },
-        (err) => console.error(err)
+        (err) => {
+          errorStatus(err.status)
+          console.error(err);
+        }
       );
     }
   });
@@ -112,6 +119,7 @@ $(document)
       },
       (err) => {
         console.log(err);
+        errorStatus(err.status)
         alert.notyf.error(
           "Failed to updated the user's status, Please try again later!"
         );
@@ -149,13 +157,14 @@ if (!id) {
   tableData.getAll(
     async (response) => {
       console.log(response);
-      let data = pageRows(response.data,10);
+      let data = pageRows(response.data, 10);
       console.log(data);
       paginateHandler(data, "user");
       // dataTable(response, "user");
     },
     (err) => {
       console.log(err);
+      errorStatus(err.status)
     }
   );
 }

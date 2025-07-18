@@ -2,9 +2,9 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import createChart from "../components/js/charts.js";
-import roleCheck from "../utils/redirection.js";
+import { roleCheck, errorStatus } from "../utils/redirection.js";
 
-roleCheck()
+roleCheck();
 
 let alertMessage = sessionStorage.getItem("message");
 if (alertMessage === "loginSuccess") {
@@ -46,6 +46,7 @@ chart1.getById(
   },
   (err) => {
     console.log(err);
+    errorStatus(err.status)
     alert.notyf.error("failed to get the monthly sales data.");
   }
 );
@@ -59,6 +60,7 @@ chart2.getById(
   },
   (err) => {
     console.log(err);
+    errorStatus(err.status)
     alert.notyf.error("failed to get the monthly sales data.");
   }
 );
@@ -72,6 +74,7 @@ chart3.getById(
   },
   (err) => {
     console.log(err);
+    errorStatus(err.status)
     alert.notyf.error("failed to get the monthly sales data.");
   }
 );

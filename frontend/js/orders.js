@@ -2,7 +2,7 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import { pageRows,paginateHandler } from "../utils/pagination.js";
-import roleCheck from "../utils/redirection.js";
+import { roleCheck, errorStatus } from "../utils/redirection.js";
 
 roleCheck()
 
@@ -49,6 +49,7 @@ $(document).ready(function () {
         },
         (err) => {
           console.log(err);
+          errorStatus(err.status)
           alert.notyf.error(
             "Failed to update the order status. Please try again!"
           );
@@ -67,6 +68,7 @@ $(document).ready(function () {
       // dataTable(response, "user");
     },
     (err) => {
+      errorStatus(err.status)
       console.log(err);
     }
   );
