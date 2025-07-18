@@ -2,6 +2,9 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import { pageRows,paginateHandler } from "../utils/pagination.js";
+import roleCheck from "../utils/redirection.js";
+
+roleCheck()
 
 $(document).ready(function () {
   document

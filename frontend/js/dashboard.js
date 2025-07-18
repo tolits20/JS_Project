@@ -2,6 +2,9 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import createChart from "../components/js/charts.js";
+import roleCheck from "../utils/redirection.js";
+
+roleCheck()
 
 let alertMessage = sessionStorage.getItem("message");
 if (alertMessage === "loginSuccess") {

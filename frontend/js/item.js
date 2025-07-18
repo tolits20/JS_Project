@@ -3,6 +3,9 @@ import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
+import roleCheck from "../utils/redirection.js";
+
+roleCheck()
 
 //index.html
 document

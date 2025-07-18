@@ -4,6 +4,9 @@ import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
 import { dataTable } from "../../components/js/dataTable.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
+import roleCheck from "../utils/redirection.js";
+
+roleCheck()
 
 const params = new URLSearchParams(window.location.search);
 
