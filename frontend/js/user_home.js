@@ -2,12 +2,92 @@ import request from "../helper/request.js";
 import network from "../config/network.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 
+// Cart Management Functions (same as user_item.js)
+class CartManager {
+  constructor() {
+    this.cartKey = "auretta_cart";
+    this.cart = this.loadCart();
+  }
+
+  // Load cart from localStorage
+  loadCart() {
+    const cartData = localStorage.getItem(this.cartKey);
+    return cartData ? JSON.parse(cartData) : [];
+  }
+
+  // Save cart to localStorage
+  saveCart() {
+    localStorage.setItem(this.cartKey, JSON.stringify(this.cart));
+  }
+
+  // Add item to cart
+  addToCart(item, quantity = 1) {
+    const existingItem = this.cart.find(
+      (cartItem) => cartItem.item_id === item.item_id
+    );
+
+    if (existingItem) {
+      // Update quantity if item already exists
+      existingItem.quantity += quantity;
+      if (existingItem.quantity > item.stock_qty) {
+        existingItem.quantity = item.stock_qty;
+      }
+    } else {
+      // Add new item to cart
+      this.cart.push({
+        item_id: item.item_id,
+        item_name: item.item_name,
+        item_price: item.item_price,
+        item_img: item.item_img,
+        quantity: quantity,
+        stock_qty: item.stock_qty,
+      });
+    }
+
+    this.saveCart();
+    this.updateCartDisplay();
+    return true;
+  }
+
+  // Update cart display in header
+  updateCartDisplay() {
+    const cartCount = this.getCartCount();
+    const cartCountElement = document.querySelector(".cart-count");
+
+    if (cartCountElement) {
+      if (cartCount > 0) {
+        cartCountElement.textContent = cartCount;
+        cartCountElement.style.display = "flex";
+      } else {
+        cartCountElement.style.display = "none";
+      }
+    }
+  }
+
+  // Get cart count
+  getCartCount() {
+    return this.cart.reduce((count, item) => count + item.quantity, 0);
+  }
+
+  // Get cart items
+  getCartItems() {
+    return this.cart;
+  }
+}
+
+// Initialize cart manager
+const cartManager = new CartManager();
+
 // Function to load HTML components
 function loadComponent(containerId, componentPath) {
   fetch(componentPath)
     .then((response) => response.text())
     .then((html) => {
       document.getElementById(containerId).innerHTML = html;
+      // Update cart display after header loads
+      if (containerId === "header-container") {
+        cartManager.updateCartDisplay();
+      }
     })
     .catch((error) => {
       console.error("Error loading component:", error);
@@ -90,16 +170,28 @@ $(document).ready(function () {
           let imgPath = item.item_img
             ? `http://${network.ip}:${network.port}/${item.item_img}`
             : "/assets/images/main.jpg";
+
+          // Check if item is already in cart
+          const cartItem = cartManager
+            .getCartItems()
+            .find((cartItem) => cartItem.item_id === item.item_id);
+          const buttonText = cartItem ? "Update Cart" : "Add to Cart";
+          const buttonClass = cartItem ? "update-cart" : "add-to-cart";
+
           productsContainer.append(`
             <div class="col-md-3">
-              <div class="product-card" style="cursor: pointer;" data-item-id="${item.item_id}">
-                <div class="product-image-wrapper">
-                  <img class="product-image" src="${imgPath}" alt="${item.item_name}">
+              <div class="product-card" data-item-id="${item.item_id}">
+                <div class="product-image-wrapper" style="cursor: pointer;">
+                  <img class="product-image" src="${imgPath}" alt="${
+            item.item_name
+          }">
                 </div>
                 <div class="product-info">
                   <h5 class="product-title">${item.item_name}</h5>
                   <div class="product-price">$${item.item_price}</div>
-                  <button class="add-to-cart">Add to Cart</button>
+                  <button class="${buttonClass}" data-item='${JSON.stringify(
+            item
+          )}'>${buttonText}</button>
                 </div>
               </div>
             </div>
@@ -159,11 +251,45 @@ $(document).ready(function () {
         $(".pagination li").first().addClass("active");
       }
 
-      // Add click handlers for product cards
-      $(document).on("click", ".product-card", function () {
-        const itemId = $(this).data("item-id");
+      // Add click handlers for product card images (navigate to detail page)
+      $(document).on("click", ".product-image-wrapper", function (e) {
+        e.stopPropagation(); // Prevent event bubbling
+        const itemId = $(this).closest(".product-card").data("item-id");
         if (itemId) {
           window.location.href = `/frontend/user/item/index.html?id=${itemId}`;
+        }
+      });
+
+      // Add click handlers for cart buttons
+      $(document).on("click", ".add-to-cart, .update-cart", function (e) {
+        e.stopPropagation(); // Prevent event bubbling
+        const itemData = $(this).data("item");
+        if (itemData) {
+          const success = cartManager.addToCart(itemData, 1);
+          if (success) {
+            // Show success notification
+            showNotification("Item added to cart successfully!", "success");
+
+            // Update button text and class
+            const button = $(this);
+            button
+              .text("Update Cart")
+              .removeClass("add-to-cart")
+              .addClass("update-cart");
+
+            // Visual feedback
+            button.css({
+              background: "#28a745",
+              "border-color": "#28a745",
+            });
+
+            setTimeout(() => {
+              button.css({
+                background: "#000000",
+                "border-color": "#000000",
+              });
+            }, 1000);
+          }
         }
       });
     },
@@ -175,6 +301,75 @@ $(document).ready(function () {
     }
   );
 });
+
+// Notification function (same as user_item.js)
+function showNotification(message, type = "info") {
+  // Create notification element
+  const notification = document.createElement("div");
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <span>${message}</span>
+      <button class="notification-close">&times;</button>
+    </div>
+  `;
+
+  // Add styles
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${
+      type === "success" ? "#28a745" : type === "error" ? "#dc3545" : "#17a2b8"
+    };
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    max-width: 300px;
+    animation: slideIn 0.3s ease;
+  `;
+
+  // Add animation styles
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .notification-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .notification-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Add to page
+  document.body.appendChild(notification);
+
+  // Close button functionality
+  const closeBtn = notification.querySelector(".notification-close");
+  closeBtn.addEventListener("click", () => {
+    notification.remove();
+  });
+
+  // Auto remove after 3 seconds
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.remove();
+    }
+  }, 3000);
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch("/api/user/me")
