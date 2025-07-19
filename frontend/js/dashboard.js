@@ -83,4 +83,15 @@ $(document).ready(function () {
       alert.notyf.error("failed to get the monthly sales data.");
     }
   );
+
+  const userCount = new request("api/v1", "userCount");
+  userCount.getAll(
+    (response) => {
+      console.log(response)
+      $("#user-count").text(response[0].total);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
 });

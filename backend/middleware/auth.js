@@ -16,7 +16,7 @@ const isAuth = (req, res, next) => {
   try {
     let decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.role = decoded.role;
-    console.log(decoded);
+    // console.log(decoded);
 
     next();
   } catch (error) {

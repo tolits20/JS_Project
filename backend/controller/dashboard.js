@@ -52,25 +52,30 @@ const parseData = (result) => {
   for (let i = 0; i < result.length; i++) {
     let key = Object.values(result[i]);
     obj.push({
-      label:key[0],
-      total:key[1]
+      label: key[0],
+      total: key[1],
     });
   }
-  return obj
+  return obj;
 };
 
 exports.chart = async (req, res) => {
   let param = req.params.data;
   let query = option.chart[param];
   let [result] = await connection.query(query, []);
-  console.log(result);
 
   if (result.fieldCount > 0) return res.status(200).json("No data");
   let final =
     param != "salesPerCategory" ? fillMissingMonths(result) : parseData(result);
 
-    console.log(final)
   return res.status(200).json({
     final,
   });
+};
+
+exports.userCount = async (req, res) => {
+  let sql = "SELECT COUNT (user_id) as total FROM user";
+  let [result] = await connection.query(sql, []);
+// console.log("total",result)
+  return res.status(200).json(result)
 };
