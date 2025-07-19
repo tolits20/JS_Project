@@ -79,3 +79,9 @@ exports.userCount = async (req, res) => {
 // console.log("total",result)
   return res.status(200).json(result)
 };
+
+exports.itemCount = async (req, res) => {
+  let sql = "SELECT COUNT (item_id) as total FROM items";
+  let [result] = await connection.query(sql, []);
+  return res.status(200).json(result)
+};

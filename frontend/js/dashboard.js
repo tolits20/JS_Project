@@ -94,4 +94,17 @@ $(document).ready(function () {
       console.log(err);
     }
   );
+
+    const itemCount = new request("api/v1", "itemCount");
+  itemCount.getAll(
+    (response) => {
+      console.log(response)
+      $("#item-count").text(response[0].total);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
 });
+
+
