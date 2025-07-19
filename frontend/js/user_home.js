@@ -2,7 +2,29 @@ import request from "../helper/request.js";
 import network from "../config/network.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 
+// Function to load HTML components
+function loadComponent(containerId, componentPath) {
+  fetch(componentPath)
+    .then((response) => response.text())
+    .then((html) => {
+      document.getElementById(containerId).innerHTML = html;
+    })
+    .catch((error) => {
+      console.error("Error loading component:", error);
+    });
+}
+
 $(document).ready(function () {
+  // Load reusable components
+  loadComponent(
+    "header-container",
+    "/frontend/user/components/primary/header.html"
+  );
+  loadComponent(
+    "footer-container",
+    "/frontend/user/components/primary/footer.html"
+  );
+
   // Enhanced navbar background on scroll
   $(window).scroll(function () {
     if ($(window).scrollTop() > 50) {
@@ -73,9 +95,6 @@ $(document).ready(function () {
               <div class="product-card">
                 <div class="product-image-wrapper">
                   <img class="product-image" src="${imgPath}" alt="${item.item_name}">
-                  <div class="product-overlay">
-                    <button class="quick-view-btn">Quick View</button>
-                  </div>
                 </div>
                 <div class="product-info">
                   <h5 class="product-title">${item.item_name}</h5>
