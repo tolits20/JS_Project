@@ -231,10 +231,53 @@ exports.getItems = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    console.error("Error fetching items:", error);  
+    console.error("Error fetching items:", error);
     return res.status(500).json({
       success: false,
       message: "Failed to fetch items",
+      error: error.message,
+    });
+  }
+};
+
+exports.getSingleItem = async (req, res) => {
+  try {
+    const itemId = parseInt(req.params.id);
+
+    let query = `
+      SELECT 
+        i.item_id,
+        i.item_name,
+        i.item_price,
+        i.item_desc,
+        i.item_img,
+        s.qty as stock_qty,
+        c.category_name
+      FROM items i
+      LEFT JOIN stocks s ON i.item_id = s.item_id
+      LEFT JOIN item_category ic ON i.item_id = ic.item_id
+      LEFT JOIN categories c ON ic.category_id = c.category_id
+      WHERE i.item_id = ? AND i.deleted_at IS NULL
+    `;
+
+    let [result] = await connection.query(query, [itemId]);
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: result[0],
+    });
+  } catch (error) {
+    console.error("Error fetching single item:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch item",
       error: error.message,
     });
   }
