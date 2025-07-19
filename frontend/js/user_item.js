@@ -1,4 +1,5 @@
 import network from "../config/network.js";
+import logout from "./logout.js";
 
 // Cart Management Functions
 class CartManager {
@@ -254,6 +255,12 @@ $(document).ready(function () {
         showNotification("Error loading item details!", "error");
       });
   }
+
+  // Add logout handler for header logout button
+  $(document).on("click", "#logout-btn", function (e) {
+    e.preventDefault();
+    logout();
+  });
 });
 
 // Notification function

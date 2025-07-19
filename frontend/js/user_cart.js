@@ -1,4 +1,5 @@
 import network from "../config/network.js";
+import logout from "./logout.js";
 
 console.log("user_cart.js loaded successfully");
 console.log("Network config:", network);
@@ -382,6 +383,12 @@ $(document).ready(function () {
       // You can redirect to a checkout page or implement payment processing here
       // window.location.href = '/frontend/user/checkout/index.html';
     }
+  });
+
+  // Add logout handler for header logout button
+  $(document).on("click", "#logout-btn", function (e) {
+    e.preventDefault();
+    logout();
   });
 });
 

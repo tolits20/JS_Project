@@ -1,6 +1,7 @@
 import request from "../helper/request.js";
 import network from "../config/network.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
+import logout from "./logout.js";
 
 // Cart Management Functions (same as user_item.js)
 class CartManager {
@@ -381,4 +382,10 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((err) => {
       console.error("Failed to load user info", err);
     });
+
+  // Add logout handler for header logout button
+  $(document).on("click", "#logout-btn", function (e) {
+    e.preventDefault();
+    logout();
+  });
 });
