@@ -8,6 +8,7 @@ route.get("/userCount", auth, role('admin'), data.userCount);
 route.get("/itemCount", auth, role('admin'), data.itemCount);
 route.get("/transactionCount", auth, role('admin'), data.transactionCount);
 route.get("/recentlyDeleted", auth, role('admin'), data.recentlyDeleted);
+route.get("/userRanking", auth, role('admin'), data.userRanking);
 
 
 module.exports = route;

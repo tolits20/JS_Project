@@ -4,6 +4,7 @@ import network from "../config/network.js";
 import createChart from "../components/js/charts.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
 import logout from "./logout.js";
+import listGenerator from "../utils/listGenerator.js"
 
 roleCheck();
 $(document).ready(function () {
@@ -122,6 +123,17 @@ $(document).ready(function () {
     (response) => {
       console.log(response);
       $("#recently-deleted").text(response[0].total);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+
+    const userRank = new request("api/v1", "userRanking");
+  userRank.getAll(
+    (response) => {
+      console.log(response);
+      listGenerator(response,"#user-rank")
     },
     (err) => {
       console.log(err);
