@@ -4,7 +4,7 @@ import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
-
+import logout from "./logout.js";
 roleCheck();
 
 //index.html
@@ -32,6 +32,10 @@ document
     "href",
     `http://${network.client.host}/frontend/admin/orders/index.html`
   );
+ document.getElementById("sidebar-logout").addEventListener("click", (e) => {
+    e.preventDefault();
+    logout();
+  });
 
 $(document).ready(function () {
   $(document)

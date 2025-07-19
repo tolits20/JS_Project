@@ -5,6 +5,7 @@ import formValidate from "../utils/validate.js";
 import { dataTable } from "../../components/js/dataTable.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
+import logout from "./logout.js";
 
 roleCheck();
 
@@ -95,7 +96,7 @@ $("#user-table")
           parent.fadeOut(2500);
         },
         (err) => {
-          errorStatus(err.status)
+          errorStatus(err.status);
           console.error(err);
         }
       );
@@ -119,7 +120,7 @@ $(document)
       },
       (err) => {
         console.log(err);
-        errorStatus(err.status)
+        errorStatus(err.status);
         alert.notyf.error(
           "Failed to updated the user's status, Please try again later!"
         );
@@ -151,6 +152,10 @@ document
     "href",
     `http://${network.client.host}/frontend/admin/orders/index.html`
   );
+document.getElementById("sidebar-logout").addEventListener("click", (e) => {
+  e.preventDefault();
+  logout();
+});
 
 if (!id) {
   const tableData = new request("api/v1", "admin/user-all");
@@ -164,7 +169,7 @@ if (!id) {
     },
     (err) => {
       console.log(err);
-      errorStatus(err.status)
+      errorStatus(err.status);
     }
   );
 }

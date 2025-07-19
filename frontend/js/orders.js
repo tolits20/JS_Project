@@ -1,10 +1,11 @@
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import network from "../config/network.js";
-import { pageRows,paginateHandler } from "../utils/pagination.js";
+import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
+import logout from "./logout.js";
 
-roleCheck()
+roleCheck();
 
 $(document).ready(function () {
   document
@@ -31,6 +32,10 @@ $(document).ready(function () {
       "href",
       `http://${network.client.host}/frontend/admin/orders/index.html`
     );
+  document.getElementById("sidebar-logout").addEventListener("click", (e) => {
+    e.preventDefault();
+    logout();
+  });
 
   $(document)
     .off("change")
@@ -49,7 +54,7 @@ $(document).ready(function () {
         },
         (err) => {
           console.log(err);
-          errorStatus(err.status)
+          errorStatus(err.status);
           alert.notyf.error(
             "Failed to update the order status. Please try again!"
           );
@@ -58,17 +63,17 @@ $(document).ready(function () {
     });
 });
 
- const tableData = new request("api/v1", "admin/order-all");
-  tableData.getAll(
-    async (response) => {
-      console.log(response);
-      let data = pageRows(response.data,10);
-      console.log(data);
-      paginateHandler(data, "order");
-      // dataTable(response, "user");
-    },
-    (err) => {
-      errorStatus(err.status)
-      console.log(err);
-    }
-  );
+const tableData = new request("api/v1", "admin/order-all");
+tableData.getAll(
+  async (response) => {
+    console.log(response);
+    let data = pageRows(response.data, 10);
+    console.log(data);
+    paginateHandler(data, "order");
+    // dataTable(response, "user");
+  },
+  (err) => {
+    errorStatus(err.status);
+    console.log(err);
+  }
+);
