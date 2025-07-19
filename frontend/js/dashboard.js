@@ -87,7 +87,7 @@ $(document).ready(function () {
   const userCount = new request("api/v1", "userCount");
   userCount.getAll(
     (response) => {
-      console.log(response)
+      console.log(response);
       $("#user-count").text(response[0].total);
     },
     (err) => {
@@ -95,16 +95,36 @@ $(document).ready(function () {
     }
   );
 
-    const itemCount = new request("api/v1", "itemCount");
+  const itemCount = new request("api/v1", "itemCount");
   itemCount.getAll(
     (response) => {
-      console.log(response)
+      console.log(response);
       $("#item-count").text(response[0].total);
     },
     (err) => {
       console.log(err);
     }
   );
+
+  const transactionCount = new request("api/v1", "transactionCount");
+  transactionCount.getAll(
+    (response) => {
+      console.log(response);
+      $("#transaction-count").text(response[0].total);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+
+  const recentlyDeleted = new request("api/v1", "recentlyDeleted");
+  recentlyDeleted.getAll(
+    (response) => {
+      console.log(response);
+      $("#recently-deleted").text(response[0].total);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
 });
-
-

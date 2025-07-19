@@ -85,3 +85,18 @@ exports.itemCount = async (req, res) => {
   let [result] = await connection.query(sql, []);
   return res.status(200).json(result)
 };
+
+exports.transactionCount = async (req, res) => {
+  let sql = "SELECT COUNT (order_id) as total FROM orders";
+  let [result] = await connection.query(sql, []);
+  // console.log("transac: ",result)
+  return res.status(200).json(result)
+};
+
+exports.recentlyDeleted = async (req, res) => {
+  let sql = "SELECT COUNT (user_id) as total FROM user WHERE deleted_at IS NULL";
+  let [result] = await connection.query(sql, []);
+    // console.log("deleted: ",result)
+
+  return res.status(200).json(result)
+};
