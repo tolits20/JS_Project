@@ -232,7 +232,7 @@ exports.getItems = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    console.error("Error fetching items:", error);
+    console.error("Error fetching items:", error);  
     return res.status(500).json({
       success: false,
       message: "Failed to fetch items",
@@ -240,10 +240,12 @@ exports.getItems = async (req, res) => {
     });
   }
 };
-exports.resourceItem = async (req, res) => {
-  let query = "SELECT item_name FROM items";
+exports.itemSeach = async (req, res) => {
+  const item = req.params.search;
+  // console.log(item);
+  let query = `SELECT item_name FROM items WHERE item_name LIKE '${item}%'`;
   let [result] = await connection.query(query, []);
   let newArr = result.map((item) => item.item_name);
-
+  // console .log(newArr)
   return res.status(200).json(newArr);
 };

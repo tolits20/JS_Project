@@ -1,6 +1,5 @@
-import search from "../components/js/quichSearch.js";
 import request from "../helper/request.js";
-
+import quickSearch from "../utils/quichSearch.js";
 $(document).ready(function () {
   // Smooth scrolling for navigation links
   $('a[href^="#"]').on("click", function (event) {
@@ -126,14 +125,32 @@ $(document).ready(function () {
     });
   });
 
-  let itemResource = new request("api/v1", "item-resource");
-  itemResource.getAll(
-    (respose) => {
-        console.log(respose)
-      search(respose, ".search-input");
-    },
-    (error) => {
-      console.log(error);
+  // let itemResource = new request("api/v1", "item-resource");
+  // itemResource.getAll(
+  //   (respose) => {
+  //       console.log(respose)
+  //     search(respose, ".search-input");
+  //   },
+  //   (error) => {
+  //     console.log(error);
+  //   }
+  // );
+
+  $(".search-input").on("input", (e) => {
+    e.preventDefault();
+    let value = $(".search-input").val();
+    // console.log(value);
+    if (value) {
+      let search = new request("api/v1", "itemSearch");
+      search.getById(
+        value,
+        (response) => {
+          quickSearch(response, ".search-input");
+        },
+        (err) => {
+          console.log(error);
+        }
+      );
     }
-  );
+  });
 });
