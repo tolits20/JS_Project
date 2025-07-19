@@ -1,0 +1,105 @@
+<!-- Enhanced Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        data-toggle="collapse"
+        data-target="#navbar-collapse"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#home">AURETTA</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#home">Home</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li class="dropdown">
+          <a
+            href="#"
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+          >
+            Categories <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#handbags">Handbags</a></li>
+            <li><a href="#backpacks">Backpacks</a></li>
+            <li><a href="#totes">Totes</a></li>
+            <li><a href="#wallets">Wallets</a></li>
+            <li><a href="#accessories">Accessories</a></li>
+          </ul>
+        </li>
+        <li><a href="#about">About Us</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="search-form">
+          <form class="navbar-form" role="search">
+            <div class="input-group">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search bags..."
+              />
+              <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </li>
+        <li class="cart-icon">
+          <a href="#cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">3</span>
+          </a>
+        </li>
+        <li class="dropdown user-menu">
+          <a
+            href="#"
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+          >
+            <div id="user-profile" class="user-profile">
+              <img
+                id="user-profile-picture"
+                src="/assets/images/main.jpg"
+                alt="Profile Picture"
+                class="profile-pic"
+              />
+              <span id="user-name"></span>
+            </div>
+            <i
+              class="fas fa-chevron-down"
+              style="font-size: 0.8rem; margin-left: 5px"
+            ></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#profile"
+                ><i class="fas fa-user-circle" style="margin-right: 8px"></i
+                >Profile</a
+              >
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="#" id="logout-btn"
+                ><i class="fas fa-sign-out-alt" style="margin-right: 8px"></i
+                >Logout</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

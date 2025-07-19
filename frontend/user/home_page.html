@@ -318,58 +318,7 @@
         border-color: #ffffff;
         transform: translateY(-2px);
       }
-      .categories-section {
-        padding: 80px 0;
-        background: #f8f9fa;
-      }
-      .section-title {
-        text-align: center;
-        margin-bottom: 60px;
-      }
-      .section-title h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-      }
-      .section-title p {
-        font-size: 1.1rem;
-        color: #666666;
-      }
-      .category-card {
-        background: #ffffff;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-        margin-bottom: 30px;
-      }
-      .category-card:hover {
-        transform: translateY(-10px);
-      }
-      .category-image {
-        height: 250px;
-        background-size: cover;
-        background-position: center;
-        background-color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #666666;
-        font-size: 1.2rem;
-        font-weight: 500;
-      }
-      .category-content {
-        padding: 25px;
-        text-align: center;
-      }
-      .category-content h4 {
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-      .category-content p {
-        color: #666666;
-        margin-bottom: 20px;
-      }
+
       .products-section {
         padding: 80px 0;
       }
@@ -398,33 +347,7 @@
         font-size: 1.2rem;
         font-weight: 500;
       }
-      .product-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      .product-card:hover .product-overlay {
-        opacity: 1;
-      }
-      .quick-view-btn {
-        background: #ffffff;
-        color: #000000;
-        border: none;
-        padding: 12px 25px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+
       .product-info {
         padding: 20px;
       }
@@ -496,110 +419,50 @@
         margin-top: 40px;
         text-align: center;
       }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      /* Pagination Styles */
+      .pagination {
+        display: inline-flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .pagination li {
+        margin: 0 5px;
+      }
+      .pagination li a {
+        padding: 10px 15px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        color: #333;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        display: block;
+      }
+      .pagination li a:hover {
+        background-color: #f5f5f5;
+        border-color: #999;
+      }
+      .pagination li.active a {
+        background-color: #000;
+        color: #fff;
+        border-color: #000;
+      }
     </style>
   </head>
   <body>
-    <!-- Enhanced Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#navbar-collapse"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#home">AURETTA</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#home">Home</a></li>
-            <li><a href="#shop">Shop</a></li>
-            <li class="dropdown">
-              <a
-                href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-              >
-                Categories <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#handbags">Handbags</a></li>
-                <li><a href="#backpacks">Backpacks</a></li>
-                <li><a href="#totes">Totes</a></li>
-                <li><a href="#wallets">Wallets</a></li>
-                <li><a href="#accessories">Accessories</a></li>
-              </ul>
-            </li>
-            <li><a href="#about">About Us</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            <li class="search-form">
-              <form class="navbar-form" role="search">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="search-input"
-                    placeholder="Search bags..."
-                  />
-                  <button type="submit" class="search-btn">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </form>
-            </li>
-            <li class="cart-icon">
-              <a href="#cart">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">3</span>
-              </a>
-            </li>
-            <li class="dropdown user-menu">
-              <a
-                href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-              >
-                <span class="user-avatar"><i class="fas fa-user"></i></span>
-                <span class="user-name">John Doe</span>
-                <i
-                  class="fas fa-chevron-down"
-                  style="font-size: 0.8rem; margin-left: 5px"
-                ></i>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="#profile"
-                    ><i class="fas fa-user-circle" style="margin-right: 8px"></i
-                    >Profile</a
-                  >
-                </li>
-                <li role="separator" class="divider"></li>
-                <li>
-                  <a href="#" id="logout-btn"
-                    ><i
-                      class="fas fa-sign-out-alt"
-                      style="margin-right: 8px"
-                    ></i
-                    >Logout</a
-                  >
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <!-- Include Header Component -->
+    <div id="header-container"></div>
 
     <!-- Hero Section -->
     <section id="home" class="hero-section">
@@ -611,65 +474,6 @@
             craftsmanship
           </p>
           <a href="#shop" class="btn btn-shop">Shop Bags</a>
-          <a href="#categories" class="btn btn-shop">Explore Categories</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section id="categories" class="categories-section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Shop by Category</h2>
-          <p>
-            Find the perfect bag for every occasion in our curated collections
-          </p>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4">
-            <div class="category-card">
-              <div
-                class="category-image"
-                style="background-image: url('/assets/images/handbag.jpg')"
-              ></div>
-              <div class="category-content">
-                <h4>Handbags</h4>
-                <p>Elegant handbags for everyday use and special occasions</p>
-                <a href="#" class="btn btn-shop">Shop Handbags</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="category-card">
-              <div
-                class="category-image"
-                style="background-image: url('/assets/images/backpack.jpg')"
-              ></div>
-              <div class="category-content">
-                <h4>Backpacks</h4>
-                <p>Stylish and functional backpacks for work and travel</p>
-                <a href="#" class="btn btn-shop">Shop Backpacks</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="category-card">
-              <div
-                class="category-image"
-                style="background-image: url('/assets/images/tote.jpg')"
-              ></div>
-              <div class="category-content">
-                <h4>Clutches & Evening Bags</h4>
-                <p>
-                  Sophisticated clutches and evening bags for special events
-                </p>
-                <a href="#" class="btn btn-shop">Shop Clutches</a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -681,58 +485,21 @@
           <h2>Featured Bags</h2>
           <p>Handpicked bags that combine style, quality, and craftsmanship</p>
         </div>
-        <div class="row">
-          <!-- REMOVE all hardcoded product cards here! -->
+        <div class="row" id="products-container">
           <!-- JS will inject products here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="text-center" style="margin-top: 40px">
+          <ul class="pagination">
+            <!-- Pagination elements will be generated by JavaScript -->
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer" id="contact-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3">
-            <h5>Auretta</h5>
-            <p>
-              Premium bag retailer offering the finest bags and accessories with
-              exceptional customer service.
-            </p>
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <h5>Quick Links</h5>
-            <ul style="list-style: none; padding: 0">
-              <li><a href="#home">Home</a></li>
-              <li><a href="#categories">Categories</a></li>
-            </ul>
-          </div>
-
-          <div class="col-md-3">
-            <h5>Contact Info</h5>
-            <p>
-              <i class="fas fa-map-marker-alt"></i> Km. 14 East Service Road,
-              Western Bicutan, Taguig City, Metro Manila
-            </p>
-            <p><i class="fas fa-phone"></i> 0922-888-1235</p>
-            <p><i class="fas fa-envelope"></i> info@auretta.com</p>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <p>
-            &copy; 2024 Auretta. All rights reserved. |
-            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-          </p>
-        </div>
-      </div>
-    </footer>
+    <!-- Include Footer Component -->
+    <div id="footer-container"></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>

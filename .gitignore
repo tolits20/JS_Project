@@ -10,3 +10,5 @@ node_modules/
 # Ignore OS and IDE files
 .DS_Store
 .vscode/
+
+cursor_commands.txt

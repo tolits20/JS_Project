@@ -224,7 +224,6 @@ exports.getItems = async (req, res) => {
       LEFT JOIN categories c ON ic.category_id = c.category_id
       WHERE i.deleted_at IS NULL
       ORDER BY i.created_at DESC
-      LIMIT 8
     `;
     let [result] = await connection.query(query, []);
     return res.status(200).json({
