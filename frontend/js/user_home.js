@@ -92,7 +92,7 @@ $(document).ready(function () {
             : "/assets/images/main.jpg";
           productsContainer.append(`
             <div class="col-md-3">
-              <div class="product-card">
+              <div class="product-card" style="cursor: pointer;" data-item-id="${item.item_id}">
                 <div class="product-image-wrapper">
                   <img class="product-image" src="${imgPath}" alt="${item.item_name}">
                 </div>
@@ -158,6 +158,14 @@ $(document).ready(function () {
         renderProductCards(paginatedItems[0]);
         $(".pagination li").first().addClass("active");
       }
+
+      // Add click handlers for product cards
+      $(document).on("click", ".product-card", function () {
+        const itemId = $(this).data("item-id");
+        if (itemId) {
+          window.location.href = `/frontend/user/item/index.html?id=${itemId}`;
+        }
+      });
     },
     (error) => {
       console.error("Error fetching featured products:", error);

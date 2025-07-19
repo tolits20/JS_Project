@@ -25,6 +25,7 @@ route.delete("/admin/item/gallery/:id", item.deletegallery);
 // })
 
 route.get("/items", item.getItems);
+route.get("/items/:id", item.getSingleItem); // Clean route for getting single item
 route.get("/admin/item-all", item.itemTable);
-route.get("/itemSearch/:search",item.itemSeach)
+route.get("/itemSearch/:search", item.itemSeach);
 module.exports = route;
