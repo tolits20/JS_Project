@@ -1,5 +1,5 @@
 import config from "../../config/network.js";
-import modal from "./modal.js"
+import modal from "./modal.js";
 
 const token = localStorage.getItem("token");
 export const network = {
@@ -90,6 +90,10 @@ export const dataTable = (data, table) => {
         },
       },
     ],
+    category: [
+      { data: "category", className: "fw-bold text-capitalize" },
+      { data: "total", className: "fw-bold text-capitalize" },
+    ],
   };
 
   // let columns = table === "user" ? [...option.user] : [...option.item];
@@ -103,6 +107,9 @@ export const dataTable = (data, table) => {
       break;
     case "order":
       columns = [...option.orders];
+      break;
+       case "category":
+      columns = [...option.category];
       break;
   }
 
@@ -141,12 +148,12 @@ export const dataTable = (data, table) => {
         className: "btn btn-dark",
       },
       {
-       text:`Add ${table}`,
+        text: `Add ${table}`,
         className: "btn btn-dark",
-        action:(e)=>{
-          console.log("clicked")
-          modal(table)
-        }
+        action: (e) => {
+          console.log("clicked");
+          modal(table);
+        },
       },
     ],
     columns,
