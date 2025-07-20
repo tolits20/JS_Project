@@ -12,7 +12,6 @@ roleCheck();
 $(document).ready(function () {
   sidebarLinks()
   $(document)
-    .off("click")
     .on("click", "#btn-destroy", (e) => {
       e.preventDefault();
       let id = $(e.target).data("id");
@@ -28,7 +27,7 @@ $(document).ready(function () {
         },
         (err) => {
           console.log(err);
-          errorStatus(err.status);
+          // errorStatus(err.status);
           alert.notyf.error(
             "Failed to delete the item, Please try again later!"
           );

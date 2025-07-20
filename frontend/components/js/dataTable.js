@@ -125,6 +125,7 @@ export const dataTable = (data, table) => {
             break;
           case "item":
             id = data.item_id;
+            break;
           case "category":
             id = data.category_id;
             break;

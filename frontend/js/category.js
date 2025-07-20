@@ -21,7 +21,6 @@ $(document).ready(function () {
   );
 
   $("#category-table")
-    .off("click")
     .on("click", "#btn-destroy", async (e) => {
       e.preventDefault();
       let target = $(e.target);
@@ -49,7 +48,6 @@ $(document).ready(function () {
     });
 
   $("#category-table")
-    .off("click")
     .on("click", ".btnEdit", async (e) => {
       e.preventDefault();
       let target = $(e.target);

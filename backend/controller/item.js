@@ -63,7 +63,7 @@ exports.editItem = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   const id = parseInt(req.params.id);
   const { item_name, item_price, category, stocks, description } = req.body;
 
@@ -184,7 +184,7 @@ exports.delete = async (req, res) => {
   let getQuery =
     "SELECT i.item_img, ig.item_path FROM items i INNER JOIN item_gallery ig USING(item_id) WHERE item_id=?";
   const [getData] = await connection.query(getQuery, [id]);
-
+  
   if (getData.length > 0) {
     console.log(getData);
 
