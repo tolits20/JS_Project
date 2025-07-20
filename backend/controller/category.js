@@ -12,7 +12,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   let { category_name } = req.body;
   let query = "INSERT INTO categories (category_name) VALUES (?)";
   let [result] = await connection.query(query, [category_name]);
@@ -34,13 +34,26 @@ exports.getCategoryTable = async (req, res) => {
   return res.status(500).json("something went wrong on the server side");
 };
 
-exports.delete =async (req,res)=>{
-  let id = parseInt(req.params.id)
-  let query = "DELETE FROM categories WHERE category_id = ? "
-  let [result] = await connection.query(query,[id])
-  if(result.affectedRows>0) {
-    log('category','delete')
-    return res.status(200).json("Successfully deleted")
+exports.update = async (req, res) => {
+  // console.log(req.body)
+  let id = parseInt(req.params.id);
+  let {category_name} =req.body
+  let query = "UPDATE categories SET category_name=? WHERE category_id = ?";
+  let [result] = await connection.query(query, [category_name, id]);
+  if (result.affectedRows > 0) {
+    log("category", "update");
+    return res.status(200).json("Successfully update the user");
   }
-  return res.status(500).json("something went wrong on the serverside")
-}
+  return res.status(200).json("something went wrong on the server side");
+};
+
+exports.delete = async (req, res) => {
+  let id = parseInt(req.params.id);
+  let query = "DELETE FROM categories WHERE category_id = ? ";
+  let [result] = await connection.query(query, [id]);
+  if (result.affectedRows > 0) {
+    log("category", "delete");
+    return res.status(200).json("Successfully deleted");
+  }
+  return res.status(500).json("something went wrong on the serverside");
+};
