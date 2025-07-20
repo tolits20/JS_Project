@@ -21,4 +21,7 @@ router.put("/order/:id/status", transactionController.updateTransactionStatus);
 // Cancel transaction (for user)
 router.post("/order/:id/cancel", transactionController.cancelTransaction);
 
+// User updates their order (quantities, etc.)
+router.put("/order/:id", transactionController.updateUserOrder);
+
 module.exports = router;

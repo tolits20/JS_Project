@@ -18,7 +18,6 @@ class CheckoutManager {
     const currentPath = window.location.pathname;
     if (currentPath.includes("/checkout/index.html")) {
       // We're on the orders page - load header and user orders
-      console.log("Loading orders page...");
       this.loadHeaderOnly();
       this.loadUserOrders();
     } else {
@@ -36,14 +35,11 @@ class CheckoutManager {
 
   // Load header only (for orders page)
   loadHeaderOnly() {
-    console.log("Loading header only...");
     try {
       // Use the existing componentLoader utility
       loadHeaderAndFooter(sessionCartManager);
-      console.log("Header loaded successfully using componentLoader");
     } catch (error) {
       console.error("Error loading header:", error);
-      console.log("Continuing without header...");
     }
   }
 
@@ -69,11 +65,6 @@ class CheckoutManager {
     $(document).on("click", ".view-order-btn", function (e) {
       const orderId = $(this).data("order-id");
       window.location.href = `/frontend/user/item/order_details.html?id=${orderId}`;
-    });
-
-    $(document).on("click", ".edit-order-btn", function (e) {
-      const orderId = $(this).data("order-id");
-      showNotification("Edit functionality coming soon!", "info");
     });
 
     $(document).on("click", ".cancel-order-btn", function (e) {
@@ -334,17 +325,12 @@ class CheckoutManager {
 
   // Load user orders (for orders page)
   async loadUserOrders() {
-    console.log("loadUserOrders called");
     try {
-      console.log("Fetching user orders...");
       const response = await this.fetchUserOrders();
-      console.log("API response:", response);
 
       if (response.success) {
-        console.log("Rendering orders:", response.data);
         this.renderOrders(response.data);
       } else {
-        console.log("API error:", response.message);
         this.showEmptyState("Failed to load orders: " + response.message);
       }
     } catch (error) {
@@ -383,12 +369,9 @@ class CheckoutManager {
 
   // Render orders in the container
   renderOrders(orders) {
-    console.log("renderOrders called with:", orders);
     const container = $("#orders-container");
-    console.log("Container found:", container.length > 0);
 
     if (!orders || orders.length === 0) {
-      console.log("No orders found, showing empty state");
       this.showEmptyState(
         "You haven't placed any orders yet. Start shopping to see your order history here."
       );
@@ -481,14 +464,12 @@ class CheckoutManager {
 document.addEventListener("DOMContentLoaded", function () {
   // Wait for jQuery to be available
   if (typeof $ !== "undefined") {
-    console.log("Checkout page loaded, initializing...");
-    new CheckoutManager();
+    window.checkoutManager = new CheckoutManager();
   } else {
     // If jQuery isn't available yet, wait a bit more
     setTimeout(function () {
       if (typeof $ !== "undefined") {
-        console.log("Checkout page loaded, initializing...");
-        new CheckoutManager();
+        window.checkoutManager = new CheckoutManager();
       } else {
         console.error("jQuery not available");
       }
