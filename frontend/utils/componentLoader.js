@@ -49,6 +49,9 @@ export function loadHeaderAndFooter(cartManager = null) {
     // We're on cart page - use relative paths
     headerPath = "../components/primary/header.html";
     footerPath = "../components/primary/footer.html";
+  } else if (currentPath.includes("/item/")) {
+    headerPath = "../components/primary/header.html";
+    footerPath = "../components/primary/footer.html";
   } else if (currentPath.includes("/user/")) {
     // We're on other user pages
     headerPath = "components/primary/header.html";
