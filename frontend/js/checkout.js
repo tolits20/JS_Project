@@ -12,15 +12,39 @@ class CheckoutManager {
   }
 
   init() {
-    this.loadComponents();
     this.setupEventListeners();
-    this.loadCartItems();
-    this.loadUserInfo();
+
+    // Check if we're on the orders page (checkout/index.html) or checkout page
+    const currentPath = window.location.pathname;
+    if (currentPath.includes("/checkout/index.html")) {
+      // We're on the orders page - load header and user orders
+      console.log("Loading orders page...");
+      this.loadHeaderOnly();
+      this.loadUserOrders();
+    } else {
+      // We're on the checkout page - load components, cart items and user info
+      this.loadComponents();
+      this.loadCartItems();
+      this.loadUserInfo();
+    }
   }
 
   // Load header and footer components
   loadComponents() {
     loadHeaderAndFooter(sessionCartManager);
+  }
+
+  // Load header only (for orders page)
+  loadHeaderOnly() {
+    console.log("Loading header only...");
+    try {
+      // Use the existing componentLoader utility
+      loadHeaderAndFooter(sessionCartManager);
+      console.log("Header loaded successfully using componentLoader");
+    } catch (error) {
+      console.error("Error loading header:", error);
+      console.log("Continuing without header...");
+    }
   }
 
   // Setup event listeners
@@ -39,6 +63,50 @@ class CheckoutManager {
     $(document).on("click", "#logout-btn", function (e) {
       e.preventDefault();
       logout();
+    });
+
+    // Order action handlers (for orders page)
+    $(document).on("click", ".view-order-btn", function (e) {
+      const orderId = $(this).data("order-id");
+      window.location.href = `/frontend/user/item/order_details.html?id=${orderId}`;
+    });
+
+    $(document).on("click", ".edit-order-btn", function (e) {
+      const orderId = $(this).data("order-id");
+      showNotification("Edit functionality coming soon!", "info");
+    });
+
+    $(document).on("click", ".cancel-order-btn", function (e) {
+      const orderId = $(this).data("order-id");
+      if (confirm("Are you sure you want to cancel this order?")) {
+        // Call cancel order API
+        $.ajax({
+          method: "POST",
+          url: `http://${network.ip}:${network.port}/api/v1/order/${orderId}/cancel`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          data: JSON.stringify({ reason: "Cancelled by user" }),
+          success: function (response) {
+            if (response.success) {
+              showNotification("Order cancelled successfully!", "success");
+              location.reload();
+            } else {
+              showNotification(
+                response.message || "Failed to cancel order.",
+                "error"
+              );
+            }
+          },
+          error: function (xhr, status, error) {
+            showNotification(
+              "An error occurred while cancelling the order.",
+              "error"
+            );
+          },
+        });
+      }
     });
   }
 
@@ -263,10 +331,167 @@ class CheckoutManager {
       });
     });
   }
+
+  // Load user orders (for orders page)
+  async loadUserOrders() {
+    console.log("loadUserOrders called");
+    try {
+      console.log("Fetching user orders...");
+      const response = await this.fetchUserOrders();
+      console.log("API response:", response);
+
+      if (response.success) {
+        console.log("Rendering orders:", response.data);
+        this.renderOrders(response.data);
+      } else {
+        console.log("API error:", response.message);
+        this.showEmptyState("Failed to load orders: " + response.message);
+      }
+    } catch (error) {
+      console.error("Error loading orders:", error);
+      this.showEmptyState("An error occurred while loading your orders.");
+    }
+  }
+
+  // Fetch user orders from API
+  async fetchUserOrders() {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        method: "GET",
+        url: `http://${network.ip}:${network.port}/api/v1/my-orders`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        success: function (response) {
+          resolve(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("API Error:", xhr.responseText);
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            resolve(errorResponse);
+          } catch (e) {
+            resolve({
+              success: false,
+              message: "Network error occurred",
+            });
+          }
+        },
+      });
+    });
+  }
+
+  // Render orders in the container
+  renderOrders(orders) {
+    console.log("renderOrders called with:", orders);
+    const container = $("#orders-container");
+    console.log("Container found:", container.length > 0);
+
+    if (!orders || orders.length === 0) {
+      console.log("No orders found, showing empty state");
+      this.showEmptyState(
+        "You haven't placed any orders yet. Start shopping to see your order history here."
+      );
+      return;
+    }
+
+    let ordersHTML = "";
+    orders.forEach((order) => {
+      const orderDate = new Date(order.order_placed).toLocaleDateString();
+      const statusClass = `status-${order.order_status}`;
+      const canEdit = order.order_status === "pending";
+      const canCancel = order.order_status === "pending";
+
+      ordersHTML += `
+        <div class="order-card">
+          <div class="order-header">
+            <div class="order-info">
+              <h4>Order #${order.order_id}</h4>
+              <div class="order-date">Placed on ${orderDate}</div>
+            </div>
+            <div class="order-status ${statusClass}">${this.getStatusText(
+        order.order_status
+      )}</div>
+          </div>
+          
+          <div class="order-summary">
+            <div class="summary-row">
+              <span>Items:</span>
+              <span>${order.items_count}</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Amount:</span>
+              <span>$${parseFloat(order.total_amount || 0).toFixed(2)}</span>
+            </div>
+          </div>
+          
+          <div class="order-actions">
+            <button class="btn-view view-order-btn" data-order-id="${
+              order.order_id
+            }">
+              <i class="fas fa-eye"></i> View Details
+            </button>
+            <button class="btn-edit edit-order-btn" data-order-id="${
+              order.order_id
+            }" ${!canEdit ? "disabled" : ""}>
+              <i class="fas fa-edit"></i> Edit Order
+            </button>
+            <button class="btn-cancel cancel-order-btn" data-order-id="${
+              order.order_id
+            }" ${!canCancel ? "disabled" : ""}>
+              <i class="fas fa-times"></i> Cancel Order
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    container.html(ordersHTML);
+  }
+
+  // Show empty state
+  showEmptyState(message) {
+    const container = $("#orders-container");
+    container.html(`
+      <div class="empty-orders">
+        <i class="fas fa-shopping-bag"></i>
+        <h3>No orders yet</h3>
+        <p>${message}</p>
+        <a href="../home_page.html" class="btn btn-primary">
+          <i class="fas fa-shopping-cart"></i> Start Shopping
+        </a>
+      </div>
+    `);
+  }
+
+  // Get status display text
+  getStatusText(status) {
+    const statusMap = {
+      pending: "Pending",
+      shipped: "Shipped",
+      delivered: "Delivered",
+      cancelled: "Cancelled",
+      refunded: "Refunded",
+    };
+    return statusMap[status] || status;
+  }
 }
 
 // Initialize checkout when document is ready
-$(document).ready(function () {
-  console.log("Checkout page loaded, initializing...");
-  new CheckoutManager();
+document.addEventListener("DOMContentLoaded", function () {
+  // Wait for jQuery to be available
+  if (typeof $ !== "undefined") {
+    console.log("Checkout page loaded, initializing...");
+    new CheckoutManager();
+  } else {
+    // If jQuery isn't available yet, wait a bit more
+    setTimeout(function () {
+      if (typeof $ !== "undefined") {
+        console.log("Checkout page loaded, initializing...");
+        new CheckoutManager();
+      } else {
+        console.error("jQuery not available");
+      }
+    }, 100);
+  }
 });
