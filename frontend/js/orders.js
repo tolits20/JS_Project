@@ -3,11 +3,11 @@ import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
-import logout from "./logout.js";
-
+import sidebarLinks from "./sidebar-links.js";
 roleCheck();
 
 $(document).ready(function () {
+  sidebarLinks()
   document
     .getElementById("sidebar-dashboard")
     .setAttribute(

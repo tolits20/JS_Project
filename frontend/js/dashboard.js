@@ -3,7 +3,7 @@ import alert from "../components/js/alert.js";
 import network from "../config/network.js";
 import createChart from "../components/js/charts.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
-import logout from "./logout.js";
+import sidebarLinks from "./sidebar-links.js";
 import listGenerator from "../utils/listGenerator.js";
 
 roleCheck();
@@ -14,34 +14,7 @@ $(document).ready(function () {
     sessionStorage.removeItem("message");
   }
 
-  document
-    .getElementById("sidebar-dashboard")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/dashboard.html`
-    );
-  document
-    .getElementById("sidebar-user")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/user/index.html`
-    );
-  document
-    .getElementById("sidebar-item")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/item/index.html`
-    );
-  document
-    .getElementById("sidebar-order")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/orders/index.html`
-    );
-  document.getElementById("sidebar-logout").addEventListener("click", (e) => {
-    e.preventDefault();
-    logout();
-  });
+  sidebarLinks()
 
   const chart1 = new request("api/v1", "admin/chart");
   chart1.getById(

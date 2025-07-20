@@ -5,7 +5,7 @@ import formValidate from "../utils/validate.js";
 import { dataTable } from "../../components/js/dataTable.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
-import logout from "./logout.js";
+import sidebarLinks from "./sidebar-links.js";
 
 roleCheck();
 
@@ -128,34 +128,7 @@ $(document)
     );
   });
 
-document
-  .getElementById("sidebar-dashboard")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/dashboard.html`
-  );
-document
-  .getElementById("sidebar-user")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/user/index.html`
-  );
-document
-  .getElementById("sidebar-item")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/item/index.html`
-  );
-document
-  .getElementById("sidebar-order")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/orders/index.html`
-  );
-document.getElementById("sidebar-logout").addEventListener("click", (e) => {
-  e.preventDefault();
-  logout();
-});
+
 
 if (!id) {
   const tableData = new request("api/v1", "admin/user-all");
@@ -173,3 +146,5 @@ if (!id) {
     }
   );
 }
+
+sidebarLinks()

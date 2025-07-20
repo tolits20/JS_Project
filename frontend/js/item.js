@@ -4,40 +4,13 @@ import network from "../config/network.js";
 import formValidate from "../utils/validate.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
-import logout from "./logout.js";
+import sidebarLinks from "./sidebar-links.js";
 roleCheck();
 
-//index.html
-document
-  .getElementById("sidebar-dashboard")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/dashboard.html`
-  );
-document
-  .getElementById("sidebar-user")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/user/index.html`
-  );
-document
-  .getElementById("sidebar-item")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/item/index.html`
-  );
-document
-  .getElementById("sidebar-order")
-  .setAttribute(
-    "href",
-    `http://${network.client.host}/frontend/admin/orders/index.html`
-  );
- document.getElementById("sidebar-logout").addEventListener("click", (e) => {
-    e.preventDefault();
-    logout();
-  });
+
 
 $(document).ready(function () {
+  sidebarLinks()
   $(document)
     .off("click")
     .on("click", "#btn-destroy", (e) => {
