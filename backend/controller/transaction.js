@@ -1,10 +1,11 @@
 const connection = require("../config/database");
+const { sendEmail } = require("../util/nodemailer");
 
 // Create new transaction/order from cart
 exports.createTransaction = async (req, res) => {
   const { cartItems } = req.body;
   const userId = req.user.data; // From JWT token
-
+  // console.log(cartItems);
   if (!cartItems || cartItems.length === 0) {
     return res.status(400).json({
       success: false,
@@ -42,10 +43,10 @@ exports.createTransaction = async (req, res) => {
         "UPDATE stocks SET qty = qty - ? WHERE item_id = ?";
       await connection.query(updateStockQuery, [item.quantity, item.item_id]);
     }
+     await sendEmail(cartItems);
 
     // Commit transaction
     await connection.commit();
-
     return res.status(201).json({
       success: true,
       message: "Order created successfully",
