@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
 
 exports.getCategoryTable = async (req, res) => {
   let query =
-    "SELECT c.category_name as category, COUNT(ic.item_id) as total  FROM categories c LEFT JOIN item_category ic USING(category_id) GROUP BY c.category_name ORDER BY total DESC";
+    "SELECT c.category_name as category, COUNT(ic.item_id) as total, c.category_id  FROM categories c LEFT JOIN item_category ic USING(category_id) GROUP BY c.category_name ORDER BY total DESC";
   let [result] = await connection.query(query, []);
   if (result)
     return res.status(200).json({
@@ -33,3 +33,14 @@ exports.getCategoryTable = async (req, res) => {
     });
   return res.status(500).json("something went wrong on the server side");
 };
+
+exports.delete =async (req,res)=>{
+  let id = parseInt(req.params.id)
+  let query = "DELETE FROM categories WHERE category_id = ? "
+  let [result] = await connection.query(query,[id])
+  if(result.affectedRows>0) {
+    log('category','delete')
+    return res.status(200).json("Successfully deleted")
+  }
+  return res.status(500).json("something went wrong on the serverside")
+}

@@ -6,5 +6,5 @@ const category = require("../controller/category");
 route.get("/category", auth, role("admin"), category.getAll);
 route.get("/categoryTable", auth, role("admin"), category.getCategoryTable);
 route.post("/category", auth, role("admin"), category.create);
-
+route.delete('/category/delete/:id',auth,role('admin'),category.delete)
 module.exports = route;

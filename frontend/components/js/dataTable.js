@@ -108,7 +108,7 @@ export const dataTable = (data, table) => {
     case "order":
       columns = [...option.orders];
       break;
-       case "category":
+    case "category":
       columns = [...option.category];
       break;
   }
@@ -118,7 +118,17 @@ export const dataTable = (data, table) => {
       data: null,
       className: "text-end",
       render: function (data, type, row) {
-        let id = table === "user" ? data.user_id : data.item_id;
+        let id;
+        switch (table) {
+          case "user":
+            id = data.user_id;
+            break;
+          case "item":
+            id = data.item_id;
+          case "category":
+            id = data.category_id;
+            break;
+        }
         return `
             <a data-id="${id}" href="${btnUrl}?id=${id}" class="btnEdit btn btn-sm  me-2">
               <i class="fa fa-edit"></i> Edit
