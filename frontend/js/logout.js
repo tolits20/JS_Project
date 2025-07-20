@@ -1,18 +1,16 @@
 import network from "../config/network.js";
+import sessionCartManager from "../utils/cartManager.js";
+
 const logout = () => {
   console.log("logout");
 
-  // Save cart data before clearing localStorage
-  const cartData = localStorage.getItem("auretta_cart");
+  // Clear cart data for current user
+  sessionCartManager.clearCartOnLogout();
 
-  // Clear all localStorage
+  // Clear all localStorage (including auth token)
   localStorage.clear();
 
-  // Restore cart data (so it persists after logout)
-  if (cartData) {
-    localStorage.setItem("auretta_cart", cartData);
-  }
-
+  // Redirect to login page
   location.href = `http://${network.client.host}`;
 };
 
