@@ -289,6 +289,28 @@
         font-weight: 700;
         color: #000000;
       }
+
+      .cart-item-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .checkout-item-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .checkout-item-btn:hover {
+        background: #218838;
+      }
       .quantity-controls {
         display: flex;
         align-items: center;
@@ -473,6 +495,96 @@
         .summary-row.total {
           font-size: 1.2rem;
         }
+
+        .cart-item-actions {
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+
+      /* Modal Styles */
+      .modal-content {
+        border-radius: 8px;
+      }
+
+      .modal-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      .modal-title {
+        color: #333;
+        font-weight: 600;
+      }
+
+      .order-summary {
+        margin-bottom: 20px;
+      }
+
+      .order-summary h6 {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .order-items {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .item-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .item-info strong {
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .item-info span {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .item-total {
+        font-weight: 600;
+        color: #007bff;
+      }
+
+      .order-total {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #f0f0f0;
+        text-align: right;
+        font-size: 1.1rem;
+      }
+
+      .order-confirmation {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 20px;
+      }
+
+      .order-confirmation p {
+        margin-bottom: 5px;
+      }
+
+      .order-confirmation .text-muted {
+        font-size: 14px;
       }
     </style>
   </head>

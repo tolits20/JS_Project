@@ -11,6 +11,7 @@ const {
   order,
   dashboard,
   category,
+  transaction,
 } = require("./route/index");
 
 //incoming request parser
@@ -37,7 +38,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
-
 app.use("/api/v1/", admin);
 app.use("/api/v1/", user);
 app.use("/api/v1/", item);
@@ -45,5 +45,6 @@ app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
 app.use("/api/v1/", dashboard);
 app.use("/api/v1/", category);
+app.use("/api/v1/", transaction);
 
 module.exports = app;

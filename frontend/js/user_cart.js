@@ -60,9 +60,14 @@ function renderCartItems() {
           </div>
           <div class="cart-item-total">Total: $${itemTotal}</div>
         </div>
-        <button class="remove-btn" data-item-id="${item.item_id}">
-          <i class="fas fa-trash"></i> Remove
-        </button>
+        <div class="cart-item-actions">
+          <button class="checkout-item-btn" data-item-id="${item.item_id}">
+            <i class="fas fa-shopping-cart"></i> Checkout This Item
+          </button>
+          <button class="remove-btn" data-item-id="${item.item_id}">
+            <i class="fas fa-trash"></i> Remove
+          </button>
+        </div>
       </div>
     `;
   });
@@ -177,10 +182,22 @@ $(document).ready(function () {
   $("#checkout-btn").on("click", function () {
     const cartItems = sessionCartManager.getCartItems();
     if (cartItems.length > 0) {
-      // For now, just show a message. You can implement actual checkout later
-      showNotification("Checkout functionality coming soon!", "info");
-      // You can redirect to a checkout page or implement payment processing here
-      // window.location.href = '/frontend/user/checkout/index.html';
+      // Show checkout modal
+      showCheckoutModal(cartItems);
+    } else {
+      showNotification("Your cart is empty!", "error");
+    }
+  });
+
+  // Event handler for individual item checkout
+  $(document).on("click", ".checkout-item-btn", function () {
+    const itemId = parseInt($(this).data("item-id"));
+    const cartItems = sessionCartManager
+      .getCartItems()
+      .filter((item) => item.item_id === itemId);
+
+    if (cartItems.length > 0) {
+      showCheckoutModal(cartItems);
     }
   });
 
@@ -190,6 +207,157 @@ $(document).ready(function () {
     logout();
   });
 });
+
+// Show checkout modal
+function showCheckoutModal(cartItems) {
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.item_price * item.quantity,
+    0
+  );
+
+  const modalHTML = `
+    <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-shopping-cart"></i> Confirm Order
+            </h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="order-summary">
+              <h6>Order Summary</h6>
+              <div class="order-items">
+                ${cartItems
+                  .map(
+                    (item) => `
+                  <div class="order-item">
+                    <div class="item-info">
+                      <strong>${item.item_name}</strong>
+                      <span>$${item.item_price} × ${item.quantity}</span>
+                    </div>
+                    <div class="item-total">$${(
+                      item.item_price * item.quantity
+                    ).toFixed(2)}</div>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+              <div class="order-total">
+                <strong>Total: $${totalAmount.toFixed(2)}</strong>
+              </div>
+            </div>
+            <div class="order-confirmation">
+              <p>Are you sure you want to place this order?</p>
+              <p class="text-muted">This will create an order and remove items from your cart.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+            <button type="button" class="btn btn-primary" id="confirm-order-btn">
+              <i class="fas fa-check"></i> Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Remove existing modal if any
+  $("#checkoutModal").remove();
+
+  // Add modal to body
+  $("body").append(modalHTML);
+
+  // Show modal
+  $("#checkoutModal").modal("show");
+
+  // Handle confirm order button
+  $("#confirm-order-btn").on("click", function () {
+    placeOrder(cartItems);
+  });
+}
+
+// Place order function
+async function placeOrder(cartItems) {
+  const button = $("#confirm-order-btn");
+  const originalText = button.html();
+
+  // Disable button and show loading
+  button.prop("disabled", true);
+  button.html('<i class="fas fa-spinner fa-spin"></i> Processing...');
+
+  try {
+    const response = await createOrderAPI(cartItems);
+
+    if (response.success) {
+      // Clear cart after successful order
+      sessionCartManager.clearCart();
+
+      // Close modal
+      $("#checkoutModal").modal("hide");
+
+      // Show success message
+      showNotification(
+        "Order placed successfully! Order ID: " + response.data.order_id,
+        "success"
+      );
+
+      // Reload cart page to show empty cart
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    } else {
+      showNotification(response.message || "Failed to place order.", "error");
+    }
+  } catch (error) {
+    console.error("Error placing order:", error);
+    showNotification(
+      "An error occurred while placing your order. Please try again.",
+      "error"
+    );
+  } finally {
+    // Re-enable button
+    button.prop("disabled", false);
+    button.html(originalText);
+  }
+}
+
+// Create order API call
+async function createOrderAPI(cartItems) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      method: "POST",
+      url: `http://${network.ip}:${network.port}/api/v1/checkout`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      data: JSON.stringify({ cartItems }),
+      success: function (response) {
+        resolve(response);
+      },
+      error: function (xhr, status, error) {
+        console.error("API Error:", xhr.responseText);
+        try {
+          const errorResponse = JSON.parse(xhr.responseText);
+          resolve(errorResponse);
+        } catch (e) {
+          resolve({
+            success: false,
+            message: "Network error occurred",
+          });
+        }
+      },
+    });
+  });
+}
 
 // Make session cart manager available globally for other scripts
 window.sessionCartManager = sessionCartManager;

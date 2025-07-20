@@ -3,12 +3,10 @@ const jwt = require("jsonwebtoken");
 const isAuth = (req, res, next) => {
   // console.log("body:", req.body, "header:", req.headers);
   if (!req.header("Authorization")) {
-    return res
-      .status(401)
-      .json({
-        message: "Unauthorized Access",
-        returnPage: "frontend/status_pages/403.html",
-      });
+    return res.status(401).json({
+      message: "Unauthorized Access",
+      returnPage: "frontend/status_pages/403.html",
+    });
   }
 
   const token = req.header("Authorization").split(" ")[1];
@@ -16,6 +14,7 @@ const isAuth = (req, res, next) => {
   try {
     let decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.role = decoded.role;
+    req.user = decoded; // Add user data to request object
     // console.log(decoded);
 
     next();
