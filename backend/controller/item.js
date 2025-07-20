@@ -1,10 +1,7 @@
 const connection = require("../config/database");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
-const { resolve, parse } = require("path");
-const { rejects } = require("assert");
-const { get } = require("http");
-const { error } = require("console");
+const { log } = require("../service/logs");
 
 exports.itemTable = async (req, res) => {
   let query =
@@ -33,6 +30,7 @@ exports.createItem = async (req, res) => {
       throw new error("failed to store the item in the database");
     await connection.query(query2, [id, stock]);
     connection.commit();
+    log("item", "create");
     return res.status(201).json({
       result1,
       message: "Successful",
@@ -57,7 +55,6 @@ exports.editItem = async (req, res) => {
   let query3 = "SELECT * FROM categories";
   let [categories] = await connection.query(query3, []);
   // console.log("categries", categories);
-
   return res.status(200).json({
     item: result,
     categories,
@@ -99,6 +96,7 @@ exports.update = async (req, res) => {
   };
 
   await updateAtOnce();
+  log("item", "update");
 
   return res.status(200).json({
     message: "successful",
@@ -123,6 +121,7 @@ exports.singleImg = async (req, res) => {
 
   let update = "UPDATE items SET item_img = ? WHERE item_id =?";
   let [result] = await connection.query(update, [file, id]);
+  log("item", "update");
 
   if (result)
     return res.status(201).json({
@@ -147,6 +146,8 @@ exports.multiImg = async (req, res) => {
         file.destination + "/" + file.filename,
       ]);
     });
+    log("item", "update");
+
     connection.commit();
   } catch (error) {
     connection.rollback();
@@ -170,6 +171,8 @@ exports.deletegallery = async (req, res) => {
   }
   let query = "DELETE FROM item_gallery WHERE img_id =?";
   let [result] = await connection.query(query, [id]);
+    log('item','delete')
+
   if (result.affectedRows > 0)
     return res.status(200).json("successfully deleted from DB");
   return res.status(500).json("something went wrong, Please try again later!");
@@ -198,6 +201,7 @@ exports.delete = async (req, res) => {
   let ItemDelete = "DELETE FROM items WHERE item_id=?";
 
   let [result] = await connection.query(ItemDelete, [id]);
+  log('item','delete')
 
   if (result.affectedRows > 0)
     return res.status(200).json("Item deleted Successfully!");

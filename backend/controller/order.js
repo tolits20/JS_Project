@@ -1,4 +1,5 @@
 const connection = require("../config/database");
+const { log } = require("../service/logs");
 
 exports.orderTable = async (req, res) => {
   let query =
@@ -12,8 +13,11 @@ exports.status = async (req, res) => {
   const id = parseInt(req.params.id);
   let update = "UPDATE orders SET order_status = ? WHERE order_id =?";
   const { val } = req.body;
-  console.log(val)
+  console.log(val);
   let [result] = await connection.query(update, [val, id]);
-  if (result.affectedRows > 0) return res.status(200).json("Successful!");
+  if (result.affectedRows > 0) {
+    log('orders','update')
+    return res.status(200).json("Successful!");
+  }
   return res.status(500).json("something went wrong on the server");
 };

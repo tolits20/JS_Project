@@ -3,6 +3,7 @@ const queryHelper = require("../service/query");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
+const { log } = require("../service/logs");
 
 exports.getAll = async (req, res) => {
   const data = await queryHelper.getAll("user");
@@ -22,8 +23,10 @@ exports.create = async (req, res) => {
   const filename = req.file ?? null;
   const { name, email, password } = req.body;
   let result = await connection.query(sql, [name, email, password, filename]);
-  if (result)
+  if (result) {
+    log("user", "create");
     return res.status(201).json({ message: "successful", data: result });
+  }
 };
 
 exports.userTable = async (req, res) => {
@@ -69,11 +72,13 @@ exports.update = async (req, res) => {
     id,
   ]);
 
-  if (result)
+  if (result) {
+    log("user", "update");
     return res.status(200).json({
       message: "successful",
       result,
     });
+  }
 
   return res
     .status(500)
@@ -84,7 +89,11 @@ exports.delete = async (req, res) => {
   const id = parseInt(req.params.id);
   let query = "DELETE FROM user WHERE user_id=?";
   let result = connection.query(query, [id]);
-  if (result) return res.status(200).json("Successful");
+  if (result) {
+    log("user", "delete");
+
+    return res.status(200).json("Successful");
+  }
   return res
     .status(500)
     .json("failed to delete the user, Please try again later");
@@ -98,7 +107,11 @@ exports.status = async (req, res) => {
     "UPDATE user SET is_active=? WHERE user_id = ?",
     [status, id]
   );
-  if (result.affectedRows > 0) return res.status(200).json("Successful!");
+  if (result.affectedRows > 0) {
+    log("user", "update");
+
+    return res.status(200).json("Successful!");
+  }
 
   return res
     .status(500)
@@ -111,6 +124,9 @@ exports.softDelete = async (req, res) => {
   console.log(id);
   let query = "UPDATE user SET deleted_at=NOW() WHERE user_id = ?";
   let [result] = await connection.query(query, [id]);
-  if (result.affectedRows) return res.status(200).json("ok");
+  if (result.affectedRows) {
+    log("user", "delete");
+    return res.status(200).json("ok");
+  }
   return res.status(500).json("something went wrong during the process");
 };
