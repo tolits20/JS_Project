@@ -12,6 +12,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  console.log(req.body)
   let { category_name } = req.body;
   let query = "INSERT INTO categories (category_name) VALUES (?)";
   let [result] = await connection.query(query, [category_name]);
@@ -24,7 +25,7 @@ exports.create = async (req, res) => {
 
 exports.getCategoryTable = async (req, res) => {
   let query =
-    "SELECT c.category_name as category, COUNT(ic.item_id) as total  FROM categories c INNER JOIN item_category ic USING(category_id) GROUP BY c.category_name DESC";
+    "SELECT c.category_name as category, COUNT(ic.item_id) as total  FROM categories c LEFT JOIN item_category ic USING(category_id) GROUP BY c.category_name ORDER BY total DESC";
   let [result] = await connection.query(query, []);
   if (result)
     return res.status(200).json({

@@ -42,9 +42,25 @@ const option = {
       resourceURL: "admin/item",
     },
   },
+  category: {
+    title: "New Category",
+    html: `
+        <input type="text" id="categoryName" class="swal2-input" placeholder="Category Name">
+      `,
+    action: () => {
+      return {
+        category_name: document.getElementById("categoryName").value.trim(),
+      };
+    },
+    endpoint: {
+      baseURL: "api/v1",
+      resourceURL: "category",
+    },
+  },
 };
 
 const modal = (table) => {
+  console.log(table);
   Swal.fire({
     title: option[table].title,
     html: option[table].html,
