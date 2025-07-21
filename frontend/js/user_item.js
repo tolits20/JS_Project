@@ -140,13 +140,41 @@ function getItemId() {
 
 function loadReviews() {
   const itemId = getItemId();
+  console.log(itemId)
+  // // Use fetch for public endpoint (no auth required)
+  // fetch(
+  //   `http://${network.ip}:${network.port}/api/v1/item-reviews?item_id=${itemId}`
+  // )
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     if (!data.data || data.data.length === 0) {
+  //       document.getElementById("reviews-list").innerHTML =
+  //         "<p>No reviews yet.</p>";
+  //       return;
+  //     }
 
-  // Use fetch for public endpoint (no auth required)
-  fetch(
-    `http://${network.ip}:${network.port}/api/v1/item-reviews?item_id=${itemId}`
-  )
-    .then((res) => res.json())
-    .then((data) => {
+  //     let html = "";
+  //     data.data.forEach((review) => {
+  //       html += `<div class="review" style="border-bottom: 1px solid #eee; margin-bottom: 15px; padding-bottom: 15px;">`;
+  //       html += `<strong>${
+  //         review.user_name || "Anonymous"
+  //       }</strong> <span style="color: #ffc107;">★ ${review.rating}/5</span>`;
+  //       html += `<p style="margin-top: 5px;">${review.comment || ""}</p>`;
+  //       html += `</div>`;
+  //     });
+  //     document.getElementById("reviews-list").innerHTML = html;
+  //   })
+  //   .catch((error) => {
+  //     console.error("Failed to load reviews:", error);
+  //     document.getElementById("reviews-list").innerHTML =
+  //       "<p>Failed to load reviews.</p>";
+  //   });
+
+  $.ajax({
+    method: "GET",
+    url: `http://${network.ip}:${network.port}/api/v1/item-reviews/${itemId}`,
+    dataType: "json",
+    success: (data) => {
       if (!data.data || data.data.length === 0) {
         document.getElementById("reviews-list").innerHTML =
           "<p>No reviews yet.</p>";
@@ -163,12 +191,13 @@ function loadReviews() {
         html += `</div>`;
       });
       document.getElementById("reviews-list").innerHTML = html;
-    })
-    .catch((error) => {
+    },
+    error: (error) => {
       console.error("Failed to load reviews:", error);
       document.getElementById("reviews-list").innerHTML =
         "<p>Failed to load reviews.</p>";
-    });
+    },
+  });
 }
 
 function checkCanReview() {

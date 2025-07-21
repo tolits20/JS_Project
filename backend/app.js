@@ -6,13 +6,12 @@ const path = require("path");
 const {
   admin,
   user,
-  auth,
   item,
   order,
   dashboard,
   category,
   transaction,
-  review,
+  review
 } = require("./route/index");
 
 //incoming request parser
@@ -42,7 +41,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1/", admin);
 app.use("/api/v1/", user);
 app.use("/api/v1/", item);
-app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
 app.use("/api/v1/", dashboard);
 app.use("/api/v1/", category);

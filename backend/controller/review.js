@@ -1,12 +1,10 @@
 const connection = require("../config/database");
-const { log } = require("../service/logs");
 
 // Get all reviews for an item
 exports.getReviews = async (req, res) => {
   try {
-    console.log("getReviews called with query:", req.query);
-    console.log("Headers for getReviews:", req.headers);
-    const item_id = req.query.item_id;
+    const item_id = parseInt(req.params.id);
+    console.log(item_id)
     if (!item_id) return res.status(400).json("Missing item_id");
 
     const [rows] = await connection.query(
