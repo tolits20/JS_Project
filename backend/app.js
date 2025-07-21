@@ -12,6 +12,7 @@ const {
   dashboard,
   category,
   transaction,
+  review,
 } = require("./route/index");
 
 //incoming request parser
@@ -46,5 +47,6 @@ app.use("/api/v1/", order);
 app.use("/api/v1/", dashboard);
 app.use("/api/v1/", category);
 app.use("/api/v1/", transaction);
+app.use("/api/v1/", review);
 
 module.exports = app;

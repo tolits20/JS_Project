@@ -6,6 +6,7 @@ const order = require("./order");
 const dashboard = require("./dashboard");
 const category = require("./category");
 const transaction = require("./transaction");
+const review = require("./review");
 
 module.exports = {
   admin,
@@ -16,4 +17,5 @@ module.exports = {
   dashboard,
   category,
   transaction,
+  review,
 };

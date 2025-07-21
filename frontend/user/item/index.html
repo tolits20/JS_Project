@@ -562,6 +562,97 @@
               <button id="add-to-cart-btn" class="add-to-cart-btn">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
+
+              <!-- REVIEWS SECTION -->
+              <div id="reviews-section" style="margin-top: 40px">
+                <h3>Customer Reviews</h3>
+                <div id="reviews-list">Loading reviews...</div>
+                <div id="my-review-actions" style="margin-top: 20px"></div>
+              </div>
+
+              <!-- Review Modal -->
+              <div
+                class="modal fade"
+                id="reviewModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="reviewModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h4 class="modal-title" id="reviewModalLabel">
+                        Write a Review
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <form id="modal-review-form">
+                        <div class="form-group">
+                          <label for="modal-rating">Rating:</label>
+                          <div
+                            id="modal-rating-stars"
+                            style="
+                              font-size: 24px;
+                              color: #ddd;
+                              cursor: pointer;
+                            "
+                          >
+                            <span class="modal-star" data-rating="1">★</span>
+                            <span class="modal-star" data-rating="2">★</span>
+                            <span class="modal-star" data-rating="3">★</span>
+                            <span class="modal-star" data-rating="4">★</span>
+                            <span class="modal-star" data-rating="5">★</span>
+                          </div>
+                          <input
+                            type="hidden"
+                            id="modal-rating"
+                            name="rating"
+                            value="5"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="modal-comment">Your Review:</label>
+                          <textarea
+                            id="modal-comment"
+                            name="comment"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Share your experience with this product..."
+                            required
+                          ></textarea>
+                        </div>
+                        <div
+                          id="modal-message"
+                          class="alert"
+                          style="display: none"
+                        ></div>
+                        <div class="form-group text-center">
+                          <button type="submit" class="btn btn-success">
+                            Submit Review
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
