@@ -105,10 +105,11 @@ $(document).ready(function () {
   $(".search-form form").on("submit", function (e) {
     e.preventDefault();
     var searchTerm = $(".search-input").val();
-    if (searchTerm.trim()) {
-      alert("Searching for: " + searchTerm);
-      // Here you would implement actual search functionality
-    }
+    // Removed alert. The actual search/filter logic is handled in guest_home.js or user_home.js
+    // if (searchTerm.trim()) {
+    //   alert("Searching for: " + searchTerm);
+    //   // Here you would implement actual search functionality
+    // }
   });
 
   // Animate elements on scroll

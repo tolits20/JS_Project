@@ -20,24 +20,15 @@
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/frontend/user/home_page.html">Home</a></li>
-        <li class="dropdown">
-          <a
-            href="#"
-            class="dropdown-toggle"
-            data-toggle="dropdown"
-            role="button"
-          >
-            Categories <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="#handbags">Handbags</a></li>
-            <li><a href="#backpacks">Backpacks</a></li>
-            <li><a href="#totes">Totes</a></li>
-            <li><a href="#wallets">Wallets</a></li>
-            <li><a href="#accessories">Accessories</a></li>
-          </ul>
+        <li style="margin-left: 20px">
+          <a href="/frontend/user/checkout/index.html">My Orders</a>
         </li>
-        <li><a href="/frontend/user/checkout/index.html">My Orders</a></li>
+        <li class="cart-icon">
+          <a href="/frontend/user/cart/index.html">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" style="display: none">0</span>
+          </a>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
@@ -55,12 +46,6 @@
               </button>
             </div>
           </form>
-        </li>
-        <li class="cart-icon">
-          <a href="/frontend/user/cart/index.html">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count" style="display: none">0</span>
-          </a>
         </li>
         <li class="dropdown user-menu">
           <a
