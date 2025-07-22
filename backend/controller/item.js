@@ -244,6 +244,46 @@ exports.getItems = async (req, res) => {
   }
 };
 
+exports.getItemsByCategory = async (req, res) => {
+  try {
+    const categoryId = req.query.category_id;
+    let query = `
+      SELECT 
+        i.item_id,
+        i.item_name,
+        i.item_price,
+        i.item_desc,
+        i.item_img,
+        s.qty as stock_qty,
+        c.category_name,
+        c.category_id
+      FROM items i
+      LEFT JOIN stocks s ON i.item_id = s.item_id
+      LEFT JOIN item_category ic ON i.item_id = ic.item_id
+      LEFT JOIN categories c ON ic.category_id = c.category_id
+      WHERE i.deleted_at IS NULL
+    `;
+    let params = [];
+    if (categoryId) {
+      query += " AND c.category_id = ?";
+      params.push(categoryId);
+    }
+    query += " ORDER BY i.created_at DESC";
+    let [result] = await connection.query(query, params);
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error fetching items by category:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch items",
+      error: error.message,
+    });
+  }
+};
+
 exports.getSingleItem = async (req, res) => {
   try {
     const itemId = parseInt(req.params.id);

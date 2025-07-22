@@ -73,101 +73,139 @@ $(document).ready(function () {
   $(".dropdown").on("hide.bs.dropdown", function () {
     $(this).find(".dropdown-toggle").removeClass("active");
   });
-  // Fetch and render featured products with pagination
-  const productsContainer = $("#products-container");
-  const itemRequest = new request("api/v1", "items");
-  itemRequest.getAll(
-    (response) => {
-      allItems = response.data; // Store all items
-      const items = response.data;
-      if (!items || items.length === 0) {
-        productsContainer.append(
-          '<div class="col-md-12"><p>No featured products found.</p></div>'
-        );
-        return;
-      }
-      // Split items into pages
-      const paginatedItems = [];
-      for (let i = 0; i < items.length; i += itemsPerPage) {
-        paginatedItems.push(items.slice(i, i + itemsPerPage));
-      }
-      // Set up custom pagination handler for product cards
-      let main = $(".pagination");
-      main.empty();
-      if (paginatedItems.length > 1) {
-        paginatedItems.forEach((pageItems, index) => {
-          let rawElement = $("<li></li>");
-          rawElement.attr({
-            "data-page": index,
-            id: index,
-          });
-          rawElement.html(`<a href="#" data-page="${index}">${index + 1}</a>`);
-          main.append(rawElement);
+  // Fetch and populate categories
+  const categoryRequest = new request("api/v1", "public/categories");
+  categoryRequest.getAll(
+    function (categories) {
+      const dropdown = $("#category-filter");
+      if (Array.isArray(categories)) {
+        categories.forEach(function (cat) {
+          dropdown.append(
+            `<option value="${cat.category_id}">${cat.category_name}</option>`
+          );
         });
-      } else {
-        main.hide();
       }
-      // Set up click handlers
-      $(main)
-        .off("click")
-        .on("click", (e) => {
-          e.preventDefault();
-          let el = $(e.target);
-          let page = el.data("page");
-          if (page !== undefined) {
-            let toPassData = paginatedItems[page];
-            renderProductCards(toPassData);
-            $(".pagination li").removeClass("active");
-            el.parent().addClass("active");
-          }
-        });
-      // Show first page by default
-      if (paginatedItems.length > 0) {
-        renderProductCards(paginatedItems[0]);
-        $(".pagination li").first().addClass("active");
-      }
-      // Add click handlers for product card images (navigate to detail page)
-      $(document).on("click", ".product-image-wrapper", function (e) {
-        e.stopPropagation();
-        const itemId = $(this).closest(".product-card").data("item-id");
-        if (itemId) {
-          window.location.href = `/frontend/user/item/index.html?id=${itemId}`;
-        }
-      });
-      // Add click handlers for cart buttons
-      $(document).on("click", ".add-to-cart, .update-cart", function (e) {
-        e.stopPropagation();
-        const itemData = $(this).data("item");
-        if (itemData) {
-          const success = sessionCartManager.addToCart(itemData, 1);
-          if (success) {
-            showNotification("Item added to cart successfully!", "success");
-            const button = $(this);
-            button
-              .text("Update Cart")
-              .removeClass("add-to-cart")
-              .addClass("update-cart");
-            button.css({
-              background: "#28a745",
-              "border-color": "#28a745",
-            });
-            setTimeout(() => {
-              button.css({
-                background: "#000000",
-                "border-color": "#000000",
-              });
-            }, 1000);
-          }
-        }
-      });
     },
-    (error) => {
-      console.error("Error fetching featured products:", error);
-      productsContainer.append(
-        '<div class="col-md-12"><p>Error fetching featured products.</p></div>'
-      );
+    function (err) {
+      console.error("Failed to fetch categories", err);
     }
   );
+  // Fetch and render featured products with pagination
+  let productsContainer = $("#products-container");
+  let itemRequest = new request("api/v1", "items");
+
+  function fetchAndRenderItems(categoryId) {
+    let url = categoryId
+      ? `${itemRequest.ipHost}/api/v1/items/by-category?category_id=${categoryId}`
+      : `${itemRequest.ipHost}/api/v1/items`;
+    $.ajax({
+      method: "GET",
+      url: url,
+      headers: itemRequest.__getHeaders(),
+      dataType: "json",
+      success: function (response) {
+        allItems = response.data;
+        renderPaginatedItems(allItems);
+      },
+      error: function (err) {
+        console.error("Error fetching items:", err);
+        productsContainer
+          .empty()
+          .append(
+            '<div class="col-md-12"><p>Error fetching products.</p></div>'
+          );
+      },
+    });
+  }
+
+  function renderPaginatedItems(items) {
+    const paginatedItems = [];
+    for (let i = 0; i < items.length; i += itemsPerPage) {
+      paginatedItems.push(items.slice(i, i + itemsPerPage));
+    }
+    let main = $(".pagination");
+    main.empty();
+    if (paginatedItems.length > 1) {
+      paginatedItems.forEach((pageItems, index) => {
+        let rawElement = $("<li></li>");
+        rawElement.attr({
+          "data-page": index,
+          id: index,
+        });
+        rawElement.html(`<a href="#" data-page="${index}">${index + 1}</a>`);
+        main.append(rawElement);
+      });
+    } else {
+      main.hide();
+    }
+    // Set up click handlers
+    $(main)
+      .off("click")
+      .on("click", (e) => {
+        e.preventDefault();
+        let el = $(e.target);
+        let page = el.data("page");
+        if (page !== undefined) {
+          let toPassData = paginatedItems[page];
+          renderProductCards(toPassData);
+          $(".pagination li").removeClass("active");
+          el.parent().addClass("active");
+        }
+      });
+    // Show first page by default
+    if (paginatedItems.length > 0) {
+      renderProductCards(paginatedItems[0]);
+      $(".pagination li").first().addClass("active");
+    } else {
+      productsContainer
+        .empty()
+        .append('<div class="col-md-12"><p>No products found.</p></div>');
+    }
+  }
+
+  // Initial fetch (all items)
+  fetchAndRenderItems("");
+
+  // Category filter change handler
+  $(document).on("change", "#category-filter", function () {
+    const selectedCategory = $(this).val();
+    fetchAndRenderItems(selectedCategory);
+  });
+
+  // Add click handlers for product card images (navigate to detail page)
+  $(document).on("click", ".product-image-wrapper", function (e) {
+    e.stopPropagation();
+    const itemId = $(this).closest(".product-card").data("item-id");
+    if (itemId) {
+      window.location.href = `/frontend/user/item/index.html?id=${itemId}`;
+    }
+  });
+  // Add click handlers for cart buttons
+  $(document).on("click", ".add-to-cart, .update-cart", function (e) {
+    e.stopPropagation();
+    const itemData = $(this).data("item");
+    if (itemData) {
+      const success = sessionCartManager.addToCart(itemData, 1);
+      if (success) {
+        showNotification("Item added to cart successfully!", "success");
+        const button = $(this);
+        button
+          .text("Update Cart")
+          .removeClass("add-to-cart")
+          .addClass("update-cart");
+        button.css({
+          background: "#28a745",
+          "border-color": "#28a745",
+        });
+        setTimeout(() => {
+          button.css({
+            background: "#000000",
+            "border-color": "#000000",
+          });
+        }, 1000);
+      }
+    }
+  });
   // Listen for search form submit
   $(document).on("submit", ".navbar-form", function (e) {
     e.preventDefault();
