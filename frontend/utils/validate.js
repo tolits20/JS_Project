@@ -13,7 +13,7 @@ const option = {
         rangeLength: [8, 16],
       },
       confirmPassword: {
-        equalTo: "#confirmPassword",
+        equalTo: "#password",
       },
       phone: {
         number: true,
@@ -103,7 +103,7 @@ const option = {
 
 const formValidate = (form, type, subtype = null) => {
   let valid = false;
-  console.log($(form))
+  console.log($(form)[0])
   let selected = subtype ? option[type][subtype] : option[type];
   $(form).validate({
     rules: selected.rules,
