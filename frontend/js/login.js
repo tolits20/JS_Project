@@ -32,7 +32,11 @@ document.getElementById("loginFormElement").onsubmit = async (e) => {
         location.href = `http://${network.client.host}/frontend/user/home_page.html`;
       }
     },
-    error: (err) => console.error(err),
+    error: (err) => {
+      alert.notyf.error(
+        err.responseJSON?.message || "Login failed. Please try again."
+      );
+    },
   });
 };
 
