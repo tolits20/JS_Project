@@ -42,7 +42,7 @@ exports.getMyReview = async (req, res) => {
   }
 };
 
-// Check if user can review (has shipped order for this item)
+// Check if user can review (has delivered order for this item)
 exports.canReview = async (req, res) => {
   try {
     const item_id = req.query.item_id;
@@ -53,7 +53,7 @@ exports.canReview = async (req, res) => {
     const [rows] = await connection.query(
       `SELECT o.* FROM orders o
        JOIN orderlines ol ON o.order_id = ol.order_id
-       WHERE o.user_id = ? AND ol.item_id = ? AND o.order_status = 'shipped'`,
+       WHERE o.user_id = ? AND ol.item_id = ? AND o.order_status = 'delivered'`,
       [user_id, item_id]
     );
 

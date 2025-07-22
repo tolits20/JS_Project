@@ -140,7 +140,7 @@ function getItemId() {
 
 function loadReviews() {
   const itemId = getItemId();
-  console.log(itemId)
+  console.log(itemId);
   // // Use fetch for public endpoint (no auth required)
   // fetch(
   //   `http://${network.ip}:${network.port}/api/v1/item-reviews?item_id=${itemId}`
@@ -266,7 +266,7 @@ function checkCanReview() {
         );
       } else {
         document.getElementById("my-review-actions").innerHTML =
-          '<p style="color: gray;">Only users with shipped orders can review this item.</p>';
+          '<p style="color: gray;">Only users with delivered orders can review this item.</p>';
       }
     })
     .catch((error) => {
