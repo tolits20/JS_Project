@@ -127,8 +127,6 @@ $(document)
     );
   });
 
-
-
 if (!id) {
   const tableData = new request("api/v1", "admin/user-all");
   tableData.getAll(
@@ -146,4 +144,4 @@ if (!id) {
   );
 }
 
-sidebarLinks()
+sidebarLinks();

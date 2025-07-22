@@ -20,6 +20,13 @@
       rel="stylesheet"
     />
 
+    <!-- jQuery UI for autocomplete -->
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+
     <style>
       * {
         margin: 0;
@@ -109,6 +116,7 @@
         color: #ffffff !important;
         background: rgba(255, 255, 255, 0.15) !important;
       }
+
       .cart-icon {
         position: relative;
         margin-left: 10px;
@@ -457,6 +465,16 @@
         background-color: #000;
         color: #fff;
         border-color: #000;
+      }
+      /* Fix: Prevent jQuery UI from overriding Bootstrap navbar background */
+      .navbar,
+      .navbar-default {
+        background: rgba(0, 0, 0, 0.95) !important;
+      }
+      /* Make autocomplete menu appear above navbar and not hidden */
+      .ui-autocomplete {
+        z-index: 2000 !important;
+        margin-top: 50px !important; /* Adjust if needed to match navbar height */
       }
     </style>
   </head>

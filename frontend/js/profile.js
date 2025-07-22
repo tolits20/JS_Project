@@ -3,6 +3,7 @@ import network from "../config/network.js";
 import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import formValidate from "../utils/validate.js";
+import logout from "./logout.js";
 
 const userReq = new request("api/v1", "profile");
 let currentUser = {};
@@ -44,6 +45,13 @@ function loadProfile() {
 
 $(document).ready(() => {
   loadHeaderAndFooter();
+  // Attach logout event after header is loaded
+  document.addEventListener("componentsLoaded", () => {
+    $(document).on("click", "#logout-btn", function (e) {
+      e.preventDefault();
+      logout();
+    });
+  });
   loadProfile();
 
   // Image preview in modal

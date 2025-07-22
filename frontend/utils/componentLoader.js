@@ -1,6 +1,10 @@
 // Component Loader Utility
 // Reusable component loading system to avoid code duplication across pages
 
+import request from "../helper/request.js";
+import network from "../config/network.js";
+import quichSearch from "./quichSearch.js";
+
 export function loadComponent(containerId, componentPath, callback = null) {
   console.log(
     `Loading component: ${componentPath} into container: ${containerId}`
@@ -54,8 +58,8 @@ export function loadHeaderAndFooter(cartManager = null) {
     footerPath = "../components/primary/footer.html";
   } else if (currentPath.includes("/user/")) {
     // We're on other user pages
-    headerPath = "../components/primary/header.html";
-    footerPath = "../components/primary/footer.html";
+    headerPath = "/frontend/user/components/primary/header.html";
+    footerPath = "/frontend/user/components/primary/footer.html";
   } else {
     // Default paths
     headerPath = "/frontend/user/components/primary/header.html";
@@ -68,6 +72,53 @@ export function loadHeaderAndFooter(cartManager = null) {
   // Load header first, then footer
   loadComponent("header-container", headerPath, () => {
     console.log("Header loaded successfully");
+    // Set user profile image and name in header
+    const userReq = new request("api/v1", "profile");
+    userReq.getAll(
+      (res) => {
+        if (res && res.data) {
+          const user = res.data;
+          let imgSrc = user.img
+            ? `http://${network.ip}:${network.port}/${user.img}`
+            : "/assets/images/main.jpg";
+          const imgElem = document.getElementById("user-profile-picture");
+          if (imgElem) imgElem.src = imgSrc;
+          const nameElem = document.getElementById("user-name");
+          if (nameElem && user.name) nameElem.textContent = user.name;
+        }
+        // Re-initialize Bootstrap dropdowns and force layout update
+        if (window.$) {
+          $(".dropdown-toggle").dropdown();
+          $(window).trigger("resize");
+        }
+        // Initialize autocomplete for header search
+        const itemReq = new request("api/v1", "items");
+        itemReq.getAll(
+          (res) => {
+            if (res && res.data) {
+              const searchData = res.data.map((item) => item.item_name);
+              quichSearch(searchData, "#header-search-input");
+            }
+          },
+          (err) => {
+            // fallback to static data if needed
+            quichSearch(
+              ["Handbags", "Backpacks", "Totes", "Wallets", "Accessories"],
+              "#header-search-input"
+            );
+          }
+        );
+      },
+      (err) => {
+        const imgElem = document.getElementById("user-profile-picture");
+        if (imgElem) imgElem.src = "/assets/images/main.jpg";
+        // Re-initialize Bootstrap dropdowns and force layout update
+        if (window.$) {
+          $(".dropdown-toggle").dropdown();
+          $(window).trigger("resize");
+        }
+      }
+    );
     // Update cart display after header loads
     if (cartManager && typeof cartManager.updateCartDisplay === "function") {
       cartManager.updateCartDisplay();

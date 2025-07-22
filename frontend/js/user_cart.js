@@ -26,7 +26,7 @@ function renderCartItems() {
         <h3>Your cart is empty</h3>
         <p>Looks like you haven't added any items to your cart yet.</p>
         <a href="../home_page.html" class="continue-shopping">
-          <i class="fas fa-arrow-left"></i> Continue Shopping
+         Continue Shopping
         </a>
       </div>
     `;
