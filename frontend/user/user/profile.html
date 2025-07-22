@@ -1,134 +1,463 @@
-<!-- User Profile View -->
-<div class="container mt-5" id="user-profile-container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body text-center">
-          <img
-            id="profile-img"
-            src=""
-            alt="Profile Image"
-            class="rounded-circle mb-3"
-            width="120"
-            height="120"
-            style="object-fit: cover"
-          />
-          <h4 id="profile-name">Full Name</h4>
-          <p id="profile-email">Email</p>
-          <p id="profile-contact">Contact: <span></span></p>
-          <p id="profile-city">City: <span></span></p>
-          <p id="profile-status">Status: <span></span></p>
-          <button id="edit-profile-btn" class="btn btn-primary mt-3">
-            Edit Profile
-          </button>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/frontend/css/header-sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: #f8f9fa;
+        color: #000000;
+        line-height: 1.6;
+        padding-top: 80px;
+      }
+      .navbar {
+        background: rgba(0, 0, 0, 0.95) !important;
+        border: none;
+        padding: 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        min-height: 80px;
+      }
+      .navbar.scrolled {
+        background: rgba(0, 0, 0, 0.98) !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      }
+      .navbar-header {
+        height: 80px;
+        display: flex;
+        align-items: center;
+      }
+      .navbar-brand {
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 2rem;
+        letter-spacing: 2px;
+        padding: 0 !important;
+        height: auto;
+        line-height: 1;
+        transition: all 0.3s ease;
+      }
+      .navbar-brand:hover {
+        color: #cccccc !important;
+        transform: scale(1.05);
+      }
+      .navbar-nav > li {
+        display: flex;
+        align-items: center;
+        height: 80px;
+      }
+      .navbar-nav > li > a {
+        color: #ffffff !important;
+        font-weight: 500;
+        padding: 0 25px !important;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .navbar-nav > li > a::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: #ffffff;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+      .navbar-nav > li > a:hover::before,
+      .navbar-nav > li.active > a::before {
+        width: 80%;
+      }
+      .navbar-nav > li > a:hover {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+      }
+      .navbar-nav > li.active > a {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+      }
+      .cart-icon {
+        position: relative;
+        margin-left: 10px;
+        padding: 0 15px !important;
+      }
+      .cart-icon i {
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+      }
+      .cart-icon:hover i {
+        transform: scale(1.1);
+      }
+      .cart-count {
+        position: absolute;
+        top: 20px;
+        right: 5px;
+        background: #ff4444;
+        color: #ffffff;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .dropdown-menu {
+        background: rgba(0, 0, 0, 0.95);
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        margin-top: 10px;
+      }
+      .dropdown-menu > li > a {
+        color: #ffffff !important;
+        padding: 12px 20px;
+        transition: all 0.3s ease;
+      }
+      .dropdown-menu > li > a:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+      }
+      .user-menu .dropdown-toggle::after {
+        display: none;
+      }
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        color: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-right: 8px;
+      }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .search-form {
+        position: relative;
+        max-width: 250px;
+        margin: 0 15px;
+      }
+      .search-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        padding: 8px 40px 8px 15px;
+        border-radius: 25px;
+        width: 100%;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+      .search-input:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.2);
+        border-color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+      }
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .search-btn {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #ffffff;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .search-btn:hover {
+        color: #cccccc;
+      }
+      .footer {
+        background: #111111;
+        color: #ffffff;
+        padding: 60px 0 30px;
+      }
+      .footer h5 {
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+      .footer p,
+      .footer a {
+        color: #cccccc;
+        text-decoration: none;
+      }
+      .footer a:hover {
+        color: #ffffff;
+      }
+      .social-links {
+        margin-top: 20px;
+      }
+      .social-links a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background: #333333;
+        color: #ffffff;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        transition: background 0.3s ease;
+      }
+      .social-links a:hover {
+        background: #ffffff;
+        color: #000000;
+      }
+      .footer-bottom {
+        border-top: 1px solid #333333;
+        padding-top: 30px;
+        margin-top: 40px;
+        text-align: center;
+      }
+      @media (max-width: 768px) {
+        body {
+          padding-top: 60px;
+        }
+      }
+      .profile-container {
+        max-width: 500px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #eee;
+        padding: 30px;
+      }
+      .profile-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #eee;
+        margin-bottom: 20px;
+      }
+      .profile-info {
+        margin-bottom: 10px;
+      }
+      .profile-label {
+        font-weight: bold;
+      }
+      .edit-btn {
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Include Header Component -->
+    <div id="header-container"></div>
+
+    <section class="profile-section">
+      <div class="container profile-container">
+        <div class="profile-card">
+          <div class="profile-img-wrap">
+            <img
+              id="profile-img"
+              class="profile-img"
+              src="/frontend/assets/images/main.jpg"
+              alt="Profile Picture"
+              onerror="this.onerror=null;this.src='/frontend/assets/images/main.jpg';"
+            />
+          </div>
+          <div class="profile-details">
+            <div class="profile-info">
+              <span class="profile-label">User ID:</span>
+              <span id="profile-user_id"></span>
+            </div>
+            <div class="profile-info">
+              <span class="profile-label">Name:</span>
+              <span id="profile-name"></span>
+            </div>
+            <div class="profile-info">
+              <span class="profile-label">Email:</span>
+              <span id="profile-email"></span>
+            </div>
+            <div class="profile-info">
+              <span class="profile-label">Contact:</span>
+              <span id="profile-contact"></span>
+            </div>
+            <div class="profile-info">
+              <span class="profile-label">City:</span>
+              <span id="profile-city"></span>
+            </div>
+            <button
+              class="btn btn-primary edit-btn"
+              data-toggle="modal"
+              data-target="#editProfileModal"
+            >
+              <i class="fas fa-edit"></i> Edit Profile
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Edit Profile Modal -->
+    <div
+      class="modal fade"
+      id="editProfileModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editProfileModalLabel"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="edit-profile-form" enctype="multipart/form-data">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="editProfileModalLabel">
+                Edit Profile
+              </h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group text-center">
+                <div class="edit-profile-img-wrap">
+                  <img
+                    id="edit-profile-img"
+                    class="profile-img"
+                    src="/frontend/assets/images/main.jpg"
+                    alt="Profile Picture"
+                    onerror="this.onerror=null;this.src='/frontend/assets/images/main.jpg';"
+                  />
+                </div>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="img"
+                  name="img"
+                  accept="image/*"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="password"
+                  >Password <small>(leave blank to keep current)</small></label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                />
+              </div>
+              <div class="form-group">
+                <label for="contact">Contact</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="contact"
+                  name="contact"
+                />
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Save Changes
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Edit Profile Modal -->
-<div
-  class="modal fade"
-  id="editProfileModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="editProfileModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="edit-profile-form" enctype="multipart/form-data">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="edit-name">Full Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="edit-name"
-              name="name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="edit-email">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="edit-email"
-              name="email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="edit-password"
-              >Password (leave blank to keep current)</label
-            >
-            <input
-              type="password"
-              class="form-control"
-              id="edit-password"
-              name="password"
-              autocomplete="new-password"
-            />
-          </div>
-          <div class="form-group">
-            <label for="edit-contact">Contact</label>
-            <input
-              type="text"
-              class="form-control"
-              id="edit-contact"
-              name="contact"
-            />
-          </div>
-          <div class="form-group">
-            <label for="edit-city">City</label>
-            <input
-              type="text"
-              class="form-control"
-              id="edit-city"
-              name="city"
-            />
-          </div>
-          <div class="form-group">
-            <label for="edit-status">Status</label>
-            <select class="form-control" id="edit-status" name="is_active">
-              <option value="1">Active</option>
-              <option value="0">Inactive</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="edit-img">Profile Image</label>
-            <input
-              type="file"
-              class="form-control-file"
-              id="edit-img"
-              name="img"
-              accept="image/*"
-            />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+    <!-- Include Footer Component -->
+    <div id="footer-container"></div>
 
-<!-- Bootstrap and jQuery dependencies assumed included in base.html -->
-<script type="module" src="./profile.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script type="module" src="/frontend/js/profile.js"></script>
+  </body>
+</html>

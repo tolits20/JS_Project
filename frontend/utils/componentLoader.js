@@ -54,8 +54,8 @@ export function loadHeaderAndFooter(cartManager = null) {
     footerPath = "../components/primary/footer.html";
   } else if (currentPath.includes("/user/")) {
     // We're on other user pages
-    headerPath = "components/primary/header.html";
-    footerPath = "components/primary/footer.html";
+    headerPath = "../components/primary/header.html";
+    footerPath = "../components/primary/footer.html";
   } else {
     // Default paths
     headerPath = "/frontend/user/components/primary/header.html";
