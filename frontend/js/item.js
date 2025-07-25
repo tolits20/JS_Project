@@ -78,7 +78,7 @@ function InsertValues(data) {
     opt.value = categories[i].category_id;
     opt.text = categories[i].category_name;
     opt.selected =
-      data.item.category_name === categories.category_name ? true : false;
+      data.item[0].category_name === categories.category_name ? true : false;
     mainPreview.find("#category").append(opt);
   }
   let galleryImg = data.gallery;

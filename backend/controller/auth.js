@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.login = async (req, res) => {
-  // console.log("here", req.body);
+  console.log("here", req.body);
   if (!req.body || req.body == undefined)
     return res.status(500).json({ message: "no data receive" });
   const { email, password } = req.body;
@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
   let match = await bcrypt.compare(password, result[0].password);
   if (!match)
     return res.status(403).json({ message: "Password does not match!" });
-
+  // console.log(match)
   const token = jwt.sign(
     { data: result[0].user_id, role: result[0].role },
     process.env.JWT_SECRET,

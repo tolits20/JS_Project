@@ -10,10 +10,10 @@ const option = {
       },
       password: {
         required: true,
-        rangeLength: [8, 16],
+        minlength: 8,
       },
       confirmPassword: {
-        equalTo: "#confirmPassword",
+        equalTo: "#registerPassword",
       },
       phone: {
         number: true,
@@ -29,7 +29,7 @@ const option = {
       },
       password: {
         required: "Please create a password.",
-        rangeLength: "Password must be between 8 and 16 characters.",
+        minlenght: "Password must be minimum of characters.",
       },
       confirmPassword: {
         equalTo: "Passwords do not match.",
@@ -76,7 +76,7 @@ const option = {
     item_img: {
       rules: {
         item_image: {
-          required:false,
+          required: false,
           accept: ".png",
         },
       },
@@ -103,7 +103,7 @@ const option = {
 
 const formValidate = (form, type, subtype = null) => {
   let valid = false;
-  console.log($(form))
+  console.log($(form)[0]);
   let selected = subtype ? option[type][subtype] : option[type];
   $(form).validate({
     rules: selected.rules,

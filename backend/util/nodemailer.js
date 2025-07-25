@@ -229,7 +229,6 @@ async function sendEmail(items) {
   };
 
   await transporter.sendMail(mailOptions);
-  console.log("✅ Receipt sent with styled email!");
 }
 
 module.exports = { sendEmail };
