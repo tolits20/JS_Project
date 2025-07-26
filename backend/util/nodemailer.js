@@ -129,81 +129,188 @@ async function sendEmail(items) {
 
   // Email Content with improved styling
   const htmlContent = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden; }
-        .header { background-color: #2c3e50; padding: 25px; text-align: center; }
-        .header h1 { color: white; margin: 0; font-size: 24px; }
-        .content { padding: 25px; background-color: #ffffff; }
-        .order-info { margin-bottom: 20px; }
-        .receipt-title { color: #2c3e50; font-size: 20px; margin-bottom: 5px; }
-        .order-number { color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th { background-color: #f5f5f5; text-align: left; padding: 12px; font-weight: bold; color: #2c3e50; border-bottom: 1px solid #e0e0e0; }
-        td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-        .total { font-weight: bold; font-size: 16px; color: #e74c3c; margin-top: 20px; text-align: right; }
-        .footer { background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #7f8c8d; }
-        .divider { height: 1px; background-color: #e0e0e0; margin: 20px 0; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <h1>ORDER RECEIPT</h1>
-        </div>
-        
-        <div class="content">
-          <div class="order-info">
-            <div class="receipt-title">Your Order Details</div>
-            <div class="order-number">Order #${order.id} | ${order.date}</div>
-            <div class="divider"></div>
-          </div>
-          
-          <table>
-            <thead>
-              <tr>
-                <th>ITEM</th>
-                <th class="text-center">QTY</th>
-                <th class="text-right">PRICE</th>
-                <th class="text-right">TOTAL</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${order.items.map(item => `
-                <tr>
-                  <td>${item.name}</td>
-                  <td class="text-center">${item.qty}</td>
-                  <td class="text-right">₱${item.price.toFixed(2)}</td>
-                  <td class="text-right">₱${(item.price * item.qty).toFixed(2)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-          
-          <div class="total">
-            Total: $${order.total.toFixed(2)}
-          </div>
-          
-          <div class="divider"></div>
-          
-          <p>Thank you for your purchase! A detailed receipt is attached to this email.</p>
-          <p>If you have any questions about your order, please contact our support team.</p>
-        </div>
-        
-        <div class="footer">
-          © ${new Date().getFullYear()} Your Store Name. All rights reserved.
+   <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      line-height: 1.5; 
+      color: #000; 
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .container { 
+      max-width: 650px; 
+      margin: 0 auto; 
+      background-color: #ffffff;
+      border: 2px solid #000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .header { 
+      background-color: #000; 
+      padding: 30px; 
+      text-align: center;
+      border-bottom: 3px solid #000;
+    }
+    .header h1 { 
+      color: #fff; 
+      margin: 0; 
+      font-size: 28px; 
+      font-weight: 300;
+      letter-spacing: 3px;
+    }
+    .content { 
+      padding: 30px; 
+      background-color: #ffffff; 
+    }
+    .order-info { 
+      margin-bottom: 25px; 
+      text-align: center;
+    }
+    .receipt-title { 
+      color: #000; 
+      font-size: 22px; 
+      margin-bottom: 8px; 
+      font-weight: 600;
+    }
+    .order-number { 
+      color: #666; 
+      font-size: 16px; 
+      margin-bottom: 25px;
+      font-weight: 400;
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin: 25px 0;
+      border: 1px solid #000;
+    }
+    th { 
+      background-color: #000; 
+      color: #fff;
+      text-align: left; 
+      padding: 15px 12px; 
+      font-weight: 600; 
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    td { 
+      padding: 15px 12px; 
+      border-bottom: 1px solid #ddd;
+      font-size: 15px;
+    }
+    tr:nth-child(even) { 
+      background-color: #f9f9f9; 
+    }
+    tr:hover {
+      background-color: #f0f0f0;
+    }
+    .text-center { 
+      text-align: center; 
+    }
+    .text-right { 
+      text-align: right; 
+      font-weight: 500;
+    }
+    .total-section {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 2px solid #000;
+      border-radius: 0;
+    }
+    .total { 
+      font-weight: 700; 
+      font-size: 24px; 
+      color: #000; 
+      text-align: right;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+    .footer { 
+      background-color: #000; 
+      color: #fff;
+      padding: 20px; 
+      text-align: center; 
+      font-size: 13px;
+      border-top: 3px solid #000;
+    }
+    .divider { 
+      height: 2px; 
+      background-color: #000; 
+      margin: 25px 0; 
+    }
+    .thank-you {
+      margin-top: 25px;
+      padding: 20px;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-left: 4px solid #000;
+    }
+    .thank-you p {
+      margin: 8px 0;
+      color: #333;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>RECEIPT</h1>
+    </div>
+    
+    <div class="content">
+      <div class="order-info">
+        <div class="receipt-title">Order Summary</div>
+        <div class="order-number">Order #${order.id} | ${order.date}</div>
+        <div class="divider"></div>
+      </div>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>ITEM DESCRIPTION</th>
+            <th class="text-center">QTY</th>
+            <th class="text-right">UNIT PRICE</th>
+            <th class="text-right">SUBTOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${order.items.map(item => `
+            <tr>
+              <td>${item.name}</td>
+              <td class="text-center">${item.qty}</td>
+              <td class="text-right">₱${item.price.toFixed(2)}</td>
+              <td class="text-right">₱${(item.price * item.qty).toFixed(2)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      
+      <div class="total-section">
+        <div class="total">
+          TOTAL: ₱${order.total.toFixed(2)}
         </div>
       </div>
-    </body>
-    </html>
-  `;
+      
+      <div class="thank-you">
+        <p><strong>Thank you for your business!</strong></p>
+        <p>Your receipt has been generated and saved for your records.</p>
+        <p>For any inquiries, please contact our customer service team.</p>
+      </div>
+    </div>
+    
+    <div class="footer">
+      © ${new Date().getFullYear()} Your Business Name • All Rights Reserved • Thank You for Shopping With Us
+    </div>
+  </div>
+</body>
+</html>`;
 
   // Email Sending
   const pdfBuffer = await pdfPromise;
