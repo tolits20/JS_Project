@@ -105,7 +105,6 @@ $(document).ready(function () {
   const userRank = new request("api/v1", "userRanking");
   userRank.getAll(
     (response) => {
-      console.log(response);
       listGenerator(response, "#user-rank");
     },
     (err) => {
@@ -114,10 +113,9 @@ $(document).ready(function () {
   );
 
   const recentLogs = new request("api/v1", "recentLogs");
-  userRank.getAll(
+  recentLogs.getAll(
     (response) => {
-      console.log(response);
-      listGenerator(response, "#user-rank");
+      listGenerator(response, "#latest-activity");
     },
     (err) => {
       console.log(err);

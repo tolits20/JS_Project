@@ -111,3 +111,11 @@ exports.userRanking = async (req, res) => {
 
   return res.status(200).json(newResult);
 };
+
+exports.recentLogs= async (req,res)=>{
+  let sql ="SELECT * FROM activity_logs LIMIT 3 "
+  let [result]= await connection.query(sql,[])
+  if(!result.length>0) return res(200).json("no recent logs")
+    let newArr = result.map(data => data.activity)
+    return res.status(200).json(newArr)
+}
