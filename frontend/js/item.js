@@ -99,6 +99,8 @@ if (id) editItem();
 $("#item_image")
   .off("change")
   .on("change", (e) => {
+    e.preventDefault()
+    console.log("clicked")
     let valid = formValidate("#item_image", "image", "item_img");
     if (!valid) return;
     const file = e.target.files[0];
