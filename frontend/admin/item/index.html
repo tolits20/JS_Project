@@ -97,186 +97,342 @@
 
     <!-- Styling -->
     <style>
-      body {
-        font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-        background-color: #fff;
-        color: #111;
-      }
+     /* Clean White Primary & Black Secondary Item Table Styles */
 
-      #item-table {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        overflow-x: auto;
-      }
+body {
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
 
-      #item {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-      }
+#item-table {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
 
-      #item thead th {
-        text-transform: uppercase;
-        font-weight: 600;
-        font-size: 12px;
-        color: #111;
-        padding: 16px;
-        border-bottom: 1px solid #e5e7eb;
-        background: #f9fafb;
-      }
+/* Main Item Table */
+#item {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #ffffff;
+}
 
-      #item tbody td {
-        padding: 16px;
-        border-bottom: 1px solid #f3f4f6;
-      }
+#item thead {
+  background: #fafafa;
+  border-bottom: 2px solid #e5e7eb;
+}
 
-      #item tbody tr:nth-child(even) {
-        background-color: #fafafa;
-      }
+#item thead th {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  color: #1a1a1a;
+  padding: 16px 20px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
 
-      #item tbody tr:hover {
-        background-color: #f3f3f3;
-      }
+#item tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1a1a1a;
+  vertical-align: middle;
+}
 
-      .btn {
-        font-size: 13px;
-        font-weight: 500;
-        padding: 6px 14px;
-        border-radius: 9999px;
-        border: none;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        background-color: #111;
-      }
+#item tbody tr {
+  background: #ffffff;
+  transition: background-color 0.2s ease;
+}
 
-      .btn:hover {
-        background-color: #000;
-      }
+#item tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
 
-      .btnEdit {
-        background-color: #111;
-      }
+#item tbody tr:hover {
+  background-color: #f3f4f6;
+}
 
-      .btnDestroy {
-        background-color: #dc2626;
-      }
+#item tbody tr:last-child td {
+  border-bottom: none;
+}
 
-      .btnDestroy:hover {
-        background-color: #b91c1c;
-      }
+/* Button Styles */
+.btn {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 6px;
+}
 
-      .dt-buttons {
-        margin-bottom: 16px;
-      }
+.btnEdit {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
 
-      .dt-button {
-        background-color: #111 !important;
-        color: #fff !important;
-        font-size: 13px;
-        padding: 8px 16px !important;
-        border: none;
-        border-radius: 9999px !important;
-        cursor: pointer;
-        margin-right: 8px;
-        transition: background-color 0.2s ease;
-      }
+.btnEdit:hover {
+  background-color: #000000;
+  transform: translateY(-1px);
+}
 
-      .dt-button:hover {
-        background-color: #000 !important;
-      }
+.btnDestroy {
+  background-color: #dc2626;
+  color: #ffffff;
+}
 
-      .dataTables_filter label {
-        color: #111;
-        font-size: 14px;
-      }
+.btnDestroy:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+}
 
-      .dataTables_filter input {
-        padding: 6px 12px;
-        font-size: 13px;
-        border-radius: 9999px;
-        border: 1px solid #d1d5db;
-        background-color: #fff;
-        color: #111;
-        margin-left: 8px;
-      }
+/* DataTable Controls */
+.dataTables_wrapper {
+  color: #1a1a1a;
+}
 
-      .dataTables_length label,
-      .dataTables_info {
-        color: #111;
-        font-size: 13px;
-      }
+.dataTables_filter {
+  text-align: right;
+  margin-bottom: 16px;
+}
 
-      .dataTables_length select {
-        padding: 4px 8px;
-        font-size: 13px;
-        border-radius: 9999px;
-        border: 1px solid #d1d5db;
-        background-color: #fff;
-        color: #111;
-      }
+.dataTables_filter label {
+  color: #1a1a1a;
+  font-size: 14px;
+  font-weight: 500;
+}
 
-      #item-table::-webkit-scrollbar {
-        height: 6px;
-      }
+.dataTables_filter input {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  margin-left: 8px;
+  transition: border-color 0.2s ease;
+}
 
-      #item-table::-webkit-scrollbar-track {
-        background: #f3f4f6;
-      }
+.dataTables_filter input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+}
 
-      #item-table::-webkit-scrollbar-thumb {
-        background: #d1d5db;
-        border-radius: 3px;
-      }
+.dataTables_length {
+  margin-bottom: 16px;
+}
 
-      #item-table::-webkit-scrollbar-thumb:hover {
-        background: #9ca3af;
-      }
+.dataTables_length label,
+.dataTables_info {
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 500;
+}
 
-      .pagination {
-        display: flex;
-        list-style: none;
-        padding: 0;
-        gap: 6px;
-        font-family: "Playfair Display", "Inter", serif;
-        justify-content: center;
-        margin-top: 24px;
-      }
+.dataTables_length select {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  margin: 0 8px;
+}
 
-      .pagination li {
-        border: 1px solid #ccc;
-        color: #111;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        letter-spacing: 0.5px;
-      }
+/* DataTable Buttons */
+.dt-buttons {
+  margin-bottom: 16px;
+  text-align: left;
+}
 
-      .pagination li:hover {
-        background-color: #111;
-        color: #fff;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      }
+.dt-button {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+}
 
-      .pagination .active {
-        background-color: #111;
-        color: white;
-        font-weight: 500;
-      }
+.dt-button:hover {
+  background-color: #000000 !important;
+  transform: translateY(-1px);
+}
 
-      .pagination li:first-child,
-      .pagination li:last-child {
-        font-weight: 500;
-      }
+/* DataTable Info and Pagination Wrapper */
+.dataTables_wrapper .dataTables_info {
+  padding-top: 16px;
+  float: left;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  float: right;
+  padding-top: 16px;
+}
+
+/* DataTable Pagination Controls */
+.dataTables_paginate .paginate_button {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  margin: 0 2px !important;
+  transition: all 0.2s ease;
+  text-decoration: none !important;
+}
+
+.dataTables_paginate .paginate_button:hover {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #1a1a1a !important;
+}
+
+.dataTables_paginate .paginate_button.current {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #1a1a1a !important;
+}
+
+.dataTables_paginate .paginate_button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+/* Custom Pagination (if used) */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.pagination li {
+  border: 1px solid #d1d5db;
+  color: #1a1a1a;
+  background: #ffffff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  text-align: center;
+}
+
+.pagination li:hover {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border-color: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.pagination .active {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border-color: #1a1a1a;
+  font-weight: 500;
+}
+
+.pagination li:first-child,
+.pagination li:last-child {
+  font-weight: 500;
+}
+
+/* Price and Stock Column Alignment */
+#item tbody td:nth-child(3), /* Stock column */
+#item tbody td:nth-child(4) { /* Price column */
+  text-align: right;
+  font-weight: 500;
+}
+
+#item thead th:nth-child(3), /* Stock header */
+#item thead th:nth-child(4) { /* Price header */
+  text-align: right;
+}
+
+/* Actions Column Alignment */
+#item tbody td:nth-child(5) { /* Actions column */
+  text-align: center;
+}
+
+#item thead th:nth-child(5) { /* Actions header */
+  text-align: center;
+}
+
+/* Category Column */
+#item tbody td:nth-child(2) { /* Category column */
+  font-weight: 500;
+  color: #6b7280;
+}
+
+/* Item Name Column */
+#item tbody td:nth-child(1) { /* Item Name column */
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Scrollbar Styling */
+#item-table::-webkit-scrollbar {
+  height: 8px;
+}
+
+#item-table::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+#item-table::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+#item-table::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #item-table {
+    padding: 16px;
+  }
+  
+  #item thead th,
+  #item tbody td {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+  
+  .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_paginate {
+    float: none;
+    text-align: center;
+    padding-top: 8px;
+  }
+}
     </style>
   </body>
 </html>
