@@ -41,13 +41,27 @@ export function paginateHandler(data, table) {
     .off("click")
     .on("click", (e) => {
       let el = $(e.target);
-      let toDeactivate = $(main).find(".active").attr("class","")
-      console.log(toDeactivate)
-      let page = el.data("page");
-      let toPassData = data[page];
-      console.log(toPassData);
-      $(el).attr("class","active")
-      dataTable(toPassData, table);
+      let currID = $(el).attr("id");
+      let prevID = parseInt($(main).find(".active").attr("id"));
+      let toDeactivate = $(main).find(".active").attr("class", "");
+      let index =  isNaN(prevID) ? 0 : prevID ;
+      // console.log(typeof currID)
+      // console.log(typeof prevID)
+      if (currID === "next") {
+        index++;
+        passData();
+      } else if (currID === "prev") {
+        index--;
+        passData();
+      } else {
+        index = parseInt(currID)
+        passData();
+      }
+      function passData() {
+        let toPassData = data[index];
+        $(main).find(`#${index}`).attr("class", "active");
+        dataTable(toPassData, table);
+      }
     });
   document.getElementById("0").click();
 }

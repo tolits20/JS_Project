@@ -9,7 +9,6 @@ export const network = {
 
 export const dataTable = (data, table) => {
   let btnUrl = `http://${config.client.host}/frontend/admin/${table}/edit.html`;
-  console.log(data);
   let rawData = data;
   let option = {
     user: [
@@ -147,7 +146,6 @@ export const dataTable = (data, table) => {
     });
   }
 
-  console.log(rawData);
   console.log("initializing table...");
   $(`#${table}`).DataTable().clear().destroy();
 
