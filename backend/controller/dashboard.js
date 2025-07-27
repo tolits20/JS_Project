@@ -106,16 +106,22 @@ exports.userRanking = async (req, res) => {
   let sql =
     "SELECT  u.name as name, COUNT(o.order_id) as total FROM user u INNER JOIN orders o USING(user_id) GROUP BY u.name ORDER BY total DESC LIMIT 3";
   let [result] = await connection.query(sql, []);
-  let newResult = result.map(data => data.name)
+  let newResult = result.map((data) => data.name);
   // console.log("deleted: ",result)
 
   return res.status(200).json(newResult);
 };
 
-exports.recentLogs= async (req,res)=>{
-  let sql ="SELECT * FROM activity_logs LIMIT 3 "
-  let [result]= await connection.query(sql,[])
-  if(!result.length>0) return res(200).json("no recent logs")
-    let newArr = result.map(data => data.activity)
-    return res.status(200).json(newArr)
-}
+exports.recentLogs = async (req, res) => {
+  let sql = "SELECT * FROM activity_logs LIMIT 3 ";
+  let [result] = await connection.query(sql, []);
+  if (!result.length > 0) return res(200).json("no recent logs");
+  let newArr = result.map((data) => data.activity);
+  return res.status(200).json(newArr);
+};
+
+// exports.recentTransaction = async (req, res) => {
+//   let sql =
+//     "SELECT o.*, user.*,SUM(ol.order_price) as total FROM user LEFT JOIN orders o USING(user_id) LEFT JOIN orderlines ol USING(order_id) INNER JOIN items USING(item_id) GROUP BY order_id";
+//   let [result]
+//   };
