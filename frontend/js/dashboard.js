@@ -7,6 +7,7 @@ import sidebarLinks from "./sidebar-links.js";
 import listGenerator from "../utils/listGenerator.js";
 
 roleCheck();
+
 $(document).ready(function () {
   let alertMessage = sessionStorage.getItem("message");
   if (alertMessage === "loginSuccess") {

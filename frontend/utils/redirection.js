@@ -15,13 +15,14 @@ const redirects = {
   },
 };
 
-const getRole = localStorage.getItem("role");
 
-const roleCheck = (role) => {
+const roleCheck = (role) => { 
   const getRole = localStorage.getItem("role");
-
+  console.log(getRole)
+  if(!getRole)  redirects.unauthorize();
   if (getRole != "admin") {
-    redirects.unauthorize();
+    console.log("triggered")
+    redirects.forbidden();
   }
 };
 
