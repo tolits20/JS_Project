@@ -41,10 +41,12 @@ export function paginateHandler(data, table) {
     .off("click")
     .on("click", (e) => {
       let el = $(e.target);
-      console.log(el.data("page"));
+      let toDeactivate = $(main).find(".active").attr("class","")
+      console.log(toDeactivate)
       let page = el.data("page");
       let toPassData = data[page];
       console.log(toPassData);
+      $(el).attr("class","active")
       dataTable(toPassData, table);
     });
   document.getElementById("0").click();
