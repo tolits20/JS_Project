@@ -39,7 +39,7 @@ function renderCartItems() {
   cartItems.forEach((item) => {
     const itemTotal = (item.item_price * item.quantity).toFixed(2);
     const imgPath = item.item_img
-      ? `http://${network.ip}:${network.port}/${item.item_img}`
+      ? `http://${network.client.host}/frontend/assets/images/${item.item_img}`
       : "/assets/images/main.jpg";
 
     cartHTML += `

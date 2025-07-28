@@ -23,7 +23,7 @@ function renderProductCards(pageItems) {
   pageItems.forEach((item) => {
     let imgPath = item.item_img
       ? `http://${network.ip}:${network.port}/${item.item_img}`
-      : "/assets/images/main.jpg";
+      : "/frontend/assets/images/main.jpg";
     // Check if item is already in cart
     const cartItem = sessionCartManager
       .getCartItems()
@@ -177,7 +177,7 @@ $(document).ready(function () {
     e.stopPropagation();
     const itemId = $(this).closest(".product-card").data("item-id");
     if (itemId) {
-      window.location.href = `/frontend/user/item/index.html?id=${itemId}`;
+      window.location.href = `http://${network.client.host}/frontend/user/item/index.html?id=${itemId}`;
     }
   });
   // Add click handlers for cart buttons

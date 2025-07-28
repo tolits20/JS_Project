@@ -177,7 +177,7 @@ class UserOrdersManager {
   // View order details
   viewOrderDetails(orderId) {
     // Redirect to order details page
-    window.location.href = `/frontend/user/item/order_details.html?id=${orderId}`;
+    window.location.href = `http://${network.client.host}/frontend/user/item/order_details.html?id=${orderId}`;
   }
 
   // Show edit modal

@@ -15,12 +15,12 @@ function renderProductCards(pageItems) {
   }
   pageItems.forEach((item) => {
     let imgPath = item.item_img
-      ? `http://${network.ip}:${network.port}/${item.item_img}`
-      : "/assets/images/main.jpg";
+      ? `http://${network.client.host}/frontend/assets/images/${item.item_img}`
+      : `http://${network.client.host}/frontend/assets/images/main.jpg`;
     productsContainer.append(`
       <div class="col-md-3">
         <div class="product-card" data-item-id="${item.item_id}">
-          <div class="product-image-wrapper" style="cursor: pointer;">
+          <div class="product-image-wrapper">
             <img class="product-image" src="${imgPath}" alt="${item.item_name}">
           </div>
           <div class="product-info">
@@ -133,15 +133,6 @@ $(document).ready(function () {
   $(document).on("change", "#category-filter", function () {
     const selectedCategory = $(this).val();
     fetchAndRenderItems(selectedCategory);
-  });
-
-  // Add click handlers for product card images (navigate to detail page)
-  $(document).on("click", ".product-image-wrapper", function (e) {
-    e.stopPropagation();
-    const itemId = $(this).closest(".product-card").data("item-id");
-    if (itemId) {
-      window.location.href = `/frontend/user/item/index.html?id=${itemId}`;
-    }
   });
 
   // Listen for search form submit
