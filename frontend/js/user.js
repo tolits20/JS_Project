@@ -52,14 +52,17 @@ $("#userForm")
     if (!valid) return;
 
     const formData = new FormData($("#userForm")[0]);
+    let obj = new Object()
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}=>${pair[1]}`);
+      if(pair[0]== 'img') continue
+      obj[pair[0]] = pair[1]
     }
-
+    console.log(obj)
     const update = new request("api/v1", "admin/user");
     update.update(
       id,
-      formData,
+      obj,
       (response) => {
         console.log(response);
         alert.notyf.success("User is updated successfully!");
@@ -88,7 +91,7 @@ $("#avatar")
     reader.readAsDataURL(file);
     let formData = new FormData()
     formData.append('img',file)
-    const updateAvatar = new request("api/v1", "admin/user");
+    const updateAvatar = new request("api/v1", "admin/user/avatar");
     updateAvatar.update(
       id,
       formData,

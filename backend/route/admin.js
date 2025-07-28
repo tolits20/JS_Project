@@ -8,7 +8,8 @@ const upload = require("../middleware/multer");
 
 route.get("/admin/user",auth,role('admin'), admin.getAll);
 route.get("/admin/user/:id",auth,role('admin'), admin.getById);
-route.post("/admin/user/:id",auth,role('admin'), upload.single("img"), admin.update);
+route.post("/admin/user/:id",auth,role('admin'), admin.update);
+route.post("/admin/user/avatar/:id",auth,role('admin'),upload.single("img"),admin.updateAvatar)
 route.delete("/admin/user/:id",auth,role('admin'), admin.delete);
 
 route.post("/admin/status/:id",auth,role('admin'), admin.status);
