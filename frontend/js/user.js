@@ -74,6 +74,33 @@ $("#userForm")
     );
   });
 
+$("#avatar")
+  .off("change")
+  .on("change", (e) => {
+    e.preventDefault()
+    let file = e.target.files[0] ?? null;
+    console.log(file);
+    if (file === null) return;
+    let reader = new FileReader();
+    reader.onload = (event) => {
+      $("#imgPreview").attr("src", `${event.target.result}`);
+    };
+    reader.readAsDataURL(file);
+    let formData = new FormData()
+    formData.append('img',file)
+    const updateAvatar = new request("api/v1", "admin/user");
+    updateAvatar.update(
+      id,
+      formData,
+      (response) => {
+        alert.notyf.success("User Avatar is updated successfully!");
+      },
+      (err) => {
+        alert.notyf.error("failed to update the user avatar!");
+      }
+    );
+  });
+
 //index.js
 $("#user-table")
   .off("click")
