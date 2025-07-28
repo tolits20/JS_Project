@@ -6,7 +6,7 @@ const fs = require("fs/promises");
 const { log } = require("../service/logs");
 
 exports.getAll = async (req, res) => {
-  const data = await queryHelper.getAll("user");
+  const data =  await connection.query(`SELECT * FROM user`)
   // console.log(data[0]);
   return res.status(200).json({ message: "succussful", data: data[0] });
 };
@@ -30,8 +30,9 @@ exports.create = async (req, res) => {
 };
 
 exports.userTable = async (req, res) => {
-  let query = "SELECT * FROM user WHERE deleted_at IS NULL";
-  let result = await connection.query(query, []);
+    let excludeUser = parseInt(req.user.data)
+  let query = "SELECT * FROM user WHERE deleted_at IS NULL AND user_id != ?";
+  let result = await connection.query(query, [excludeUser]);
   // console.log(result[0]);
   return res.status(200).json({ data: result[0] });
 };
