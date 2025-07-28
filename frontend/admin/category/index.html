@@ -56,13 +56,15 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body class="admin-layout loading">
     <div id="header"></div>
     <div id="sidebar"></div>
     <div id="category-table">
+      <label class="table-label" for="category">Category List</label>
+      <br />
       <table id="category">
         <thead>
           <tr>
@@ -74,7 +76,7 @@
       </table>
       <ul class="pagination">
         <li id="prev">&laquo;</li>
-        
+
         <li id="next">&raquo;</li>
       </ul>
     </div>
@@ -95,14 +97,16 @@
     <script type="module" src="../../js/category.js"></script>
   </body>
   <style>
+    /* Clean White Primary & Black Secondary Category Table Styles */
+
     body {
       font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-      background-color: #fff;
-      color: #111;
+      background-color: #ffffff;
+      color: #1a1a1a;
     }
 
-    #user-table {
-      background: #fff;
+    #category-table {
+      background: #ffffff;
       border: 1px solid #e5e7eb;
       padding: 24px;
       border-radius: 12px;
@@ -110,144 +114,287 @@
       overflow-x: auto;
     }
 
-    /* DataTable Table */
-    #u-table {
+    /* Main Category Table */
+    #category {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
+      background: #ffffff;
     }
 
-    #u-table thead th {
+    #category thead {
+      background: #fafafa;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    #category thead th {
       text-transform: uppercase;
       font-weight: 600;
       font-size: 12px;
-      color: #111;
-      padding: 16px;
-      border-bottom: 1px solid #e5e7eb;
-      background: #f9fafb;
+      color: #1a1a1a;
+      padding: 16px 20px;
+      text-align: left;
+      letter-spacing: 0.5px;
     }
 
-    #u-table tbody td {
-      padding: 16px;
+    #category tbody td {
+      padding: 16px 20px;
       border-bottom: 1px solid #f3f4f6;
+      color: #1a1a1a;
+      vertical-align: middle;
     }
 
-    #u-table tbody tr:nth-child(even) {
+    #category tbody tr {
+      background: #ffffff;
+      transition: background-color 0.2s ease;
+    }
+
+    #category tbody tr:nth-child(even) {
       background-color: #fafafa;
     }
 
-    #u-table tbody tr:hover {
-      background-color: #f3f3f3;
+    #category tbody tr:hover {
+      background-color: #f3f4f6;
     }
 
-    /* Buttons inside the table */
+    #category tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Button Styles */
     .btn {
       font-size: 13px;
       font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 9999px;
+      padding: 8px 16px;
+      border-radius: 8px;
       border: none;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: #fff;
       cursor: pointer;
-      transition: background-color 0.2s ease;
-      background-color: #111;
-    }
-
-    .btn:hover {
-      background-color: #000;
+      transition: all 0.2s ease;
+      margin-right: 6px;
     }
 
     .btnEdit {
-      background-color: #111;
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+
+    .btnEdit:hover {
+      background-color: #000000;
+      transform: translateY(-1px);
     }
 
     .btnDestroy {
       background-color: #dc2626;
+      color: #ffffff;
     }
 
     .btnDestroy:hover {
       background-color: #b91c1c;
+      transform: translateY(-1px);
     }
 
-    /* DataTable Buttons (PDF, Excel) */
-    .dt-buttons {
+    /* DataTable Controls */
+    .dataTables_wrapper {
+      color: #1a1a1a;
+    }
+
+    .dataTables_filter {
+      text-align: right;
       margin-bottom: 16px;
     }
 
-    .dt-button {
-      background-color: #111 !important;
-      color: #fff !important;
-      font-size: 13px;
-      padding: 8px 16px !important;
-      border: none;
-      border-radius: 9999px !important;
-      cursor: pointer;
-      margin-right: 8px;
-      transition: background-color 0.2s ease;
-    }
-
-    .dt-button:hover {
-      background-color: #000 !important;
-    }
-
-    /* Search Input */
     .dataTables_filter label {
-      color: #111;
+      color: #1a1a1a;
       font-size: 14px;
+      font-weight: 500;
     }
 
     .dataTables_filter input {
-      padding: 6px 12px;
+      padding: 8px 12px;
       font-size: 13px;
-      border-radius: 9999px;
+      border-radius: 8px;
       border: 1px solid #d1d5db;
-      background-color: #fff;
-      color: #111;
+      background-color: #ffffff;
+      color: #1a1a1a;
       margin-left: 8px;
+      transition: border-color 0.2s ease;
     }
 
-    /* Length & Info */
+    .dataTables_filter input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+    }
+
+    .dataTables_length {
+      margin-bottom: 16px;
+    }
+
     .dataTables_length label,
     .dataTables_info {
-      color: #111;
+      color: #1a1a1a;
       font-size: 13px;
+      font-weight: 500;
     }
 
     .dataTables_length select {
-      padding: 4px 8px;
+      padding: 6px 10px;
       font-size: 13px;
-      border-radius: 9999px;
+      border-radius: 8px;
       border: 1px solid #d1d5db;
-      background-color: #fff;
-      color: #111;
+      background-color: #ffffff;
+      color: #1a1a1a;
+      margin: 0 8px;
     }
 
-    /* Scrollbar for table wrapper */
-    #user-table::-webkit-scrollbar {
-      height: 6px;
+    /* DataTable Buttons */
+    .dt-buttons {
+      margin-bottom: 16px;
+      text-align: left;
     }
 
-    #user-table::-webkit-scrollbar-track {
-      background: #f3f4f6;
+    .dt-button {
+      background-color: #1a1a1a !important;
+      color: #ffffff !important;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px !important;
+      border: none !important;
+      border-radius: 8px !important;
+      cursor: pointer;
+      margin-right: 8px;
+      transition: all 0.2s ease;
     }
 
-    #user-table::-webkit-scrollbar-thumb {
-      background: #d1d5db;
-      border-radius: 3px;
+    .dt-button:hover {
+      background-color: #000000 !important;
+      transform: translateY(-1px);
     }
 
-    #user-table::-webkit-scrollbar-thumb:hover {
-      background: #9ca3af;
+    /* DataTable Info and Pagination Wrapper */
+    .dataTables_wrapper .dataTables_info {
+      padding-top: 16px;
+      float: left;
     }
 
+    .dataTables_wrapper .dataTables_paginate {
+      float: right;
+      padding-top: 16px;
+    }
+
+    /* DataTable Pagination Controls */
+    .dataTables_paginate .paginate_button {
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+      padding: 6px 12px !important;
+      margin: 0 2px !important;
+      transition: all 0.2s ease;
+      text-decoration: none !important;
+    }
+
+    .dataTables_paginate .paginate_button:hover {
+      background: #1a1a1a !important;
+      color: #ffffff !important;
+      border-color: #1a1a1a !important;
+    }
+
+    .dataTables_paginate .paginate_button.current {
+      background: #1a1a1a !important;
+      color: #ffffff !important;
+      border-color: #1a1a1a !important;
+    }
+
+    .dataTables_paginate .paginate_button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+    }
+
+    /* Custom Pagination (if used) */
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .pagination li {
+      border: 1px solid #d1d5db;
+      color: #1a1a1a;
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .pagination li:hover {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      border-color: #1a1a1a;
+      transform: translateY(-1px);
+    }
+
+    .pagination .active {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      border-color: #1a1a1a;
+      font-weight: 500;
+    }
+
+    .pagination li:first-child,
+    .pagination li:last-child {
+      font-weight: 500;
+    }
+
+    /* Column Alignment for Category Table */
+
+    /* Category Name Column */
+    #category tbody td:nth-child(1) {
+      /* Category Name column */
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* Products Count Column */
+    #category tbody td:nth-child(2) {
+      /* Products column */
+      text-align: center;
+      font-weight: 500;
+      color: #6b7280;
+    }
+
+    #category thead th:nth-child(2) {
+      /* Products header */
+      text-align: center;
+    }
+
+    /* Actions Column */
+    #category tbody td:nth-child(3) {
+      /* Actions column */
+      text-align: center;
+    }
+
+    #category thead th:nth-child(3) {
+      /* Actions header */
+      text-align: center;
+    }
+
+    /* Toggle Switch Styles */
     .toggle-switch {
       position: relative;
       display: inline-block;
-      width: 50px;
+      width: 44px;
       height: 24px;
     }
 
@@ -264,8 +411,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
+      background-color: #d1d5db;
+      transition: 0.3s;
       border-radius: 24px;
     }
 
@@ -276,54 +423,71 @@
       width: 18px;
       left: 3px;
       bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
+      background-color: #ffffff;
+      transition: 0.3s;
       border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     input:checked + .slider {
-      background-color: #4caf50;
+      background-color: #1a1a1a;
     }
 
     input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-    .pagination {
-      display: flex;
-      list-style: none;
-      padding: 0;
-      gap: 6px;
-      font-family: "Playfair Display", "Inter", serif;
-      justify-content: center;
-      margin-top: 24px;
+      transform: translateX(20px);
     }
 
-    .pagination li {
-      border: 1px solid #ccc;
-      color: #111;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      letter-spacing: 0.5px;
+    /* Scrollbar Styling */
+    #category-table::-webkit-scrollbar {
+      height: 8px;
     }
 
-    .pagination li:hover {
-      background-color: #111;
-      color: #fff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    #category-table::-webkit-scrollbar-track {
+      background: #f3f4f6;
+      border-radius: 4px;
     }
 
-    .pagination .active {
-      background-color: #111;
-      color: white;
-      font-weight: 500;
+    #category-table::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
     }
 
-    .pagination li:first-child,
-    .pagination li:last-child {
-      font-weight: 500;
+    #category-table::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #category-table {
+        padding: 16px;
+      }
+
+      #category thead th,
+      #category tbody td {
+        padding: 12px 8px;
+        font-size: 13px;
+      }
+
+      .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      .dataTables_wrapper .dataTables_info,
+      .dataTables_wrapper .dataTables_paginate {
+        float: none;
+        text-align: center;
+        padding-top: 8px;
+      }
+    }
+
+    /* Label Before Table */
+    .table-label {
+      display: block;
+      font-size: 36px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 12px;
     }
   </style>
 </html>

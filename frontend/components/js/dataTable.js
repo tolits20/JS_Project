@@ -9,7 +9,6 @@ export const network = {
 
 export const dataTable = (data, table) => {
   let btnUrl = `http://${config.client.host}/frontend/admin/${table}/edit.html`;
-  console.log(data);
   let rawData = data;
   let option = {
     user: [
@@ -50,7 +49,13 @@ export const dataTable = (data, table) => {
           return `#${data.order_id}`;
         },
       },
-      { data: "name", className: "fw-bold text-capitalize" },
+      {
+        data: null,
+        className: "fw-bold text-capitalize",
+        render: (data, type, row) => {
+          return `<a href='http://${config.client.host}/frontend/admin/user/edit.html?id=${data.user_id}' title="check user info">${data.name}</a>`
+        },
+      },
       {
         data: null,
         render: (data, type, row) => {
@@ -141,7 +146,6 @@ export const dataTable = (data, table) => {
     });
   }
 
-  console.log(rawData);
   console.log("initializing table...");
   $(`#${table}`).DataTable().clear().destroy();
 

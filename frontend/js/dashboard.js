@@ -7,6 +7,7 @@ import sidebarLinks from "./sidebar-links.js";
 import listGenerator from "../utils/listGenerator.js";
 
 roleCheck();
+
 $(document).ready(function () {
   let alertMessage = sessionStorage.getItem("message");
   if (alertMessage === "loginSuccess") {
@@ -105,7 +106,6 @@ $(document).ready(function () {
   const userRank = new request("api/v1", "userRanking");
   userRank.getAll(
     (response) => {
-      console.log(response);
       listGenerator(response, "#user-rank");
     },
     (err) => {
@@ -114,10 +114,9 @@ $(document).ready(function () {
   );
 
   const recentLogs = new request("api/v1", "recentLogs");
-  userRank.getAll(
+  recentLogs.getAll(
     (response) => {
-      console.log(response);
-      listGenerator(response, "#user-rank");
+      listGenerator(response, "#latest-activity");
     },
     (err) => {
       console.log(err);

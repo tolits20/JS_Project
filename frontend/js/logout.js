@@ -4,14 +4,11 @@ import sessionCartManager from "../utils/cartManager.js";
 const logout = () => {
   console.log("logout");
 
-  // Clear cart data for current user
   sessionCartManager.clearCartOnLogout();
 
-  // Clear all localStorage (including auth token)
   localStorage.clear();
 
-  // Redirect to login page
-  location.href = `http://${network.client.host}`;
+  location.href = `http://${network.client.host}/frontend/index.html`;
 };
 
 export default logout;

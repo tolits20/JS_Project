@@ -8,35 +8,6 @@ roleCheck();
 
 $(document).ready(function () {
   sidebarLinks()
-  document
-    .getElementById("sidebar-dashboard")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/dashboard.html`
-    );
-  document
-    .getElementById("sidebar-user")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/user/index.html`
-    );
-  document
-    .getElementById("sidebar-item")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/item/index.html`
-    );
-  document
-    .getElementById("sidebar-order")
-    .setAttribute(
-      "href",
-      `http://${network.client.host}/frontend/admin/orders/index.html`
-    );
-  document.getElementById("sidebar-logout").addEventListener("click", (e) => {
-    e.preventDefault();
-    logout();
-  });
-
   $(document)
     .off("change")
     .on("change", ".order-status", (e) => {
@@ -67,7 +38,7 @@ const tableData = new request("api/v1", "admin/order-all");
 tableData.getAll(
   async (response) => {
     console.log(response);
-    let data = pageRows(response.data, 10);
+    let data = pageRows(response.data, 5);
     console.log(data);
     paginateHandler(data, "order");
     // dataTable(response, "user");

@@ -1,5 +1,4 @@
 const list = (data, parent) => {
-    console.log(data)
   data.forEach((name) => {
     let element = $("<li>");
     element.text(name)
