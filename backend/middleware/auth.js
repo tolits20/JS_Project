@@ -14,7 +14,7 @@ const isAuth = (req, res, next) => {
   try {
     let decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.role = decoded.role;
-    req.user = decoded; // Add user data to request object
+    req.user = decoded; 
     // console.log(decoded);
 
     next();
