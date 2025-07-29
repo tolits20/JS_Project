@@ -13,6 +13,7 @@ const {
   category,
   transaction,
   review,
+  seed,
 } = require("./route/index");
 
 //incoming request parser
@@ -48,5 +49,6 @@ app.use("/api/v1/", dashboard);
 app.use("/api/v1/", category);
 app.use("/api/v1/", transaction);
 app.use("/api/v1/", review);
+app.use("/api/v1/", seed);
 
 module.exports = app;
