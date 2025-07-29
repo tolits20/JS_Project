@@ -7,7 +7,7 @@ exports.login = async (req, res) => {
   if (!req.body || req.body == undefined)
     return res.status(500).json({ message: "no data receive" });
   const { email, password } = req.body;
-  let getAccount = "SELECT * FROM user WHERE email = ?";
+  let getAccount = "SELECT * FROM user WHERE email = ? AND deleted_at IS NULL AND is_active=1";
   let [result] = await connection.query(getAccount, [email]);
 
   if (!result) return res.status(403).json({ message: "user not found" });
