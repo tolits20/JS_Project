@@ -6,7 +6,7 @@ const fs = require("fs/promises");
 const { log } = require("../service/logs");
 
 exports.getAll = async (req, res) => {
-  const data = await queryHelper.getAll("user");
+  const data =  await connection.query(`SELECT * FROM user`)
   // console.log(data[0]);
   return res.status(200).json({ message: "succussful", data: data[0] });
 };
@@ -30,16 +30,43 @@ exports.create = async (req, res) => {
 };
 
 exports.userTable = async (req, res) => {
-  let query = "SELECT * FROM user WHERE deleted_at IS NULL";
-  let result = await connection.query(query, []);
+    let excludeUser = parseInt(req.user.data)
+  let query = "SELECT * FROM user WHERE deleted_at IS NULL AND user_id != ?";
+  let result = await connection.query(query, [excludeUser]);
   // console.log(result[0]);
   return res.status(200).json({ data: result[0] });
 };
 
 exports.update = async (req, res) => {
+  let id = parseInt(req.params.id)
+  let query =
+    "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=? WHERE user_id =?";
+  const { fullname, role, status, email, phone, location } = req.body;
+  let result = await connection.query(query, [
+    fullname,
+    email,
+    role,
+    status,
+    phone,
+    location,
+    id,
+  ]);
+
+  if (result) {
+    log("user", "update");
+    return res.status(200).json({
+      message: "successful",
+      result,
+    });
+  }
+
+  return res
+    .status(500)
+    .json("failed to update the user data, please try again later");
+};
+
+exports.updateAvatar = async (req, res) => {
   const id = parseInt(req.params.id);
-  console.log("files", req.file);
-  console.log("body", req.body);
 
   let currImg = await connection.query(
     "SELECT img FROM user WHERE user_id=? AND img IS NOT NULL",
@@ -57,32 +84,17 @@ exports.update = async (req, res) => {
     img = destination + "/" + filename;
   }
   console.log("name", img);
-  let query =
-    "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=?, img=? WHERE user_id =?";
-  const { fullname, role, status, email, phone, location } = req.body;
+  let query = "UPDATE user SET img=? WHERE user_id =?";
 
-  let result = await connection.query(query, [
-    fullname,
-    email,
-    role,
-    status,
-    phone,
-    location,
+  let [result] = await connection.query(query, [img, id]);
+
+  if (result.affectedRows < 1)
+    return res.status(500).json("something went wrong on the serverside");
+
+  return res.status(200).json({
     img,
-    id,
-  ]);
-
-  if (result) {
-    log("user", "update");
-    return res.status(200).json({
-      message: "successful",
-      result,
-    });
-  }
-
-  return res
-    .status(500)
-    .json("failed to update the user data, please try again later");
+    message: "updated successfully",
+  });
 };
 
 exports.delete = async (req, res) => {

@@ -95,7 +95,7 @@ exports.transactionCount = async (req, res) => {
 
 exports.recentlyDeleted = async (req, res) => {
   let sql =
-    "SELECT COUNT (user_id) as total FROM user WHERE deleted_at IS NULL";
+    "SELECT COUNT (user_id) as total FROM user WHERE deleted_at IS NOT NULL";
   let [result] = await connection.query(sql, []);
   // console.log("deleted: ",result)
 

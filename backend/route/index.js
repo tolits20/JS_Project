@@ -7,6 +7,7 @@ const dashboard = require("./dashboard");
 const category = require("./category");
 const transaction = require("./transaction");
 const review = require("./review");
+const seed = require("./seeders")
 
 module.exports = {
   admin,
@@ -18,4 +19,5 @@ module.exports = {
   category,
   transaction,
   review,
+  seed
 };

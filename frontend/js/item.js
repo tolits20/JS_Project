@@ -7,17 +7,19 @@ import { roleCheck, errorStatus } from "../utils/redirection.js";
 import sidebarLinks from "./sidebar-links.js";
 roleCheck();
 
-
-
 $(document).ready(function () {
-  sidebarLinks()
-  $(document)
-    .on("click", "#btn-destroy", (e) => {
-      e.preventDefault();
-      let id = $(e.target).data("id");
-      let parent = e.target.closest("tr");
-      console.log(parent);
-      let item = new request("api/v1", "admin/item");
+  sidebarLinks();
+  $(document).on("click", "#btn-destroy", async (e) => {
+    e.preventDefault();
+    let id = $(e.target).data("id");
+    let parent = e.target.closest("tr");
+    console.log(parent);
+    let item = new request("api/v1", "admin/item");
+    let result = await alert.deleteConfirmation(
+      "Yes,delete it!",
+      "Successfully deleted the Item"
+    );
+    if (result) {
       item.delete(
         id,
         (response) => {
@@ -33,7 +35,8 @@ $(document).ready(function () {
           );
         }
       );
-    });
+    }
+  });
 });
 
 //edit.html
@@ -99,8 +102,8 @@ if (id) editItem();
 $("#item_image")
   .off("change")
   .on("change", (e) => {
-    e.preventDefault()
-    console.log("clicked")
+    e.preventDefault();
+    console.log("clicked");
     let valid = formValidate("#item_image", "image", "item_img");
     if (!valid) return;
     const file = e.target.files[0];
@@ -238,7 +241,7 @@ if (!id) {
   allItems.getAll(
     (response) => {
       console.log(response);
-      let data = pageRows(response.data, 10);
+      let data = pageRows(response.data, 5);
       paginateHandler(data, "item");
     },
     (err) => {

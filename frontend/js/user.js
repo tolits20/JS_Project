@@ -52,14 +52,17 @@ $("#userForm")
     if (!valid) return;
 
     const formData = new FormData($("#userForm")[0]);
+    let obj = new Object()
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}=>${pair[1]}`);
+      if(pair[0]== 'img') continue
+      obj[pair[0]] = pair[1]
     }
-
+    console.log(obj)
     const update = new request("api/v1", "admin/user");
     update.update(
       id,
-      formData,
+      obj,
       (response) => {
         console.log(response);
         alert.notyf.success("User is updated successfully!");
@@ -70,6 +73,33 @@ $("#userForm")
         alert.notyf.error(
           "Failed to update the user information, Please try again later!"
         );
+      }
+    );
+  });
+
+$("#avatar")
+  .off("change")
+  .on("change", (e) => {
+    e.preventDefault()
+    let file = e.target.files[0] ?? null;
+    console.log(file);
+    if (file === null) return;
+    let reader = new FileReader();
+    reader.onload = (event) => {
+      $("#imgPreview").attr("src", `${event.target.result}`);
+    };
+    reader.readAsDataURL(file);
+    let formData = new FormData()
+    formData.append('img',file)
+    const updateAvatar = new request("api/v1", "admin/user/avatar");
+    updateAvatar.update(
+      id,
+      formData,
+      (response) => {
+        alert.notyf.success("User Avatar is updated successfully!");
+      },
+      (err) => {
+        alert.notyf.error("failed to update the user avatar!");
       }
     );
   });
