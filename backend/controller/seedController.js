@@ -82,22 +82,67 @@ exports.itemSeed = async (req, res) => {
   const storeItemSeed = () => {
     return new Promise((resolve, reject) => {
       try {
-        items.forEach(async(data) => {
-          const {item,category, item_price,item_desc,stock} =data
-          let [result] = await connection.query(sql1,[item,item_price,item_desc,item,item_price,item_desc])
-          let id = result.insertId
-          await connection.query(sql2,[id,category,id,category])
-          await connection.query(sql3,[id,stock,id,stock])
+        items.forEach(async (data) => {
+          const { item, category, item_price, item_desc, stock } = data;
+          let [result] = await connection.query(sql1, [
+            item,
+            item_price,
+            item_desc,
+            item,
+            item_price,
+            item_desc,
+          ]);
+          let id = result.insertId;
+          await connection.query(sql2, [id, category, id, category]);
+          await connection.query(sql3, [id, stock, id, stock]);
         });
 
-        resolve(true)
+        resolve(true);
       } catch (error) {
-        reject(error)
+        reject(error);
       }
     });
   };
 
   storeItemSeed()
-    .then((result) => { return res.status(200).json("Item seeding is successfully executed!")})
-    .catch((err) => {return res.status(500).json("Failed to seed items")});
+    .then((result) => {
+      return res.status(200).json("Item seeding is successfully executed!");
+    })
+    .catch((err) => {
+      return res.status(500).json("Failed to seed items");
+    });
+};
+
+exports.orderSeed = (req, res) => {
+  let orders = req.orders;
+  let sql1 = "INSERT INTO orders (user_id,order_placed) VALUES (?,?)";
+  let sql2 =
+    "INSERT INTO orderlines (order_id,item_id,qty,order_price) VALUES (?,?,?,?)";
+
+  const orderSeed = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        orders.forEach(async (order) => {
+          let [result1] = await connection.query(sql1, [
+            order.user,
+            order.order_placed,
+          ]);
+          const id = result1.insertId;
+          const itemOrders = order.orders
+          itemOrders.forEach(async (data) => {
+            await connection.query(sql2, [id, data.item, data.qty, data.price]);
+          });
+        });
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  orderSeed().then((result)=>{
+    return res.status(200).json("Seeding orders is successfully executed")
+  }).catch((err)=>{
+    return res.status(500).json("Seeding orders is Failed")
+  })
 };
