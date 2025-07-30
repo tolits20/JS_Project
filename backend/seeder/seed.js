@@ -21,3 +21,26 @@ exports.userSeed = async (req, res, next) => {
   req.body = users;
   next();
 };
+
+exports.categorySeed= async(req,res,next)=>{
+  const categories = [
+  "fashion",
+  "casual",
+  "travel",
+  "school",
+  "work",
+  "tech",
+  "sport",
+  "formal",
+  "utility",
+  "shopping",
+  "eco",
+  "fitness",
+  "everyday",
+  "evening",
+  "billioned"
+];
+ req.categories=categories
+ next()
+}
+
