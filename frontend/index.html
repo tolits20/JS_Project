@@ -25,6 +25,11 @@
       href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
     />
     <style>
+      /* Fix for autocomplete dropdown appearing behind navbar */
+      .ui-autocomplete {
+        z-index: 9999 !important;
+      }
+      
       * {
         margin: 0;
         padding: 0;

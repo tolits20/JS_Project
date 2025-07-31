@@ -119,6 +119,23 @@ export function loadHeaderAndFooter(cartManager = null) {
         }
       }
     );
+    // Add search handler after header is loaded
+    const searchForms = document.querySelectorAll(".navbar-form");
+    searchForms.forEach(function (form) {
+      form.addEventListener("submit", function (e) {
+        console.log("Search form submitted!"); // DEBUG LOG
+        e.preventDefault();
+        const input = form.querySelector(".search-input");
+        const searchTerm = input ? input.value.trim() : "";
+        if (searchTerm) {
+          window.location.href =
+            "/frontend/user/home_page.html?search=" +
+            encodeURIComponent(searchTerm);
+        } else {
+          window.location.href = "/frontend/user/home_page.html";
+        }
+      });
+    });
     // Update cart display after header loads
     if (cartManager && typeof cartManager.updateCartDisplay === "function") {
       cartManager.updateCartDisplay();

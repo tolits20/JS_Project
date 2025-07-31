@@ -1,7 +1,4 @@
-// Session-based Cart Manager
-// This utility manages cart operations using sessionStorage
-// Follows DRY principle - can be reused across all user pages
-// Cart is tied to user authentication for security
+
 
 class SessionCartManager {
   constructor() {

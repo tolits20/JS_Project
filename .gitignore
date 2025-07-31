@@ -12,3 +12,6 @@ node_modules/
 .vscode/
 
 cursor_commands.txt
+
+# ignore storage
+storage/

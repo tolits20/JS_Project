@@ -163,6 +163,23 @@ $(document).ready(function () {
     }
   }
 
+  // Read search query parameter from URL and filter items if present
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchParam = urlParams.get("search");
+  if (searchParam) {
+    // Wait for items to be fetched, then filter and render
+    let originalFetchAndRender = fetchAndRenderItems;
+    fetchAndRenderItems = function (categoryId) {
+      originalFetchAndRender.call(this, categoryId);
+      setTimeout(() => {
+        const filteredItems = allItems.filter((item) =>
+          item.item_name.toLowerCase().includes(searchParam.toLowerCase())
+        );
+        renderPaginatedItems(filteredItems);
+      }, 500); // Wait for AJAX to complete
+    };
+  }
+
   // Initial fetch (all items)
   fetchAndRenderItems("");
 
@@ -209,19 +226,14 @@ $(document).ready(function () {
   // Listen for search form submit
   $(document).on("submit", ".navbar-form", function (e) {
     e.preventDefault();
-    const searchTerm = $("#header-search-input").val().trim().toLowerCase();
-    let filteredItems = allItems;
+    const searchTerm = $("#header-search-input").val().trim();
     if (searchTerm) {
-      filteredItems = allItems.filter((item) =>
-        item.item_name.toLowerCase().includes(searchTerm)
-      );
+      window.location.href = `/frontend/user/home_page.html?search=${encodeURIComponent(
+        searchTerm
+      )}`;
+    } else {
+      window.location.href = `/frontend/user/home_page.html`;
     }
-    // Re-paginate and render filtered items
-    const paginatedItems = [];
-    for (let i = 0; i < filteredItems.length; i += itemsPerPage) {
-      paginatedItems.push(filteredItems.slice(i, i + itemsPerPage));
-    }
-    renderProductCards(paginatedItems[0] || []);
   });
 });
 
