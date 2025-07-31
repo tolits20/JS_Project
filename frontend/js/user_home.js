@@ -29,23 +29,24 @@ function renderProductCards(pageItems) {
       .getCartItems()
       .find((cartItem) => cartItem.item_id === item.item_id);
     const buttonText = cartItem ? "Update Cart" : "Add to Cart";
-    const buttonClass = cartItem ? "update-cart" : "add-to-cart";
+    const buttonClass = "btn-cart"; // Single class for both states
+    const buttonStateClass = cartItem ? "btn-cart-update" : "btn-cart-add"; // State-specific class
     productsContainer.append(`
-      <div class="col-md-3">
-        <div class="product-card" data-item-id="${item.item_id}">
-          <div class="product-image-wrapper" style="cursor: pointer;">
-            <img class="product-image" src="${imgPath}" alt="${item.item_name}">
-          </div>
-          <div class="product-info">
-            <h5 class="product-title">${item.item_name}</h5>
-            <div class="product-price">$${item.item_price}</div>
-            <button class="${buttonClass}" data-item='${JSON.stringify(
+  <div class="col-md-3">
+    <div class="product-card" data-item-id="${item.item_id}">
+      <div class="product-image-wrapper" style="cursor: pointer;">
+        <img class="product-image" src="${imgPath}" alt="${item.item_name}">
+      </div>
+      <div class="product-info">
+        <h5 class="product-title">${item.item_name}</h5>
+        <div class="product-price">$${item.item_price}</div>
+        <button class="${buttonClass} ${buttonStateClass}" data-item='${JSON.stringify(
       item
     )}'>${buttonText}</button>
-          </div>
-        </div>
       </div>
-    `);
+    </div>
+  </div>
+`);
   });
 }
 
@@ -197,32 +198,21 @@ $(document).ready(function () {
       window.location.href = `http://${network.client.host}/frontend/user/item/index.html?id=${itemId}`;
     }
   });
-  // Add click handlers for cart buttons
-  $(document).on("click", ".add-to-cart, .update-cart", function (e) {
+// Add click handlers for cart buttons
+$(document).on("click", ".btn-cart", function(e) {
     e.stopPropagation();
     const itemData = $(this).data("item");
     if (itemData) {
-      const success = sessionCartManager.addToCart(itemData, 1);
-      if (success) {
-        showNotification("Item added to cart successfully!", "success");
-        const button = $(this);
-        button
-          .text("Update Cart")
-          .removeClass("add-to-cart")
-          .addClass("update-cart");
-        button.css({
-          background: "#28a745",
-          "border-color": "#28a745",
-        });
-        setTimeout(() => {
-          button.css({
-            background: "#000000",
-            "border-color": "#000000",
-          });
-        }, 1000);
-      }
+        const success = sessionCartManager.addToCart(itemData, 1);
+        if (success) {
+            showNotification("Item added to cart successfully!", "success");
+            $(this)
+                .text("Update Cart")
+                .removeClass("btn-cart-add")
+                .addClass("btn-cart-update");
+        }
     }
-  });
+});
   // Listen for search form submit
   $(document).on("submit", ".navbar-form", function (e) {
     e.preventDefault();

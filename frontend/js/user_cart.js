@@ -298,8 +298,9 @@ async function placeOrder(cartItems) {
 
     if (response.success) {
       // Clear cart after successful order
-      sessionCartManager.clearCart();
-
+      cartItems.forEach((item) =>
+        sessionCartManager.removeFromCart(item.item_id)
+      );
       // Close modal
       $("#checkoutModal").modal("hide");
 
