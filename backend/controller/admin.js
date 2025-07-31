@@ -142,3 +142,11 @@ exports.softDelete = async (req, res) => {
   }
   return res.status(500).json("something went wrong during the process");
 };
+
+exports.recentDeletedUsers=async(req,res)=>{
+  // return res.json("reached")
+  let [result] = await connection.query("SELECT name,email,role FROM user WHERE deleted_at IS NOT NULL",[])
+  if(result.length<1) return res.json("no recent deletion of users")
+  return res.status(200).json(result)
+
+}
