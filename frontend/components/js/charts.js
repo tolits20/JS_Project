@@ -9,7 +9,7 @@ const createChart = (canvas, data, type) => {
         labels: labels,
         datasets: [
           {
-            label: "Monthly Sales",
+            label: "Data",
             data: value,
             borderWidth: 1,
           },

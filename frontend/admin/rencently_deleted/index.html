@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/header-sidebar.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css"
+    />
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Buttons extension -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+    <!-- JSZip for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- pdfmake for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="admin-layout loading">
+    <div id="header"></div>
+    <div id="sidebar"></div>
+   <div class="deleted-container">
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button class="tab-button active" data-tab="deleted-users">Deleted Users</button>
+    <button class="tab-button" data-tab="deleted-items">Deleted Items</button>
+    <button class="tab-button" data-tab="deleted-orders">Deleted Orders</button>
+  </div>
+
+  <!-- Tab Content: Users -->
+  <div class="tab-content active" id="deleted-users">
+    <h3>Deleted Users</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Deleted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>John Doe</td>
+          <td>john@example.com</td>
+          <td>2025-07-30</td>
+          <td><button class="restore">Restore</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tab Content: Items -->
+  <div class="tab-content" id="deleted-items">
+    <h3>Deleted Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Item ID</th>
+          <th>Item Name</th>
+          <th>Category</th>
+          <th>Deleted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>100</td>
+          <td>Sample Item</td>
+          <td>Gadgets</td>
+          <td>2025-07-29</td>
+          <td><button class="restore">Restore</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tab Content: Orders -->
+  <div class="tab-content" id="deleted-orders">
+    <h3>Deleted Orders</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>User</th>
+          <th>Total</th>
+          <th>Deleted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#2025</td>
+          <td>Jane Smith</td>
+          <td>$250.00</td>
+          <td>2025-07-28</td>
+          <td><button class="restore">Restore</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .deleted-container {
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .tab-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .tab-button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .tab-button:hover {
+    background: #f0f0f0;
+  }
+
+  .tab-button.active {
+    background: #000;
+    color: #fff;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+
+  th, td {
+    padding: 12px 10px;
+    text-align: left;
+  }
+
+  button.restore {
+    padding: 6px 12px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button.restore:hover {
+    background: #333;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.tab-button');
+    const contents = document.querySelectorAll('.tab-content');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        contents.forEach(content => content.classList.remove('active'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+  });
+</script>
+
+    <script>
+      async function loadComponent(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+      }
+
+      Promise.all([
+        loadComponent("sidebar", "../../components/primary/sidebar.html"),
+        loadComponent("header", "../../components/primary/header.html"),
+      ]).then(() => {
+        document.body.classList.remove("loading");
+      });
+    </script>
+  </body>
+  <style>
+    /* Clean White Primary & Black Secondary Table Styles */
+
+    #user-table {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+    }
+
+    /* Main User Table */
+    #user {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: #ffffff;
+    }
+
+    #user thead {
+      background: #fafafa;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    #user thead th {
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+      color: #1a1a1a;
+      padding: 16px 20px;
+      text-align: left;
+      letter-spacing: 0.5px;
+    }
+
+    #user tbody td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #f3f4f6;
+      color: #1a1a1a;
+      vertical-align: middle;
+    }
+
+    #user tbody tr {
+      background: #ffffff;
+      transition: background-color 0.2s ease;
+    }
+
+    #user tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    #user tbody tr:hover {
+      background-color: #f3f4f6;
+    }
+
+    #user tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Button Styles */
+    .btn {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btnEdit {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+
+    .btnEdit:hover {
+      background-color: #000000;
+      transform: translateY(-1px);
+    }
+
+    .btnDestroy {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .btnDestroy:hover {
+      background-color: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    /* Toggle Switch Styles */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #d1d5db;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #ffffff;
+      transition: 0.3s;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    input:checked + .slider {
+      background-color: #1a1a1a;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Pagination Styles */
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .pagination li {
+      border: 1px solid #d1d5db;
+      color: #1a1a1a;
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .pagination li:hover {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      border-color: #1a1a1a;
+      transform: translateY(-1px);
+    }
+
+    .pagination .active {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      border-color: #1a1a1a;
+      font-weight: 500;
+    }
+
+    /* DataTable Controls */
+    .dataTables_wrapper {
+      color: #1a1a1a;
+    }
+
+    .dataTables_filter label {
+      color: #1a1a1a;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .dataTables_filter input {
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      background-color: #ffffff;
+      color: #1a1a1a;
+      margin-left: 8px;
+      transition: border-color 0.2s ease;
+    }
+
+    .dataTables_filter input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+    }
+
+    .dataTables_length label,
+    .dataTables_info {
+      color: #1a1a1a;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .dataTables_length select {
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      background-color: #ffffff;
+      color: #1a1a1a;
+      margin: 0 8px;
+    }
+
+    /* DataTable Buttons */
+    .dt-buttons {
+      margin-bottom: 16px;
+    }
+
+    .dt-button {
+      background-color: #1a1a1a !important;
+      color: #ffffff !important;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px !important;
+      border: none !important;
+      border-radius: 8px !important;
+      cursor: pointer;
+      margin-right: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .dt-button:hover {
+      background-color: #000000 !important;
+      transform: translateY(-1px);
+    }
+
+    /* Pagination Controls for DataTables */
+    .dataTables_paginate .paginate_button {
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+      padding: 6px 12px !important;
+      margin: 0 2px !important;
+      transition: all 0.2s ease;
+    }
+
+    .dataTables_paginate .paginate_button:hover {
+      background: #1a1a1a !important;
+      color: #ffffff !important;
+      border-color: #1a1a1a !important;
+    }
+
+    .dataTables_paginate .paginate_button.current {
+      background: #1a1a1a !important;
+      color: #ffffff !important;
+      border-color: #1a1a1a !important;
+    }
+
+    /* Scrollbar Styling */
+    #user-table::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    #user-table::-webkit-scrollbar-track {
+      background: #f3f4f6;
+      border-radius: 4px;
+    }
+
+    #user-table::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
+    }
+
+    #user-table::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+    /* Label Before Table */
+    .table-label {
+      display: block;
+      font-size: 36px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+  </style>
+</html>
