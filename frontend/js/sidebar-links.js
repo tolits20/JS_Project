@@ -32,6 +32,8 @@ const sidebarLinks = () => {
       "href",
       `http://${network.client.host}/frontend/admin/orders/index.html`
     );
+document.getElementById("sidebar-deleted").setAttribute('href',`http://${network.client.host}/frontend/admin/recently_deleted/index.html`)
+
   document.getElementById("sidebar-logout").addEventListener("click", (e) => {
     e.preventDefault();
     logout();
