@@ -26,7 +26,7 @@ $(document).ready(function () {
     },
     (err) => {
       console.log(err);
-      errorStatus(err.status);
+      //errorStatus(err.status);
       alert.notyf.error("failed to get the monthly sales data.");
     }
   );
@@ -40,7 +40,7 @@ $(document).ready(function () {
     },
     (err) => {
       console.log(err);
-      errorStatus(err.status);
+      //errorStatus(err.status);
       alert.notyf.error("failed to get the monthly sales data.");
     }
   );
@@ -54,7 +54,7 @@ $(document).ready(function () {
     },
     (err) => {
       console.log(err);
-      errorStatus(err.status);
+      //errorStatus(err.status);
       alert.notyf.error("failed to get the monthly sales data.");
     }
   );
