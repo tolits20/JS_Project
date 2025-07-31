@@ -260,7 +260,7 @@ function showCheckoutModal(cartItems) {
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               <i class="fas fa-times"></i> Cancel
             </button>
-            <button type="button" class="btn btn-primary" id="confirm-order-btn">
+            <button type="button" class="btn btn-primary" id="confirm-order-btn" style = "font-color: white; background-color: black">
               <i class="fas fa-check"></i> Place Order
             </button>
           </div>
