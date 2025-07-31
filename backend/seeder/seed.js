@@ -147,7 +147,7 @@ exports.orderSeed = async (req, res, next) => {
 
       function parseOrders() {
         let orderedItems = [];
-        for (let i = 0; i < faker.number.int({ min: 1, max: 10 }); i++) {
+        for (let i = 0; i < faker.number.int({ min: 1, max: 5 }); i++) {
           let index = faker.number.int(items.length - 1);
           let item = items[index].item_id;
           let qty = faker.number.int({ min: 1, max: 3 });

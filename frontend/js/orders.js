@@ -38,7 +38,7 @@ const tableData = new request("api/v1", "admin/order-all");
 tableData.getAll(
   async (response) => {
     console.log(response);
-    let data = pageRows(response.data, 5);
+    let data = pageRows(response.data, 10);
     console.log(data);
     paginateHandler(data, "order");
     // dataTable(response, "user");

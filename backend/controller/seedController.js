@@ -13,7 +13,7 @@ exports.userSeed = async (req, res) => {
           const query =
             "INSERT INTO user (name,email,password) VALUES (?, ?, ?)";
 
-          hashPassword = await bcrypt.hash(password, 10);
+          let hashPassword = await bcrypt.hash(password, 10);
 
           let result = await connection.execute(query, [
             name,

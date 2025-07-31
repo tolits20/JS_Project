@@ -241,7 +241,7 @@ if (!id) {
   allItems.getAll(
     (response) => {
       console.log(response);
-      let data = pageRows(response.data, 5);
+      let data = pageRows(response.data, 10);
       paginateHandler(data, "item");
     },
     (err) => {
