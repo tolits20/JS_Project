@@ -53,7 +53,7 @@ export const dataTable = (data, table) => {
         data: null,
         className: "fw-bold text-capitalize",
         render: (data, type, row) => {
-          return `<a href='http://${config.client.host}/frontend/admin/user/edit.html?id=${data.user_id}' title="check user info">${data.name}</a>`
+          return `<a href='http://${config.client.host}/frontend/admin/user/edit.html?id=${data.user_id}' title="check user info">${data.name}</a>`;
         },
       },
       {
@@ -99,30 +99,36 @@ export const dataTable = (data, table) => {
       { data: "category", className: "fw-bold text-capitalize" },
       { data: "total", className: "fw-bold text-capitalize" },
     ],
-    recentDeletes:{
-      users:[
-        { data: "name", className: "fw-bold text-capitalize" },
-        { data: "email", className: "fw-bold text-capitalize" },
-        { data: "role", className: "fw-bold text-capitalize" },
-        { data: null, className: "fw-bold text-capitalize",
-          render:(data)=>{
-            return `<button class="restore" id = ${data.user_id}>Restore</button>
-            <button class="forceDelete" id = ${data.user_id}>Delete Permanently</button>`
-          }
-         },
-      ],
-      items:[
-        { data: "item_name", className: "fw-bold text-capitalize" },
-        { data: "item_price", className: "fw-bold text-capitalize" },
-        { data: "category", className: "fw-bold text-capitalize" },
-        { data: null, className: "fw-bold text-capitalize" ,
-          render:(data)=>{
-            return `<button class="restore" id = ${data.item_id}>Restore</button>
-            <button class="forceDelete" id = ${data.item_id}>Delete Permanently</button>`
-          }
+
+    recentDeletedUsers: [
+      { data: "name", className: "fw-bold text-capitalize" },
+      { data: "email", className: "fw-bold text-capitalize" },
+      { data: "role", className: "fw-bold text-capitalize" },
+      { data: "deleted_at", className: "fw-bold text-capitalize" },
+      {
+        data: null,
+        className: "fw-bold text-capitalize",
+        render: (data) => {
+          return `<button class="restore" id = ${data.user_id}>Restore</button>
+            <button class="forceDelete" id = ${data.user_id}>Delete Permanently</button>`;
         },
-      ]
-    }
+      },
+    ],
+    recentDeletedItems: [
+      { data: "item_name", className: "fw-bold text-capitalize" },
+      { data: "item_price", className: "fw-bold text-capitalize" },
+      { data: "category", className: "fw-bold text-capitalize" },
+      { data: "deleted_at", className: "fw-bold text-capitalize" },
+      
+      {
+        data: null,
+        className: "fw-bold text-capitalize",
+        render: (data) => {
+          return `<button class="restore" id = ${data.item_id}>Restore</button>
+            <button class="forceDelete" id = ${data.item_id}>Delete Permanently</button>`;
+        },
+      },
+    ],
   };
 
   // let columns = table === "user" ? [...option.user] : [...option.item];
@@ -140,9 +146,19 @@ export const dataTable = (data, table) => {
     case "category":
       columns = [...option.category];
       break;
+    case "recentDeletedUsers":
+      columns = [...option.recentDeletedUsers];
+      break;
+    case "recentDeletedItems":
+      columns = [...option.recentDeletedItems];
+      break;
   }
 
-  if (table != "order" && table == "recentDeletes") {
+  if (
+    table != "order" &&
+    table !== "recentDeletedUsers" &&
+    table !== "recentDeletedItems"
+  ) {
     columns.push({
       data: null,
       className: "text-end",
