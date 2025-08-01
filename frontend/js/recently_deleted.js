@@ -8,6 +8,7 @@ import sidebarLinks from "./sidebar-links.js";
 import { dataTable } from "../components/js/dataTable.js";
 
 roleCheck();
+let tabSection;
 
 $(document).ready(function () {
   sidebarLinks();
@@ -21,9 +22,9 @@ $(document).ready(function () {
       buttons.forEach((btn) => btn.classList.remove("active"));
       contents.forEach((content) => content.classList.remove("active"));
 
-      let tabSection = button.dataset.tab;
+      tabSection = button.dataset.tab;
       let table =
-        tabSection === "Users" ? "recentDeletedUsers" : "recentDeletedItems";
+        tabSection === "User" ? "recentDeletedUsers" : "recentDeletedItems";
       button.classList.add("active");
       document.getElementById(tabSection).classList.add("active");
       let deletedRecords = new request(
@@ -42,7 +43,27 @@ $(document).ready(function () {
       );
     });
   });
+  document.getElementById("Userbtn").click();
 
-
-  document.getElementById('Userbtn').click()
+  $(document)
+    .off("click")
+    .on("click", ".restore, .forceDelete", (e) => {
+      e.preventDefault();
+      const el = $(e.target)[0];
+      const action = el.classList[0];
+      const target = $(el).attr("id");
+      let resourceURL =  (tabSection.toLowerCase()).split('')
+      const actionRequest = new request("api/v1", `${tabSection}/${action}`);
+      actionRequest.delete(
+        target,
+        (respose)=>{
+          console.log(respose)
+          alert.notyf.success('Successful!')
+        },
+        (respose)=>{
+          console.log(respose)
+          alert.notyf.error(respose)
+        }
+      )
+    });
 });

@@ -15,7 +15,7 @@ route.post(
 route.post("/admin/item/:id/:flag", upload.single("image"), item.singleImg);
 route.post("/admin/item/:id", upload.single("image"), item.update);
 route.delete("/admin/item/gallery/:id", item.deletegallery);
-route.get("/admin/recentlyDeletedItems",item.recentDeletedItems)
+route.get("/admin/recentlyDeletedItem",item.recentDeletedItems)
 
 // route.post('/admin/item/single/:id/:flag',upload.single('image'),(req,res)=>{
 //     // console.log(req.body,req.file)

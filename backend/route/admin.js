@@ -18,7 +18,7 @@ route.delete('/admin/user/softDelete/:id',auth,role('admin'),admin.softDelete)
 //for plugins resources
 route.get("/admin/user-all",auth,role('admin'), admin.userTable);
 
-route.get("/admin/recentlyDeletedUsers",admin.recentDeletedUsers)
+route.get("/admin/recentlyDeletedUser",admin.recentDeletedUsers)
 // route.get("/sendEmail", async (req, res) => {
 //   try {
 //     await sendEmail();
