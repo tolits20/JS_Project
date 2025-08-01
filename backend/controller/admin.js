@@ -6,7 +6,7 @@ const fs = require("fs/promises");
 const { log } = require("../service/logs");
 
 exports.getAll = async (req, res) => {
-  const data =  await connection.query(`SELECT * FROM user`)
+  const data = await connection.query(`SELECT * FROM user`);
   // console.log(data[0]);
   return res.status(200).json({ message: "succussful", data: data[0] });
 };
@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
 };
 
 exports.userTable = async (req, res) => {
-    let excludeUser = parseInt(req.user.data)
+  let excludeUser = parseInt(req.user.data);
   let query = "SELECT * FROM user WHERE deleted_at IS NULL AND user_id != ?";
   let result = await connection.query(query, [excludeUser]);
   // console.log(result[0]);
@@ -38,7 +38,7 @@ exports.userTable = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  let id = parseInt(req.params.id)
+  let id = parseInt(req.params.id);
   let query =
     "UPDATE user SET name =?, email=?, role=?, is_active=?, contact=?, city=? WHERE user_id =?";
   const { fullname, role, status, email, phone, location } = req.body;
@@ -131,7 +131,6 @@ exports.status = async (req, res) => {
 };
 
 exports.softDelete = async (req, res) => {
-  console.log(req.body);
   let id = parseInt(req.params.id);
   console.log(id);
   let query = "UPDATE user SET deleted_at=NOW() WHERE user_id = ?";
@@ -143,10 +142,21 @@ exports.softDelete = async (req, res) => {
   return res.status(500).json("something went wrong during the process");
 };
 
-exports.recentDeletedUsers=async(req,res)=>{
+exports.recentDeletedUsers = async (req, res) => {
   // return res.json("reached")
-  let [result] = await connection.query("SELECT user_id,name,email,role,deleted_at FROM user WHERE deleted_at IS NOT NULL",[])
-  if(result.length<1) return res.json("no recent deletion of users")
-  return res.status(200).json(result)
+  let [result] = await connection.query(
+    "SELECT user_id,name,email,role,deleted_at FROM user WHERE deleted_at IS NOT NULL",
+    []
+  );
+  if (result.length < 1) return res.json("no recent deletion of users");
+  return res.status(200).json(result);
+};
 
-}
+exports.restore = async (req, res) => {
+  let id = parseInt(req.params.id);
+  console.log(id)
+  let sql = "UPDATE user SET deleted_at = NULL WHERE user_id =?";
+  let [result] = await connection.query(sql, [id]);
+  if (result.affectedRows < 1) return res.status(500).json("User not found");
+  return res.status(200).json({message:"restore of user is successful"});
+};

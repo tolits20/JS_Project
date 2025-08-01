@@ -53,17 +53,18 @@ $(document).ready(function () {
       const action = el.classList[0];
       const target = $(el).attr("id");
       // console.log(typeof tabSection, tabSection)
+      let typeRequest = action === 'restore' ? 'patch' : 'delete';
       let resourceURL =  tabSection.toLowerCase()
       const actionRequest = new request("api/v1", `admin/${resourceURL}/${action}`);
-      actionRequest.delete(
+       actionRequest[typeRequest](
         target,
         (respose)=>{
           console.log(respose)
-          alert.notyf.success(`Successfully deleted the ${resourceURL}`)
+          alert.notyf.success(`Successfully ${typeRequest} the ${resourceURL}`)
         },
-        (respose)=>{
-          console.log(respose)
-          alert.notyf.error(`Failed to delete the ${resourceURL}`)
+        (err)=>{
+          console.log(err)
+          alert.notyf.error(`Failed to ${typeRequest} the ${resourceURL}`)
         }
       )
     });

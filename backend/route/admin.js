@@ -11,6 +11,7 @@ route.get("/admin/user/:id",auth,role('admin'), admin.getById);
 route.post("/admin/user/:id",auth,role('admin'), admin.update);
 route.post("/admin/user/avatar/:id",auth,role('admin'),upload.single("img"),admin.updateAvatar)
 route.delete("/admin/user/forceDelete/:id",auth,role('admin'), admin.forceDelete);
+route.patch("/admin/user/restore/:id",admin.restore)
 
 route.post("/admin/status/:id",auth,role('admin'), admin.status);
 route.delete('/admin/user/softDelete/:id',auth,role('admin'),admin.softDelete)
