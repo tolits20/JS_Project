@@ -5,6 +5,7 @@ import formValidate from "../utils/validate.js";
 import { pageRows, paginateHandler } from "../utils/pagination.js";
 import { roleCheck, errorStatus } from "../utils/redirection.js";
 import sidebarLinks from "./sidebar-links.js";
+import { dataTable } from "../components/js/dataTable.js";
 
 roleCheck();
 
@@ -32,9 +33,7 @@ $(document).ready(function () {
       deletedRecords.getAll(
         (respose) => {
           console.log(respose);
-          let data = pageRows(respose, 10);
-          console.log(data);
-          paginateHandler(data, table);
+          dataTable(respose, table);
         },
         (error) => {
           console.log(error);
