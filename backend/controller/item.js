@@ -335,3 +335,10 @@ exports.itemSeach = async (req, res) => {
   // console .log(newArr)
   return res.status(200).json(newArr);
 };
+
+exports.recentDeletedItems = async(req,res)=>{
+  let [result] = await connection.query("SELECT i.item_id,i.item_name,c.category_name,i.deleted_at FROM items i LEFT JOIN item_category  USING(item_id) LEFT JOIN categories c USING(category_id) WHERE i.deleted_at IS NOT NULL",[])
+  if(result.length<1) return res.status(500).json("no recent deletion of items")
+  return res.status(200).json(result)
+
+}
