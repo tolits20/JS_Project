@@ -97,7 +97,7 @@ exports.updateAvatar = async (req, res) => {
   });
 };
 
-exports.delete = async (req, res) => {
+exports.forceDelete = async (req, res) => {
   const id = parseInt(req.params.id);
   let query = "DELETE FROM user WHERE user_id=?";
   let result = connection.query(query, [id]);

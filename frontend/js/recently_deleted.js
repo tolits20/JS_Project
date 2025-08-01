@@ -52,17 +52,18 @@ $(document).ready(function () {
       const el = $(e.target)[0];
       const action = el.classList[0];
       const target = $(el).attr("id");
-      let resourceURL =  (tabSection.toLowerCase()).split('')
-      const actionRequest = new request("api/v1", `${tabSection}/${action}`);
+      // console.log(typeof tabSection, tabSection)
+      let resourceURL =  tabSection.toLowerCase()
+      const actionRequest = new request("api/v1", `admin/${resourceURL}/${action}`);
       actionRequest.delete(
         target,
         (respose)=>{
           console.log(respose)
-          alert.notyf.success('Successful!')
+          alert.notyf.success(`Successfully deleted the ${resourceURL}`)
         },
         (respose)=>{
           console.log(respose)
-          alert.notyf.error(respose)
+          alert.notyf.error(`Failed to delete the ${resourceURL}`)
         }
       )
     });
