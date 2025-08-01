@@ -398,7 +398,20 @@
         overflow: hidden;
       }
 
-      button.restore::before {
+      button.forceDelete {
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #dc0707 0%, #961212 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      button.restore::before, button.forceDelete::before {
         content: '';
         position: absolute;
         top: 50%;
@@ -411,18 +424,18 @@
         transition: all 0.3s ease;
       }
 
-      button.restore:hover::before {
+      button.restore:hover::before, button.forceDelete:hover::before {
         width: 300px;
         height: 300px;
       }
 
-      button.restore:hover {
+      button.restore:hover, button.forceDelete:hover {
         background: linear-gradient(135deg, #333 0%, #555 100%);
         transform: translateY(-2px);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       }
 
-      button.restore:active {
+      button.restore:active, button.forceDelete:active {
         transform: translateY(0);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
