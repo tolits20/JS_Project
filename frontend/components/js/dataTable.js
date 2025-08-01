@@ -116,8 +116,7 @@ export const dataTable = (data, table) => {
     ],
     recentDeletedItems: [
       { data: "item_name", className: "fw-bold text-capitalize" },
-      { data: "item_price", className: "fw-bold text-capitalize" },
-      { data: "category", className: "fw-bold text-capitalize" },
+      { data: "category_name", className: "fw-bold text-capitalize" },
       { data: "deleted_at", className: "fw-bold text-capitalize" },
       
       {
