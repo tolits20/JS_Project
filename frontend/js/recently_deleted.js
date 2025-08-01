@@ -16,19 +16,25 @@ $(document).ready(function () {
 
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
-        e.preventDefault()
+      e.preventDefault();
       buttons.forEach((btn) => btn.classList.remove("active"));
       contents.forEach((content) => content.classList.remove("active"));
 
+      let tabSection = button.dataset.tab;
+      let table =
+        tabSection === "Users" ? "recentDeletedUsers" : "recentDeletedItems";
       button.classList.add("active");
-      document.getElementById(button.dataset.tab).classList.add("active");
+      document.getElementById(tabSection).classList.add("active");
       let deletedRecords = new request(
         "api/v1",
-        `admin/recentlyDeleted${button.dataset.tab}`
+        `admin/recentlyDeleted${tabSection}`
       );
       deletedRecords.getAll(
         (respose) => {
           console.log(respose);
+          let data = pageRows(respose, 10);
+          console.log(data);
+          paginateHandler(data, table);
         },
         (error) => {
           console.log(error);
@@ -37,4 +43,7 @@ $(document).ready(function () {
       );
     });
   });
+
+
+  document.getElementById('Userbtn').click()
 });
