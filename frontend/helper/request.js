@@ -70,6 +70,18 @@ const request = class {
     });
   }
 
+   patch(id, success, error) {
+    $.ajax({
+      method: "PATCH",
+      url: `${this.ipHost}/${this.baseURL}/${this.resource}/${id}`,
+      ...this.__config(),
+      headers: this.__getHeaders(),
+      dataType: "json",
+      success: success,
+      error: error,
+    });
+  }
+
   delete(id, success, error) {
     $.ajax({
       method: "DELETE",
