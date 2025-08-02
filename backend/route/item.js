@@ -5,7 +5,8 @@ const upload = require("../middleware/multer");
 
 route.get("/admin/item/:id", item.editItem);
 route.post("/admin/item", item.createItem);
-route.delete("/admin/item/:id", item.delete);
+route.patch("/admin/item/softDelete/:id", item.softDelete);
+route.delete("/admin/item/:id",item.delete)
 route.patch("/admin/item/restore/:id",item.restore)
 
 route.post(
