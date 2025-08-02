@@ -14,13 +14,13 @@ $(document).ready(function () {
     let id = $(e.target).data("id");
     let parent = e.target.closest("tr");
     console.log(parent);
-    let item = new request("api/v1", "admin/item");
+    let item = new request("api/v1", "admin/item/softDelete");
     let result = await alert.deleteConfirmation(
       "Yes,delete it!",
       "Successfully deleted the Item"
     );
     if (result) {
-      item.delete(
+      item.patch(
         id,
         (response) => {
           console.log(response);

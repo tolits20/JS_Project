@@ -220,7 +220,14 @@ exports.restore = async (req, res) => {
   return res.status(500).json("failed to restore the item");
 };
 
-
+exports.softDelete = async (req, res) => {
+  let id = parseInt(req.params.id);
+  let sql = "UPDATE items SET deleted_at = NOW() WHERE item_id = ?";
+  let [result] = await connection.query(sql, [id]);
+  if (result.affectedRows > 0)
+    return res.status(200).json("item deleted temporarily");
+  return res.status(500).json("failed to temporarily delete the item");
+};
 
 exports.getItems = async (req, res) => {
   try {
