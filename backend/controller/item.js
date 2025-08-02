@@ -171,7 +171,7 @@ exports.deletegallery = async (req, res) => {
   }
   let query = "DELETE FROM item_gallery WHERE img_id =?";
   let [result] = await connection.query(query, [id]);
-    log('item','delete')
+  log("item", "delete");
 
   if (result.affectedRows > 0)
     return res.status(200).json("successfully deleted from DB");
@@ -184,7 +184,7 @@ exports.delete = async (req, res) => {
   let getQuery =
     "SELECT i.item_img, ig.item_path FROM items i INNER JOIN item_gallery ig USING(item_id) WHERE item_id=?";
   const [getData] = await connection.query(getQuery, [id]);
-  
+
   if (getData.length > 0) {
     console.log(getData);
 
@@ -201,7 +201,7 @@ exports.delete = async (req, res) => {
   let ItemDelete = "DELETE FROM items WHERE item_id=?";
 
   let [result] = await connection.query(ItemDelete, [id]);
-  log('item','delete')
+  log("item", "delete");
 
   if (result.affectedRows > 0)
     return res.status(200).json("Item deleted Successfully!");
@@ -209,6 +209,15 @@ exports.delete = async (req, res) => {
   return res
     .status(500)
     .json("something went wrong while performing the task!");
+};
+
+exports.restore = async (req, res) => {
+  let id = parseInt(req.params.id);
+
+  let sql = "UPDATE items SET deleted_at = NULL WHERE item_id=?";
+  let [result] = await connection.query(sql, [id]);
+  if (result.affectedRows > 0) return res.status(200).json("item restored!");
+  return res.status(500).json("failed to restore the item");
 };
 
 exports.getItems = async (req, res) => {
@@ -336,9 +345,12 @@ exports.itemSeach = async (req, res) => {
   return res.status(200).json(newArr);
 };
 
-exports.recentDeletedItems = async(req,res)=>{
-  let [result] = await connection.query("SELECT i.item_id,i.item_name,c.category_name,i.deleted_at FROM items i LEFT JOIN item_category  USING(item_id) LEFT JOIN categories c USING(category_id) WHERE i.deleted_at IS NOT NULL",[])
-  if(result.length<1) return res.status(500).json("no recent deletion of items")
-  return res.status(200).json(result)
-
-}
+exports.recentDeletedItems = async (req, res) => {
+  let [result] = await connection.query(
+    "SELECT i.item_id,i.item_name,c.category_name,i.deleted_at FROM items i LEFT JOIN item_category  USING(item_id) LEFT JOIN categories c USING(category_id) WHERE i.deleted_at IS NOT NULL",
+    []
+  );
+  if (result.length < 1)
+    return res.status(500).json("no recent deletion of items");
+  return res.status(200).json(result);
+};
