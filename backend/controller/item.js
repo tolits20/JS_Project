@@ -5,7 +5,7 @@ const { log } = require("../service/logs");
 
 exports.itemTable = async (req, res) => {
   let query =
-    "SELECT * FROM items LEFT JOIN item_category USING(item_id) LEFT JOIN categories USING(category_id) LEFT JOIN stocks USING(item_id)";
+    "SELECT * FROM items LEFT JOIN item_category USING(item_id) LEFT JOIN categories USING(category_id) LEFT JOIN stocks USING(item_id) WHERE items.deleted_at IS NULL";
   let result = await connection.query(query, []);
   return res.status(200).json({ data: result[0] });
 };
