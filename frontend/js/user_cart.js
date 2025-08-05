@@ -3,6 +3,9 @@ import logout from "./logout.js";
 import sessionCartManager from "../utils/cartManager.js";
 import { showNotification } from "../utils/notification.js";
 import { loadHeaderAndFooter } from "../utils/componentLoader.js";
+import { userCheck, errorStatus } from "../utils/redirection.js";
+
+userCheck()
 
 console.log("user_cart.js loaded successfully");
 console.log("Network config:", network);

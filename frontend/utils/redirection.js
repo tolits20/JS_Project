@@ -26,6 +26,16 @@ const roleCheck = (role) => {
   }
 };
 
+const userCheck =()=>{
+  const getRole = localStorage.getItem("role");
+  if(!getRole)  redirects.unauthorize();
+  if (getRole != "user" && getRole != "admin") {
+    console.log("triggered")
+    redirects.forbidden();
+  }
+
+}
+
 const errorStatus = (status) => {
   switch (status) {
     case 403:
@@ -42,4 +52,4 @@ const errorStatus = (status) => {
   }
 };
 
-export { errorStatus, roleCheck };
+export { errorStatus, roleCheck , userCheck };
