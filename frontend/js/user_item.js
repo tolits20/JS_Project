@@ -6,7 +6,7 @@ import { loadHeaderAndFooter } from "../utils/componentLoader.js";
 import logout from "./logout.js";
 import { userCheck, errorStatus } from "../utils/redirection.js";
 
-userCheck()
+userCheck();
 
 $(document).ready(function () {
   // Load reusable components using the utility
@@ -71,7 +71,7 @@ $(document).ready(function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.success && data.data) {
-          const currentItem = data.data;
+          currentItem = data.data;
 
           document.getElementById("item-title").textContent =
             currentItem.item_name;
@@ -147,12 +147,12 @@ $(document).ready(function () {
       .then((res) => res.json())
       .then((data) => {
         console.log(data[0]);
-        if(typeof data === 'string') return
+        if (typeof data === "string") return;
         let gallery = [];
         for (let i in data) {
           gallery.push(data[i].item_path);
         }
-      
+
         //  gallery = data.map(img => img.img_path)
         // const gallery = Array.isArray(data.data) ? data.data : [];
         console.log(gallery);
@@ -161,7 +161,7 @@ $(document).ready(function () {
             src: `http://${network.ip}:${network.port}/${img}`,
             alt: `${currentItem.item_name} Gallery`,
           });
-          console.log(img)
+          console.log(img);
         });
         console.log(typeof images, "elements:", images);
         // Create thumbnail elements
