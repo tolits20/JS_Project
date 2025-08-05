@@ -42,7 +42,7 @@ function renderProductCards(pageItems) {
       </div>
       <div class="product-info">
         <h5 class="product-title">${item.item_name}</h5>
-        <div class="product-price">$${item.item_price}</div>
+        <div class="product-price">₱${item.item_price}</div>
         <button class="${buttonClass} ${buttonStateClass}" data-item='${JSON.stringify(
       item
     )}'>${buttonText}</button>

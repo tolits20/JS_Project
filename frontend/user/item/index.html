@@ -452,6 +452,22 @@
           height: 300px;
         }
       }
+
+      .thumbnail-gallery {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .thumbnail-gallery img {
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border 0.3s;
+      }
+      .thumbnail-gallery img.active {
+        border-color: #333;
+      }
     </style>
   </head>
   <body>
@@ -472,12 +488,16 @@
         <div class="row">
           <div class="col-md-6">
             <div class="item-image-section">
-              <img
-                id="item-main-image"
-                src="/assets/images/main.jpg"
-                alt="Item Image"
-                class="item-main-image"
-              />
+              <div class="main-image-container">
+                <img
+                  id="item-main-image"
+                  src="/assets/images/main.jpg"
+                  alt="Item Image"
+                  class="item-main-image"
+                />
+              </div>
+
+              <div id="thumbnail-gallery" class="thumbnail-gallery"></div>
             </div>
           </div>
 
