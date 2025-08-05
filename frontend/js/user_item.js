@@ -143,12 +143,13 @@ $(document).ready(function () {
     fetch(`http://${network.ip}:${network.port}/api/v1/item/gallery/${itemId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data[0]);
+        console.log(data);
+        if (typeof data == "string") return; 
         let gallery = [];
         for (let i in data) {
           gallery.push(data[i].item_path);
         }
-
+      
         //  gallery = data.map(img => img.img_path)
         // const gallery = Array.isArray(data.data) ? data.data : [];
         console.log(gallery);
