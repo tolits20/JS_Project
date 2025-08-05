@@ -64,32 +64,31 @@ $(document).ready(function () {
   let currentItem = null; // Store current item for cart operations
 
   if (itemId) {
-    // Fetch item details from API
     fetch(`http://${network.ip}:${network.port}/api/v1/items/${itemId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success && data.data) {
-          currentItem = data.data; // Store for cart operations
+          const currentItem = data.data;
 
-          // Update page content with item details
           document.getElementById("item-title").textContent =
             currentItem.item_name;
           document.getElementById("item-category").textContent =
             currentItem.category_name || "Handbags";
           document.getElementById(
             "item-price"
-          ).textContent = `$${currentItem.item_price}`;
+          ).textContent = `₱${currentItem.item_price}`;
           document.getElementById("item-description").textContent =
             currentItem.item_desc ||
             "Premium quality item with exceptional craftsmanship.";
 
-          // Update image
           const itemImage = document.getElementById("item-main-image");
           if (currentItem.item_img) {
             itemImage.src = `http://${network.ip}:${network.port}/${currentItem.item_img}`;
           }
 
-          // Update stock information
+          loadGalleryImages(currentItem);
+
+          // Stock info (unchanged)
           const stockElement = document.getElementById("item-stock");
           const stockQty = currentItem.stock_qty || 15;
 
@@ -103,10 +102,8 @@ $(document).ready(function () {
             addToCartBtn.textContent = "Out of Stock";
           }
 
-          // Update quantity max value
           quantityInput.max = stockQty;
 
-          // Check if item is already in cart and update UI
           const cartItem = sessionCartManager
             .getCartItems()
             .find((item) => item.item_id === currentItem.item_id);
@@ -122,6 +119,68 @@ $(document).ready(function () {
       .catch((error) => {
         console.error("Error loading item details:", error);
         showNotification("Error loading item details!", "error");
+      });
+  }
+
+  // Simplified gallery image loader
+  function loadGalleryImages(currentItem) {
+    const itemId = currentItem.item_id;
+    const mainImage = document.getElementById("item-main-image");
+    const thumbnailGallery = document.getElementById("thumbnail-gallery");
+
+    // Clear thumbnails
+    thumbnailGallery.innerHTML = "";
+
+    // Start with main image
+    let images = [
+      {
+        src: `http://${network.ip}:${network.port}/${currentItem.item_img}`,
+        alt: currentItem.item_name,
+      },
+    ];
+
+    // Fetch additional images
+    fetch(`http://${network.ip}:${network.port}/api/v1/item/gallery/${itemId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data[0]);
+        let gallery = [];
+        for (let i in data) {
+          gallery.push(data[i].item_path);
+        }
+
+        //  gallery = data.map(img => img.img_path)
+        // const gallery = Array.isArray(data.data) ? data.data : [];
+        console.log(gallery);
+        gallery.forEach((img) => {
+          images.push({
+            src: `http://${network.ip}:${network.port}/${img}`,
+            alt: `${currentItem.item_name} Gallery`,
+          });
+          console.log(img)
+        });
+        console.log(typeof images, "elements:", images);
+        // Create thumbnail elements
+        images.forEach((img, index) => {
+          const thumb = document.createElement("img");
+          thumb.src = img.src;
+          thumb.alt = img.alt;
+
+          if (index === 0) thumb.classList.add("active");
+
+          thumb.onclick = () => {
+            mainImage.src = img.src;
+            document
+              .querySelectorAll(".thumbnail-gallery img")
+              .forEach((el) => el.classList.remove("active"));
+            thumb.classList.add("active");
+          };
+
+          thumbnailGallery.appendChild(thumb);
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to load gallery images:", err);
       });
   }
 

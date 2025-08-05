@@ -363,3 +363,14 @@ exports.recentDeletedItems = async (req, res) => {
     return res.status(500).json("no recent deletion of items");
   return res.status(200).json(result);
 };
+
+
+exports.getGallery= async (req,res)=>{
+  let id = parseInt(req.params.id)
+  let sql = "SELECT item_path FROM item_gallery WHERE item_id =?"
+  let [result]= await connection.query(sql,[id])
+  
+  if(result.length<1) return res.status(500).json("there's no item gallery images")
+
+  return res.status(200).json(result)
+}
