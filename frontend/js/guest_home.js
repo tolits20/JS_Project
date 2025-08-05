@@ -15,8 +15,8 @@ function renderProductCards(pageItems) {
   }
   pageItems.forEach((item) => {
     let imgPath = item.item_img
-      ? `http://${network.client.host}/frontend/assets/images/${item.item_img}`
-      : `http://${network.client.host}/frontend/assets/images/main.jpg`;
+      ? `http://${network.ip}:${network.port}/${item.item_img}`
+      : `/assets/images/main.jpg`;
     productsContainer.append(`
       <div class="col-md-3">
         <div class="product-card" data-item-id="${item.item_id}">
