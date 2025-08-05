@@ -6,6 +6,9 @@ import sessionCartManager from "../utils/cartManager.js";
 import { showNotification } from "../utils/notification.js";
 import { loadHeaderAndFooter } from "../utils/componentLoader.js";
 import quichSearch from "../utils/quichSearch.js";
+import { userCheck, errorStatus } from "../utils/redirection.js";
+
+userCheck()
 
 let allItems = []; // Store all items globally
 const itemsPerPage = 8;

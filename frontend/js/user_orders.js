@@ -2,6 +2,9 @@ import network from "../config/network.js";
 import sessionCartManager from "../utils/cartManager.js";
 import { showNotification } from "../utils/notification.js";
 import logout from "./logout.js";
+import { userCheck, errorStatus } from "../utils/redirection.js";
+
+userCheck()
 
 // User Orders page functionality
 class UserOrdersManager {

@@ -4,6 +4,9 @@ import request from "../helper/request.js";
 import alert from "../components/js/alert.js";
 import formValidate from "../utils/validate.js";
 import logout from "./logout.js";
+import { userCheck, errorStatus } from "../utils/redirection.js";
+
+userCheck()
 
 const userReq = new request("api/v1", "profile");
 let currentUser = {};

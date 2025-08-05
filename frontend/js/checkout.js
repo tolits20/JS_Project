@@ -3,6 +3,9 @@ import sessionCartManager from "../utils/cartManager.js";
 import { showNotification } from "../utils/notification.js";
 import { loadHeaderAndFooter } from "../utils/componentLoader.js";
 import logout from "./logout.js";
+import { userCheck, errorStatus } from "../utils/redirection.js";
+
+userCheck()
 
 // Checkout page functionality
 class CheckoutManager {
