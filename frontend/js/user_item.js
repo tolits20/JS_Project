@@ -147,6 +147,7 @@ $(document).ready(function () {
       .then((res) => res.json())
       .then((data) => {
         console.log(data[0]);
+        if(typeof data === 'string') return
         let gallery = [];
         for (let i in data) {
           gallery.push(data[i].item_path);
